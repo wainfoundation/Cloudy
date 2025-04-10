@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudy - Learn More</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #fafafa;
+            color: #2d2d2d;
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+        /* Header */
+        header {
+            background: #fff;
+            padding: 16px 32px;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: box-shadow 0.3s;
+        }
+        header.scrolled {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d2d2d;
+            transition: transform 0.3s;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: #4b5563;
+            text-decoration: none;
+            margin: 8px 24px 8px 0;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #6366f1;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 32px;
+            text-align: center;
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 40px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+        .hero p {
+            font-size: clamp(16px, 3vw, 18px);
+            color: #6b7280;
+            margin-bottom: 32px;
+        }
+        .hero button {
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .hero button:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Learn More Sections */
+        .learn-more {
+            max-width: 1280px;
+            margin: 64px auto;
+            padding: 0 32px;
+        }
+        .section-title {
+            font-size: clamp(28px, 4vw, 32px);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 48px;
+            color: #1f2937;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 64px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .content-text h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+        .content-text p {
+            font-size: 16px;
+            color: #6b7280;
+        }
+        .content-image {
+            background: #f3f4f6;
+            border-radius: 12px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        /* Footer */
+        footer {
+            background: #fff;
+            color: #6b7280;
+            padding: 48px 32px;
+            border-top: 1px solid #e5e5e5;
+        }
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+        .footer-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .footer-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .footer-section h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+        .footer-section ul {
+            list-style: none;
+        }
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+        .footer-section a {
+            color: #6b7280;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-section a:hover {
+            color: #6366f1;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 32px;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .header-container {
+                padding: 12px 24px;
+            }
+            .content-section {
+                grid-template-columns: 1fr;
+            }
+            .content-image {
+                height: 200px;
+            }
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 24px;
+            }
+            .learn-more {
+                padding: 0 24px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero {
+                padding: 40px 16px;
+            }
+            .learn-more {
+                padding: 0 16px;
+            }
+            .section-title {
+                font-size: 24px;
+            }
+            .content-text h3 {
+                font-size: 20px;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Cloudy</div>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="learnmore.html">Learn More</a>
+                <a href="sign.html">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Discover Cloudy</h1>
+            <p>Learn how Cloudy empowers creators with a Pi-powered platform for productivity and commerce.</p>
+            <button onclick="window.location.href='sign.html'">Get Started</button>
+        </div>
+    </div>
+
+    <!-- Learn More Sections -->
+    <div class="learn-more">
+        <h2 class="section-title">Why Cloudy?</h2>
+        
+        <div class="content-section">
+            <div class="content-text">
+                <h3>Our Mission</h3>
+                <p>Cloudy is built to simplify the creator economy. We combine powerful workspace tools with seamless digital commerce, all powered by the Pi Network, to help creators focus on what they do best—creating.</p>
+            </div>
+            <div class="content-image">Image Placeholder: Creator at Work</div>
+        </div>
+
+        <div class="content-section">
+            <div class="content-image">Image Placeholder: Pi Network Integration</div>
+            <div class="content-text">
+                <h3>Powered by Pi</h3>
+                <p>With Pi Network, Cloudy offers fast, low-cost transactions for selling digital goods and memberships. Sign in with your Pi account and unlock a global marketplace with minimal fees.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="content-text">
+                <h3>Productivity Meets Commerce</h3>
+                <p>Inspired by Notion, our workspace tools let you organize tasks, notes, and projects. Paired with Gumroad-like features, you can sell your creations directly from the same platform—effortlessly bridging productivity and profit.</p>
+            </div>
+            <div class="content-image">Image Placeholder: Workspace & Product Demo</div>
+        </div>
+
+        <div class="content-section">
+            <div class="content-image">Image Placeholder: Community Collaboration</div>
+            <div class="content-text">
+                <h3>Built for Collaboration</h3>
+                <p>Whether you’re a solo creator or part of a team, Cloudy supports real-time collaboration. Share workspaces, assign tasks, and grow your audience—all in one place.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="#">Categories</a></li>
+                    <li><a href="#">Top Creators</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Create</h4>
+                <ul>
+                    <li><a href="#">Workspace Tools</a></li>
+                    <li><a href="#">Sell Your Work</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Pi Payments</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Cloudy. All rights reserved. Powered by Pi Network.
+        </div>
+    </footer>
+
+    <script>
+        // Header shadow on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 0);
+        });
+
+        // Scroll reveal animations
+        const revealElements = document.querySelectorAll('.section-title, .content-section, .footer-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
