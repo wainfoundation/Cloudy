@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudy - Top Creators</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #fafafa;
+            color: #2d2d2d;
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+        /* Header */
+        header {
+            background: #fff;
+            padding: 16px 32px;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: box-shadow 0.3s;
+        }
+        header.scrolled {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d2d2d;
+            transition: transform 0.3s;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: #4b5563;
+            text-decoration: none;
+            margin: 8px 24px 8px 0;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #6366f1;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 32px;
+            text-align: center;
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 40px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+        .hero p {
+            font-size: clamp(16px, 3vw, 18px);
+            color: #6b7280;
+            margin-bottom: 32px;
+        }
+        .hero button {
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .hero button:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Top Creators Section */
+        .top-creators {
+            max-width: 1280px;
+            margin: 64px auto;
+            padding: 0 32px;
+        }
+        .section-title {
+            font-size: clamp(28px, 4vw, 32px);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 48px;
+            color: #1f2937;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .creator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+        .creator-card {
+            background: #fff;
+            padding: 24px;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            text-align: center;
+        }
+        .creator-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .creator-card:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+        .creator-card .avatar {
+            width: 80px;
+            height: 80px;
+            background: #f3f4f6;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+        .creator-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+        .creator-card .title {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        .creator-card .stats {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+        .creator-card button {
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .creator-card button:hover {
+            background: #4f46e5;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #fff;
+            color: #6b7280;
+            padding: 48px 32px;
+            border-top: 1px solid #e5e5e5;
+        }
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+        .footer-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .footer-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .footer-section h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+        .footer-section ul {
+            list-style: none;
+        }
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+        .footer-section a {
+            color: #6b7280;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-section a:hover {
+            color: #6366f1;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 32px;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .header-container {
+                padding: 12px 24px;
+            }
+            .creator-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 24px;
+            }
+            .top-creators {
+                padding: 0 24px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero {
+                padding: 40px 16px;
+            }
+            .top-creators {
+                padding: 0 16px;
+            }
+            .creator-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                font-size: 24px;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Cloudy</div>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="categories.html">Categories</a>
+                <a href="learnmore.html">Learn More</a>
+                <a href="sign.html">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Meet Our Top Creators</h1>
+            <p>Discover the talent driving Cloudy—creators who inspire and succeed with Pi.</p>
+            <button onclick="window.location.href='sign.html'">Join Them</button>
+        </div>
+    </div>
+
+    <!-- Top Creators Section -->
+    <div class="top-creators">
+        <h2 class="section-title">Featured Creators</h2>
+        <div class="creator-grid">
+            <div class="creator-card">
+                <div class="avatar">J</div>
+                <h3>Jane Doe</h3>
+                <div class="title">Author & Educator</div>
+                <div class="stats">
+                    <span>500+ Sales</span>
+                    <span>1.2k Subscribers</span>
+                </div>
+                <button onclick="window.location.href='sign.html'">View Profile</button>
+            </div>
+            <div class="creator-card">
+                <div class="avatar">M</div>
+                <h3>Mike Rivera</h3>
+                <div class="title">Designer</div>
+                <div class="stats">
+                    <span>300+ Sales</span>
+                    <span>800 Subscribers</span>
+                </div>
+                <button onclick="window.location.href='sign.html'">View Profile</button>
+            </div>
+            <div class="creator-card">
+                <div class="avatar">S</div>
+                <h3>Sara Kim</h3>
+                <div class="title">Musician</div>
+                <div class="stats">
+                    <span>450+ Sales</span>
+                    <span>1k Subscribers</span>
+                </div>
+                <button onclick="window.location.href='sign.html'">View Profile</button>
+            </div>
+            <div class="creator-card">
+                <div class="avatar">A</div>
+                <h3>Alex Tan</h3>
+                <div class="title">Developer</div>
+                <div class="stats">
+                    <span>200+ Sales</span>
+                    <span>600 Subscribers</span>
+                </div>
+                <button onclick="window.location.href='sign.html'">View Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="top-creators.html">Top Creators</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Create</h4>
+                <ul>
+                    <li><a href="#">Workspace Tools</a></li>
+                    <li><a href="#">Sell Your Work</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Pi Payments</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Cloudy. All rights reserved. Powered by Pi Network.
+        </div>
+    </footer>
+
+    <script>
+        // Header shadow on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 0);
+        });
+
+        // Scroll reveal animations
+        const revealElements = document.querySelectorAll('.section-title, .creator-card, .footer-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
