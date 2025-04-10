@@ -15,11 +15,11 @@
             background: #fafafa;
             color: #2d2d2d;
             line-height: 1.6;
-            font-size: 16px;
+            font-size: clamp(16px, 2vw, 18px);
             overflow-x: hidden;
         }
 
-        /* Desktop Sidebar (Notion Style) */
+        /* Sidebar (Desktop & Toggleable) */
         .sidebar {
             position: fixed;
             top: 0;
@@ -33,7 +33,7 @@
             z-index: 1000;
             overflow-y: auto;
         }
-        .sidebar.collapsed {
+        .sidebar.closed {
             width: clamp(48px, 5vw, 60px);
             overflow: hidden;
         }
@@ -44,18 +44,18 @@
             margin-bottom: clamp(24px, 3vw, 32px);
         }
         .logo {
-            font-size: clamp(20px, 2vw, 24px);
+            font-size: clamp(22px, 2.5vw, 26px);
             font-weight: 700;
             color: #2d2d2d;
             transition: opacity 0.3s;
         }
-        .sidebar.collapsed .logo {
+        .sidebar.closed .logo {
             opacity: 0;
         }
         .toggle-btn {
             background: none;
             border: none;
-            font-size: clamp(16px, 2vw, 20px);
+            font-size: clamp(18px, 2.2vw, 22px);
             color: #6b7280;
             cursor: pointer;
             padding: 8px;
@@ -76,12 +76,12 @@
             align-items: center;
             color: #4b5563;
             text-decoration: none;
-            font-size: clamp(12px, 1.2vw, 14px);
+            font-size: clamp(14px, 1.5vw, 16px);
             font-weight: 500;
             padding: clamp(8px, 1vw, 10px) clamp(12px, 1.5vw, 16px);
             border-radius: 6px;
             transition: all 0.3s ease;
-            min-height: 44px; /* Minimum touch target size */
+            min-height: 48px;
         }
         .sidebar-menu a:hover {
             background: #f3f4f6;
@@ -89,15 +89,15 @@
         }
         .sidebar-menu .icon {
             margin-right: clamp(8px, 1vw, 12px);
-            font-size: clamp(16px, 1.5vw, 18px);
-            width: clamp(16px, 1.5vw, 18px);
+            font-size: clamp(18px, 2vw, 20px);
+            width: clamp(18px, 2vw, 20px);
             text-align: center;
         }
-        .sidebar.collapsed .sidebar-menu a span, .sidebar.collapsed .sidebar-menu span {
+        .sidebar.closed .sidebar-menu a span, .sidebar.closed .sidebar-menu span {
             display: none;
         }
 
-        /* Mobile Menu */
+        /* Mobile Header */
         .mobile-header {
             display: none;
             background: #fff;
@@ -110,20 +110,22 @@
             align-items: center;
         }
         .mobile-header .logo {
-            font-size: clamp(20px, 5vw, 24px);
+            font-size: clamp(22px, 5vw, 26px);
             font-weight: 700;
             color: #2d2d2d;
         }
         .hamburger {
-            font-size: clamp(20px, 5vw, 24px);
+            font-size: clamp(22px, 5vw, 26px);
             background: none;
             border: none;
             color: #2d2d2d;
             cursor: pointer;
             padding: clamp(6px, 1.5vw, 8px);
-            min-width: 44px;
-            min-height: 44px;
+            min-width: 48px;
+            min-height: 48px;
         }
+
+        /* Mobile Menu */
         .mobile-menu {
             display: none;
             position: fixed;
@@ -138,7 +140,7 @@
             transition: transform 0.3s ease;
             overflow-y: auto;
         }
-        .mobile-menu.active {
+        .mobile-menu.open {
             display: block;
             transform: translateX(0);
         }
@@ -151,22 +153,22 @@
         .mobile-menu a, .mobile-menu span {
             color: #2d2d2d;
             text-decoration: none;
-            font-size: clamp(16px, 4vw, 18px);
+            font-size: clamp(18px, 4.5vw, 20px);
             font-weight: 500;
             display: flex;
             align-items: center;
             padding: clamp(10px, 2.5vw, 12px);
             border-radius: 8px;
             transition: background 0.3s;
-            min-height: 48px; /* Larger touch target for mobile */
+            min-height: 52px;
         }
         .mobile-menu a:hover {
             background: #f3f4f6;
         }
         .mobile-menu .icon {
             margin-right: clamp(12px, 3vw, 16px);
-            font-size: clamp(18px, 4vw, 20px);
-            width: clamp(18px, 4vw, 20px);
+            font-size: clamp(20px, 4.5vw, 22px);
+            width: clamp(20px, 4.5vw, 22px);
             text-align: center;
         }
 
@@ -177,7 +179,7 @@
             max-width: 1280px;
             transition: margin-left 0.3s ease;
         }
-        .sidebar.collapsed ~ .main-content {
+        .sidebar.closed ~ .main-content {
             margin-left: clamp(48px, 5vw, 60px);
         }
         .hero {
@@ -190,13 +192,13 @@
             to { opacity: 1; }
         }
         .hero h1 {
-            font-size: clamp(28px, 5vw, 40px);
+            font-size: clamp(32px, 6vw, 48px);
             font-weight: 700;
             color: #1f2937;
             margin-bottom: clamp(12px, 2vw, 16px);
         }
         .hero p {
-            font-size: clamp(14px, 3vw, 18px);
+            font-size: clamp(16px, 3.5vw, 20px);
             color: #6b7280;
             margin-bottom: clamp(24px, 3vw, 32px);
         }
@@ -206,12 +208,12 @@
             border: none;
             padding: clamp(10px, 1.5vw, 12px) clamp(20px, 3vw, 28px);
             border-radius: 8px;
-            font-size: clamp(14px, 2vw, 16px);
+            font-size: clamp(16px, 2.2vw, 18px);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 120px;
-            min-height: 44px;
+            min-width: 140px;
+            min-height: 48px;
         }
         .hero button:hover {
             background: #4f46e5;
@@ -228,53 +230,56 @@
             margin-left: clamp(200px, 15vw, 250px);
             transition: margin-left 0.3s ease;
         }
-        .sidebar.collapsed ~ footer {
+        .sidebar.closed ~ footer {
             margin-left: clamp(48px, 5vw, 60px);
         }
         .footer-content {
             max-width: 1280px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: clamp(24px, 3vw, 32px);
         }
-        .footer-section {
+        .footer-mobile {
+            display: none;
+        }
+        .footer-section, .footer-mobile-section {
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.5s ease;
         }
-        .footer-section.visible {
+        .footer-section.visible, .footer-mobile-section.visible {
             opacity: 1;
             transform: translateY(0);
         }
-        .footer-section h4 {
-            font-size: clamp(14px, 2vw, 16px);
+        .footer-section h4, .footer-mobile-section h4 {
+            font-size: clamp(16px, 2.2vw, 18px);
             font-weight: 600;
             margin-bottom: clamp(12px, 2vw, 16px);
             color: #1f2937;
         }
-        .footer-section ul {
+        .footer-section ul, .footer-mobile-section ul {
             list-style: none;
         }
-        .footer-section ul li {
+        .footer-section ul li, .footer-mobile-section ul li {
             margin-bottom: clamp(8px, 1.5vw, 12px);
         }
-        .footer-section a {
+        .footer-section a, .footer-mobile-section a {
             color: #6b7280;
             text-decoration: none;
-            font-size: clamp(12px, 1.8vw, 14px);
+            font-size: clamp(14px, 2vw, 16px);
             transition: color 0.3s;
             display: block;
-            padding: 4px 0;
-            min-height: 44px;
+            padding: 6px 0;
+            min-height: 48px;
         }
-        .footer-section a:hover {
+        .footer-section a:hover, .footer-mobile-section a:hover {
             color: #6366f1;
         }
         .footer-bottom {
             text-align: center;
             padding-top: clamp(24px, 3vw, 32px);
-            font-size: clamp(12px, 1.5vw, 14px);
+            font-size: clamp(14px, 1.8vw, 16px);
             color: #9ca3af;
         }
 
@@ -295,26 +300,31 @@
                 margin-left: 0;
                 padding: clamp(24px, 3vw, 40px) clamp(16px, 2vw, 24px);
             }
+            .footer-content {
+                display: none;
+            }
+            .footer-mobile {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: clamp(24px, 4vw, 32px);
+            }
         }
         @media (max-width: 480px) {
             .main-content, footer {
                 padding: clamp(16px, 2.5vw, 32px) clamp(12px, 1.5vw, 16px);
             }
             .hero h1 {
-                font-size: clamp(24px, 6vw, 28px);
+                font-size: clamp(28px, 7vw, 32px);
             }
             .hero p {
-                font-size: clamp(12px, 3.5vw, 16px);
+                font-size: clamp(14px, 4vw, 18px);
             }
             .hero button {
-                min-width: 100px;
-                min-height: 40px;
+                min-width: 120px;
+                min-height: 44px;
             }
         }
         @media (max-width: 320px) {
-            .sidebar.collapsed {
-                width: 48px;
-            }
             .main-content, footer {
                 padding: 16px 12px;
             }
@@ -325,7 +335,7 @@
     </style>
 </head>
 <body>
-    <!-- Desktop Sidebar (Notion Style) -->
+    <!-- Sidebar (Desktop & Toggleable) -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="logo">Cloudy</div>
@@ -438,6 +448,26 @@
                 </ul>
             </div>
         </div>
+        <div class="footer-mobile">
+            <div class="footer-mobile-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="discover.html">Discover</a></li>
+                    <li><a href="workspace-tools.html">Workspace Tools</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-mobile-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="help-center.html">Help Center</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="community.html">Community</a></li>
+                </ul>
+            </div>
+        </div>
         <div class="footer-bottom">
             © 2025 Cloudy. All rights reserved. Powered by Pi Network.
         </div>
@@ -451,8 +481,8 @@
         const footer = document.querySelector('footer');
 
         toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-            toggleBtn.textContent = sidebar.classList.contains('collapsed') ? '→' : '←';
+            sidebar.classList.toggle('closed');
+            toggleBtn.textContent = sidebar.classList.contains('closed') ? '→' : '←';
         });
 
         // Mobile menu toggle
@@ -460,19 +490,19 @@
         const mobileMenu = document.querySelector('.mobile-menu');
 
         hamburger.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-            hamburger.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+            mobileMenu.classList.toggle('open');
+            hamburger.textContent = mobileMenu.classList.contains('open') ? '✕' : '☰';
         });
 
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
+                mobileMenu.classList.remove('open');
                 hamburger.textContent = '☰';
             });
         });
 
         // Scroll reveal for footer
-        const revealElements = document.querySelectorAll('.footer-section');
+        const revealElements = document.querySelectorAll('.footer-section, .footer-mobile-section');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
