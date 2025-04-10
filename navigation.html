@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloudy - Home</title>
+    <!-- Font Awesome CDN for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         * {
             box-sizing: border-box;
@@ -19,50 +21,59 @@
             overflow-x: hidden;
         }
 
-        /* Sidebar (Desktop & Toggleable) */
+        /* Enhanced Sidebar */
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: clamp(200px, 15vw, 250px);
+            width: clamp(220px, 15vw, 280px);
             height: 100%;
-            background: #fff;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
             border-right: 1px solid #e5e5e5;
-            padding: clamp(16px, 2vw, 24px);
+            padding: clamp(20px, 2.5vw, 28px);
             transition: width 0.3s ease;
             z-index: 1000;
             overflow-y: auto;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         .sidebar.closed {
-            width: clamp(48px, 5vw, 60px);
-            overflow: hidden;
+            width: clamp(60px, 6vw, 70px);
         }
         .sidebar-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: clamp(24px, 3vw, 32px);
+            margin-bottom: clamp(28px, 3.5vw, 36px);
         }
         .logo {
-            font-size: clamp(22px, 2.5vw, 26px);
+            font-size: clamp(24px, 2.8vw, 28px);
             font-weight: 700;
-            color: #2d2d2d;
+            background: linear-gradient(90deg, #6366f1, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             transition: opacity 0.3s;
         }
         .sidebar.closed .logo {
             opacity: 0;
         }
         .toggle-btn {
-            background: none;
+            background: #f3f4f6;
             border: none;
-            font-size: clamp(18px, 2.2vw, 22px);
-            color: #6b7280;
+            font-size: clamp(22px, 2.5vw, 26px);
+            color: #6366f1;
             cursor: pointer;
-            padding: 8px;
-            transition: transform 0.3s;
+            padding: clamp(8px, 1vw, 10px);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
         .toggle-btn:hover {
-            color: #6366f1;
+            background: #6366f1;
+            color: #fff;
             transform: scale(1.1);
         }
         .sidebar-menu {
@@ -76,25 +87,35 @@
             align-items: center;
             color: #4b5563;
             text-decoration: none;
-            font-size: clamp(14px, 1.5vw, 16px);
+            font-size: clamp(15px, 1.6vw, 17px);
             font-weight: 500;
-            padding: clamp(8px, 1vw, 10px) clamp(12px, 1.5vw, 16px);
-            border-radius: 6px;
+            padding: clamp(10px, 1.2vw, 12px) clamp(14px, 1.8vw, 18px);
+            border-radius: 8px;
             transition: all 0.3s ease;
-            min-height: 48px;
+            min-height: 50px;
         }
         .sidebar-menu a:hover {
-            background: #f3f4f6;
+            background: rgba(99, 102, 241, 0.1);
             color: #6366f1;
+            box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.2);
         }
         .sidebar-menu .icon {
-            margin-right: clamp(8px, 1vw, 12px);
-            font-size: clamp(18px, 2vw, 20px);
-            width: clamp(18px, 2vw, 20px);
+            margin-right: clamp(10px, 1.2vw, 14px);
+            font-size: clamp(20px, 2.2vw, 22px);
+            width: clamp(20px, 2.2vw, 22px);
             text-align: center;
+            transition: transform 0.3s;
+        }
+        .sidebar-menu a:hover .icon {
+            transform: scale(1.1);
         }
         .sidebar.closed .sidebar-menu a span, .sidebar.closed .sidebar-menu span {
-            display: none;
+            opacity: 0;
+            visibility: hidden;
+            width: 0;
+        }
+        .sidebar.closed .sidebar-menu a .icon {
+            margin-right: 0;
         }
 
         /* Mobile Header */
@@ -110,19 +131,25 @@
             align-items: center;
         }
         .mobile-header .logo {
-            font-size: clamp(22px, 5vw, 26px);
+            font-size: clamp(24px, 5.5vw, 28px);
             font-weight: 700;
-            color: #2d2d2d;
+            background: linear-gradient(90deg, #6366f1, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .hamburger {
-            font-size: clamp(22px, 5vw, 26px);
+            font-size: clamp(24px, 5.5vw, 28px);
             background: none;
             border: none;
             color: #2d2d2d;
             cursor: pointer;
             padding: clamp(6px, 1.5vw, 8px);
-            min-width: 48px;
-            min-height: 48px;
+            min-width: 50px;
+            min-height: 50px;
+            transition: transform 0.3s;
+        }
+        .hamburger:hover {
+            transform: scale(1.1);
         }
 
         /* Mobile Menu */
@@ -153,34 +180,34 @@
         .mobile-menu a, .mobile-menu span {
             color: #2d2d2d;
             text-decoration: none;
-            font-size: clamp(18px, 4.5vw, 20px);
+            font-size: clamp(19px, 4.8vw, 21px);
             font-weight: 500;
             display: flex;
             align-items: center;
-            padding: clamp(10px, 2.5vw, 12px);
+            padding: clamp(12px, 2.8vw, 14px);
             border-radius: 8px;
             transition: background 0.3s;
-            min-height: 52px;
+            min-height: 54px;
         }
         .mobile-menu a:hover {
             background: #f3f4f6;
         }
         .mobile-menu .icon {
-            margin-right: clamp(12px, 3vw, 16px);
-            font-size: clamp(20px, 4.5vw, 22px);
-            width: clamp(20px, 4.5vw, 22px);
+            margin-right: clamp(14px, 3.5vw, 18px);
+            font-size: clamp(22px, 5vw, 24px);
+            width: clamp(22px, 5vw, 24px);
             text-align: center;
         }
 
         /* Main Content */
         .main-content {
-            margin-left: clamp(200px, 15vw, 250px);
+            margin-left: clamp(220px, 15vw, 280px);
             padding: clamp(40px, 5vw, 64px) clamp(24px, 3vw, 32px);
             max-width: 1280px;
             transition: margin-left 0.3s ease;
         }
         .sidebar.closed ~ .main-content {
-            margin-left: clamp(48px, 5vw, 60px);
+            margin-left: clamp(60px, 6vw, 70px);
         }
         .hero {
             text-align: center;
@@ -227,11 +254,11 @@
             color: #6b7280;
             padding: clamp(32px, 5vw, 48px) clamp(24px, 3vw, 32px);
             border-top: 1px solid #e5e5e5;
-            margin-left: clamp(200px, 15vw, 250px);
+            margin-left: clamp(220px, 15vw, 280px);
             transition: margin-left 0.3s ease;
         }
         .sidebar.closed ~ footer {
-            margin-left: clamp(48px, 5vw, 60px);
+            margin-left: clamp(60px, 6vw, 70px);
         }
         .footer-content {
             max-width: 1280px;
@@ -240,31 +267,28 @@
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: clamp(24px, 3vw, 32px);
         }
-        .footer-mobile {
-            display: none;
-        }
-        .footer-section, .footer-mobile-section {
+        .footer-section {
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.5s ease;
         }
-        .footer-section.visible, .footer-mobile-section.visible {
+        .footer-section.visible {
             opacity: 1;
             transform: translateY(0);
         }
-        .footer-section h4, .footer-mobile-section h4 {
+        .footer-section h4 {
             font-size: clamp(16px, 2.2vw, 18px);
             font-weight: 600;
             margin-bottom: clamp(12px, 2vw, 16px);
             color: #1f2937;
         }
-        .footer-section ul, .footer-mobile-section ul {
+        .footer-section ul {
             list-style: none;
         }
-        .footer-section ul li, .footer-mobile-section ul li {
+        .footer-section ul li {
             margin-bottom: clamp(8px, 1.5vw, 12px);
         }
-        .footer-section a, .footer-mobile-section a {
+        .footer-section a {
             color: #6b7280;
             text-decoration: none;
             font-size: clamp(14px, 2vw, 16px);
@@ -273,14 +297,122 @@
             padding: 6px 0;
             min-height: 48px;
         }
-        .footer-section a:hover, .footer-mobile-section a:hover {
+        .footer-section a:hover {
             color: #6366f1;
         }
-        .footer-bottom {
+
+        /* Horizontal Mobile Footer */
+        .footer-mobile-horizontal {
+            display: none;
+            padding: clamp(16px, 3vw, 24px) 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            background: #f8fafc;
+            border-top: 1px solid #e5e5e5;
+        }
+        .footer-mobile-horizontal ul {
+            display: flex;
+            list-style: none;
+            padding: 0 clamp(16px, 3vw, 24px);
+        }
+        .footer-mobile-horizontal li {
+            margin-right: clamp(16px, 3vw, 24px);
+        }
+        .footer-mobile-horizontal a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: clamp(14px, 2.5vw, 16px);
+            font-weight: 500;
+            padding: clamp(6px, 1vw, 8px) clamp(10px, 2vw, 12px);
+            border-radius: 6px;
+            background: #fff;
+            display: inline-block;
+            min-height: 40px;
+            transition: all 0.3s;
+        }
+        .footer-mobile-horizontal a:hover {
+            color: #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Subscription Form */
+        .footer-subscription {
+            max-width: 1280px;
+            margin: clamp(24px, 3vw, 32px) auto 0;
+            padding: clamp(16px, 2vw, 24px);
+            background: #f3f4f6;
+            border-radius: 8px;
             text-align: center;
-            padding-top: clamp(24px, 3vw, 32px);
+        }
+        .footer-subscription h4 {
+            font-size: clamp(18px, 2.5vw, 20px);
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: clamp(12px, 1.5vw, 16px);
+        }
+        .footer-subscription form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(8px, 1vw, 12px);
+            flex-wrap: wrap;
+        }
+        .footer-subscription input[type="email"] {
+            padding: clamp(8px, 1vw, 10px) clamp(12px, 1.5vw, 16px);
+            font-size: clamp(14px, 2vw, 16px);
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            width: clamp(200px, 50vw, 300px);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .footer-subscription input[type="email"]:focus {
+            border-color: #6366f1;
+        }
+        .footer-subscription button {
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            padding: clamp(8px, 1vw, 10px) clamp(16px, 2vw, 20px);
+            border-radius: 6px;
+            font-size: clamp(14px, 2vw, 16px);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+            min-height: 40px;
+        }
+        .footer-subscription button:hover {
+            background: #4f46e5;
+        }
+
+        /* Footer Bottom with Social Icons */
+        .footer-bottom {
+            max-width: 1280px;
+            margin: clamp(24px, 3vw, 32px) auto 0;
             font-size: clamp(14px, 1.8vw, 16px);
             color: #9ca3af;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: clamp(16px, 2vw, 24px);
+        }
+        .footer-app-name {
+            font-weight: 700;
+            color: #6366f1;
+        }
+        .social-icons {
+            display: flex;
+            gap: clamp(12px, 1.5vw, 16px);
+        }
+        .social-icons a {
+            color: #6b7280;
+            font-size: clamp(18px, 2.2vw, 20px);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: #6366f1;
+            transform: scale(1.2);
         }
 
         /* Responsive Design */
@@ -303,10 +435,8 @@
             .footer-content {
                 display: none;
             }
-            .footer-mobile {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: clamp(24px, 4vw, 32px);
+            .footer-mobile-horizontal {
+                display: block;
             }
         }
         @media (max-width: 480px) {
@@ -323,6 +453,16 @@
                 min-width: 120px;
                 min-height: 44px;
             }
+            .footer-subscription form {
+                flex-direction: column;
+            }
+            .footer-subscription input[type="email"] {
+                width: 100%;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
         }
         @media (max-width: 320px) {
             .main-content, footer {
@@ -335,11 +475,11 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar (Desktop & Toggleable) -->
+    <!-- Sidebar (Enhanced) -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="logo">Cloudy</div>
-            <button class="toggle-btn">←</button>
+            <button class="toggle-btn" aria-label="Toggle sidebar">←</button>
         </div>
         <ul class="sidebar-menu">
             <li><a href="home.html"><span class="icon">🏠</span><span>Home</span></a></li>
@@ -448,28 +588,44 @@
                 </ul>
             </div>
         </div>
-        <div class="footer-mobile">
-            <div class="footer-mobile-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="home.html">Home</a></li>
-                    <li><a href="discover.html">Discover</a></li>
-                    <li><a href="workspace-tools.html">Workspace Tools</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                </ul>
-            </div>
-            <div class="footer-mobile-section">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="help-center.html">Help Center</a></li>
-                    <li><a href="contact-us.html">Contact Us</a></li>
-                    <li><a href="pricing.html">Pricing</a></li>
-                    <li><a href="community.html">Community</a></li>
-                </ul>
-            </div>
+        <div class="footer-mobile-horizontal">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="top-creators.html">Top Creators</a></li>
+                <li><a href="new-releases.html">New Releases</a></li>
+                <li><a href="discover.html">Discover</a></li>
+                <li><a href="workspace-tools.html">Workspace Tools</a></li>
+                <li><a href="sell.html">Sell Your Work</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="our-story.html">Our Story</a></li>
+                <li><a href="pi-payments.html">Pi Payments</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="help-center.html">Help Center</a></li>
+                <li><a href="contact-us.html">Contact Us</a></li>
+                <li><a href="email-subscribers.html">Email Subscribers</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+            </ul>
+        </div>
+        <div class="footer-subscription">
+            <h4>Subscribe to Our Newsletter</h4>
+            <form>
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
         </div>
         <div class="footer-bottom">
-            © 2025 Cloudy. All rights reserved. Powered by Pi Network.
+            <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
+            <div class="social-icons">
+                <a href="https://facebook.com/cloudy" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/cloudy" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://instagram.com/cloudy" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://telegram.org/cloudy" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="https://discord.com/cloudy" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+            <span>Powered by Pi Network</span>
         </div>
     </footer>
 
@@ -480,10 +636,29 @@
         const mainContent = document.querySelector('.main-content');
         const footer = document.querySelector('footer');
 
-        toggleBtn.addEventListener('click', () => {
+        function toggleSidebar() {
             sidebar.classList.toggle('closed');
-            toggleBtn.textContent = sidebar.classList.contains('closed') ? '→' : '←';
-        });
+            const isClosed = sidebar.classList.contains('closed');
+            toggleBtn.textContent = isClosed ? '→' : '←';
+            toggleBtn.setAttribute('aria-expanded', !isClosed);
+            toggleBtn.style.background = isClosed ? '#f3f4f6' : '#6366f1';
+            toggleBtn.style.color = isClosed ? '#6366f1' : '#fff';
+        }
+
+        toggleBtn.addEventListener('click', toggleSidebar);
+
+        // Set initial state
+        if (sidebar.classList.contains('closed')) {
+            toggleBtn.textContent = '→';
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            toggleBtn.style.background = '#f3f4f6';
+            toggleBtn.style.color = '#6366f1';
+        } else {
+            toggleBtn.textContent = '←';
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            toggleBtn.style.background = '#6366f1';
+            toggleBtn.style.color = '#fff';
+        }
 
         // Mobile menu toggle
         const hamburger = document.querySelector('.hamburger');
@@ -502,7 +677,7 @@
         });
 
         // Scroll reveal for footer
-        const revealElements = document.querySelectorAll('.footer-section, .footer-mobile-section');
+        const revealElements = document.querySelectorAll('.footer-section');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
