@@ -21,135 +21,45 @@
             overflow-x: hidden;
         }
 
-        /* Enhanced Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: clamp(220px, 15vw, 280px);
-            height: 100%;
-            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-            border-right: 1px solid #e5e5e5;
-            padding: clamp(20px, 2.5vw, 28px);
-            transition: width 0.3s ease;
-            z-index: 1000;
-            overflow-y: auto;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-        .sidebar.closed {
-            width: clamp(60px, 6vw, 70px);
-        }
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: clamp(28px, 3.5vw, 36px);
-        }
-        .logo {
-            font-size: clamp(24px, 2.8vw, 28px);
-            font-weight: 700;
-            background: linear-gradient(90deg, #6366f1, #4f46e5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: opacity 0.3s;
-        }
-        .sidebar.closed .logo {
-            opacity: 0;
-        }
-        .toggle-btn {
-            background: #f3f4f6;
-            border: none;
-            font-size: clamp(22px, 2.5vw, 26px);
-            color: #6366f1;
-            cursor: pointer;
-            padding: clamp(8px, 1vw, 10px);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        .toggle-btn:hover {
-            background: #6366f1;
-            color: #fff;
-            transform: scale(1.1);
-        }
-        .sidebar-menu {
-            list-style: none;
-        }
-        .sidebar-menu li {
-            margin-bottom: clamp(12px, 1.5vw, 16px);
-        }
-        .sidebar-menu a, .sidebar-menu span {
-            display: flex;
-            align-items: center;
-            color: #4b5563;
-            text-decoration: none;
-            font-size: clamp(15px, 1.6vw, 17px);
-            font-weight: 500;
-            padding: clamp(10px, 1.2vw, 12px) clamp(14px, 1.8vw, 18px);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            min-height: 50px;
-        }
-        .sidebar-menu a:hover {
-            background: rgba(99, 102, 241, 0.1);
-            color: #6366f1;
-            box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.2);
-        }
-        .sidebar-menu .icon {
-            margin-right: clamp(10px, 1.2vw, 14px);
-            font-size: clamp(20px, 2.2vw, 22px);
-            width: clamp(20px, 2.2vw, 22px);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        .sidebar-menu a:hover .icon {
-            transform: scale(1.1);
-        }
-        .sidebar.closed .sidebar-menu a span, .sidebar.closed .sidebar-menu span {
-            opacity: 0;
-            visibility: hidden;
-            width: 0;
-        }
-        .sidebar.closed .sidebar-menu a .icon {
-            margin-right: 0;
-        }
-
-        /* Mobile Header */
+        /* Enhanced Mobile Header */
         .mobile-header {
             display: none;
             background: #fff;
-            padding: clamp(12px, 2vw, 16px) clamp(16px, 3vw, 24px);
-            border-bottom: 1px solid #e5e5e5;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
             position: sticky;
             top: 0;
             z-index: 1000;
+            display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
         .mobile-header .logo {
-            font-size: clamp(24px, 5.5vw, 28px);
+            font-size: 20px;
             font-weight: 700;
-            background: linear-gradient(90deg, #6366f1, #4f46e5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+        }
+        .mobile-header .logo::before {
+            content: "☁️";
+            margin-right: 6px;
+            font-size: 22px;
         }
         .hamburger {
-            font-size: clamp(24px, 5.5vw, 28px);
+            font-size: 24px;
             background: none;
             border: none;
-            color: #2d2d2d;
+            color: #6b7280;
             cursor: pointer;
-            padding: clamp(6px, 1.5vw, 8px);
-            min-width: 50px;
-            min-height: 50px;
-            transition: transform 0.3s;
+            padding: 6px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
         }
         .hamburger:hover {
-            transform: scale(1.1);
+            background: #f3f4f6;
+            color: #1f2937;
         }
 
         /* Mobile Menu */
@@ -160,8 +70,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            padding: clamp(60px, 15vw, 80px) clamp(24px, 5vw, 32px);
+            background: #fff;
+            padding: 60px 16px;
             z-index: 999;
             transform: translateX(-100%);
             transition: transform 0.3s ease;
@@ -175,43 +85,39 @@
             list-style: none;
         }
         .mobile-menu li {
-            margin: clamp(16px, 4vw, 20px) 0;
+            margin: 12px 0;
         }
         .mobile-menu a, .mobile-menu span {
-            color: #2d2d2d;
+            color: #374151;
             text-decoration: none;
-            font-size: clamp(19px, 4.8vw, 21px);
+            font-size: 18px;
             font-weight: 500;
             display: flex;
             align-items: center;
-            padding: clamp(12px, 2.8vw, 14px);
-            border-radius: 8px;
-            transition: background 0.3s;
-            min-height: 54px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            transition: background 0.2s;
         }
         .mobile-menu a:hover {
             background: #f3f4f6;
         }
         .mobile-menu .icon {
-            margin-right: clamp(14px, 3.5vw, 18px);
-            font-size: clamp(22px, 5vw, 24px);
-            width: clamp(22px, 5vw, 24px);
+            margin-right: 12px;
+            font-size: 20px;
+            width: 20px;
             text-align: center;
         }
 
         /* Main Content */
         .main-content {
-            margin-left: clamp(220px, 15vw, 280px);
-            padding: clamp(40px, 5vw, 64px) clamp(24px, 3vw, 32px);
+            padding: 40px 32px;
             max-width: 1280px;
-            transition: margin-left 0.3s ease;
+            margin: 0 auto;
         }
-        .sidebar.closed ~ .main-content {
-            margin-left: clamp(60px, 6vw, 70px);
-        }
+
         .hero {
             text-align: center;
-            margin-bottom: clamp(48px, 6vw, 64px);
+            margin-bottom: 64px;
             opacity: 0;
             animation: fadeIn 1s ease forwards;
         }
@@ -222,25 +128,23 @@
             font-size: clamp(32px, 6vw, 48px);
             font-weight: 700;
             color: #1f2937;
-            margin-bottom: clamp(12px, 2vw, 16px);
+            margin-bottom: 16px;
         }
         .hero p {
             font-size: clamp(16px, 3.5vw, 20px);
             color: #6b7280;
-            margin-bottom: clamp(24px, 3vw, 32px);
+            margin-bottom: 32px;
         }
         .hero button {
             background: #6366f1;
             color: #fff;
             border: none;
-            padding: clamp(10px, 1.5vw, 12px) clamp(20px, 3vw, 28px);
+            padding: 12px 28px;
             border-radius: 8px;
-            font-size: clamp(16px, 2.2vw, 18px);
+            font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 140px;
-            min-height: 48px;
         }
         .hero button:hover {
             background: #4f46e5;
@@ -252,20 +156,15 @@
         footer {
             background: #fff;
             color: #6b7280;
-            padding: clamp(32px, 5vw, 48px) clamp(24px, 3vw, 32px);
-            border-top: 1px solid #e5e5e5;
-            margin-left: clamp(220px, 15vw, 280px);
-            transition: margin-left 0.3s ease;
-        }
-        .sidebar.closed ~ footer {
-            margin-left: clamp(60px, 6vw, 70px);
+            padding: 48px 32px;
+            border-top: 1px solid #e5e7eb;
         }
         .footer-content {
             max-width: 1280px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: clamp(24px, 3vw, 32px);
+            gap: 32px;
         }
         .footer-section {
             opacity: 0;
@@ -277,25 +176,24 @@
             transform: translateY(0);
         }
         .footer-section h4 {
-            font-size: clamp(16px, 2.2vw, 18px);
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: clamp(12px, 2vw, 16px);
+            margin-bottom: 16px;
             color: #1f2937;
         }
         .footer-section ul {
             list-style: none;
         }
         .footer-section ul li {
-            margin-bottom: clamp(8px, 1.5vw, 12px);
+            margin-bottom: 12px;
         }
         .footer-section a {
             color: #6b7280;
             text-decoration: none;
-            font-size: clamp(14px, 2vw, 16px);
+            font-size: 14px;
             transition: color 0.3s;
             display: block;
             padding: 6px 0;
-            min-height: 48px;
         }
         .footer-section a:hover {
             color: #6366f1;
@@ -304,30 +202,29 @@
         /* Horizontal Mobile Footer */
         .footer-mobile-horizontal {
             display: none;
-            padding: clamp(16px, 3vw, 24px) 0;
+            padding: 24px 0;
             overflow-x: auto;
             white-space: nowrap;
             background: #f8fafc;
-            border-top: 1px solid #e5e5e5;
+            border-top: 1px solid #e5e7eb;
         }
         .footer-mobile-horizontal ul {
             display: flex;
             list-style: none;
-            padding: 0 clamp(16px, 3vw, 24px);
+            padding: 0 16px;
         }
         .footer-mobile-horizontal li {
-            margin-right: clamp(16px, 3vw, 24px);
+            margin-right: 24px;
         }
         .footer-mobile-horizontal a {
             color: #6b7280;
             text-decoration: none;
-            font-size: clamp(14px, 2.5vw, 16px);
+            font-size: 14px;
             font-weight: 500;
-            padding: clamp(6px, 1vw, 8px) clamp(10px, 2vw, 12px);
+            padding: 8px 12px;
             border-radius: 6px;
             background: #fff;
             display: inline-block;
-            min-height: 40px;
             transition: all 0.3s;
         }
         .footer-mobile-horizontal a:hover {
@@ -338,31 +235,31 @@
         /* Subscription Form */
         .footer-subscription {
             max-width: 1280px;
-            margin: clamp(24px, 3vw, 32px) auto 0;
-            padding: clamp(16px, 2vw, 24px);
+            margin: 32px auto 0;
+            padding: 24px;
             background: #f3f4f6;
             border-radius: 8px;
             text-align: center;
         }
         .footer-subscription h4 {
-            font-size: clamp(18px, 2.5vw, 20px);
+            font-size: 18px;
             font-weight: 600;
             color: #1f2937;
-            margin-bottom: clamp(12px, 1.5vw, 16px);
+            margin-bottom: 16px;
         }
         .footer-subscription form {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: clamp(8px, 1vw, 12px);
+            gap: 12px;
             flex-wrap: wrap;
         }
         .footer-subscription input[type="email"] {
-            padding: clamp(8px, 1vw, 10px) clamp(12px, 1.5vw, 16px);
-            font-size: clamp(14px, 2vw, 16px);
+            padding: 10px 16px;
+            font-size: 14px;
             border: 1px solid #d1d5db;
             border-radius: 6px;
-            width: clamp(200px, 50vw, 300px);
+            width: 300px;
             outline: none;
             transition: border-color 0.3s;
         }
@@ -373,13 +270,12 @@
             background: #6366f1;
             color: #fff;
             border: none;
-            padding: clamp(8px, 1vw, 10px) clamp(16px, 2vw, 20px);
+            padding: 10px 20px;
             border-radius: 6px;
-            font-size: clamp(14px, 2vw, 16px);
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: background 0.3s;
-            min-height: 40px;
         }
         .footer-subscription button:hover {
             background: #4f46e5;
@@ -388,14 +284,14 @@
         /* Footer Bottom with Social Icons */
         .footer-bottom {
             max-width: 1280px;
-            margin: clamp(24px, 3vw, 32px) auto 0;
-            font-size: clamp(14px, 1.8vw, 16px);
+            margin: 32px auto 0;
+            font-size: 14px;
             color: #9ca3af;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: clamp(16px, 2vw, 24px);
+            gap: 24px;
         }
         .footer-app-name {
             font-weight: 700;
@@ -403,11 +299,11 @@
         }
         .social-icons {
             display: flex;
-            gap: clamp(12px, 1.5vw, 16px);
+            gap: 16px;
         }
         .social-icons a {
             color: #6b7280;
-            font-size: clamp(18px, 2.2vw, 20px);
+            font-size: 18px;
             transition: color 0.3s ease, transform 0.3s ease;
         }
         .social-icons a:hover {
@@ -418,19 +314,15 @@
         /* Responsive Design */
         @media (max-width: 1024px) {
             .main-content, footer {
-                padding: clamp(32px, 4vw, 40px) clamp(20px, 2.5vw, 24px);
+                padding: 32px 24px;
             }
         }
         @media (max-width: 768px) {
-            .sidebar {
-                display: none;
-            }
             .mobile-header {
                 display: flex;
             }
             .main-content, footer {
-                margin-left: 0;
-                padding: clamp(24px, 3vw, 40px) clamp(16px, 2vw, 24px);
+                padding: 24px 16px;
             }
             .footer-content {
                 display: none;
@@ -441,71 +333,31 @@
         }
         @media (max-width: 480px) {
             .main-content, footer {
-                padding: clamp(16px, 2.5vw, 32px) clamp(12px, 1.5vw, 16px);
+                padding: 16px;
             }
             .hero h1 {
-                font-size: clamp(28px, 7vw, 32px);
+                font-size: 28px;
             }
             .hero p {
-                font-size: clamp(14px, 4vw, 18px);
+                font-size: 16px;
             }
             .hero button {
-                min-width: 120px;
-                min-height: 44px;
-            }
-            .footer-subscription form {
-                flex-direction: column;
+                padding: 10px 20px;
             }
             .footer-subscription input[type="email"] {
                 width: 100%;
+            }
+            .footer-subscription form {
+                flex-direction: column;
             }
             .footer-bottom {
                 flex-direction: column;
                 text-align: center;
             }
         }
-        @media (max-width: 320px) {
-            .main-content, footer {
-                padding: 16px 12px;
-            }
-            .mobile-menu {
-                padding: 60px 20px;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Sidebar (Enhanced) -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">Cloudy</div>
-            <button class="toggle-btn" aria-label="Toggle sidebar">←</button>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="home.html"><span class="icon">🏠</span><span>Home</span></a></li>
-            <li><a href="features.html"><span class="icon">✨</span><span>Features</span></a></li>
-            <li><a href="pricing.html"><span class="icon">💰</span><span>Pricing</span></a></li>
-            <li><a href="categories.html"><span class="icon">📚</span><span>Categories</span></a></li>
-            <li><a href="top-creators.html"><span class="icon">🌟</span><span>Top Creators</span></a></li>
-            <li><a href="learnmore.html"><span class="icon">ℹ️</span><span>Learn More</span></a></li>
-            <li><a href="workspace-tools.html"><span class="icon">🛠️</span><span>Workspace Tools</span></a></li>
-            <li><a href="sell.html"><span class="icon">🛒</span><span>Sell Your Work</span></a></li>
-            <li><a href="our-story.html"><span class="icon">📖</span><span>Our Story</span></a></li>
-            <li><a href="pi-payments.html"><span class="icon">π</span><span>Pi Payments</span></a></li>
-            <li><a href="help-center.html"><span class="icon">❓</span><span>Help Center</span></a></li>
-            <li><a href="contact-us.html"><span class="icon">📞</span><span>Contact Us</span></a></li>
-            <li><a href="email-subscribers.html"><span class="icon">✉️</span><span>Email Subscribers</span></a></li>
-            <li><a href="new-releases.html"><span class="icon">🆕</span><span>New Releases</span></a></li>
-            <li><a href="team.html"><span class="icon">👥</span><span>Team</span></a></li>
-            <li><a href="community.html"><span class="icon">🤝</span><span>Community</span></a></li>
-            <li><a href="discover.html"><span class="icon">🔍</span><span>Discover</span></a></li>
-            <li><a href="dashboard.html"><span class="icon">📊</span><span>Dashboard</span></a></li>
-            <li><a href="profile.html"><span class="icon">👤</span><span>Profile</span></a></li>
-            <li><span class="user-info" id="user-name"><span class="icon">🙋</span><span>Welcome, [User]</span></span></li>
-            <li><a href="sign.html"><span class="icon">🚪</span><span>Sign Out</span></a></li>
-        </ul>
-    </aside>
-
     <!-- Mobile Header -->
     <header class="mobile-header">
         <div class="logo">Cloudy</div>
@@ -630,36 +482,6 @@
     </footer>
 
     <script>
-        // Sidebar toggle (Desktop)
-        const sidebar = document.querySelector('.sidebar');
-        const toggleBtn = document.querySelector('.toggle-btn');
-        const mainContent = document.querySelector('.main-content');
-        const footer = document.querySelector('footer');
-
-        function toggleSidebar() {
-            sidebar.classList.toggle('closed');
-            const isClosed = sidebar.classList.contains('closed');
-            toggleBtn.textContent = isClosed ? '→' : '←';
-            toggleBtn.setAttribute('aria-expanded', !isClosed);
-            toggleBtn.style.background = isClosed ? '#f3f4f6' : '#6366f1';
-            toggleBtn.style.color = isClosed ? '#6366f1' : '#fff';
-        }
-
-        toggleBtn.addEventListener('click', toggleSidebar);
-
-        // Set initial state
-        if (sidebar.classList.contains('closed')) {
-            toggleBtn.textContent = '→';
-            toggleBtn.setAttribute('aria-expanded', 'false');
-            toggleBtn.style.background = '#f3f4f6';
-            toggleBtn.style.color = '#6366f1';
-        } else {
-            toggleBtn.textContent = '←';
-            toggleBtn.setAttribute('aria-expanded', 'true');
-            toggleBtn.style.background = '#6366f1';
-            toggleBtn.style.color = '#fff';
-        }
-
         // Mobile menu toggle
         const hamburger = document.querySelector('.hamburger');
         const mobileMenu = document.querySelector('.mobile-menu');
