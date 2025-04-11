@@ -207,38 +207,29 @@
             border-radius: 12px;
             box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
         }
         .tool-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-md);
         }
+        .tool-card .icon {
+            font-size: 24px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
         .tool-card h3 {
             font-size: 16px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             color: #1f2937;
         }
         .tool-card p {
             font-size: 13px;
             color: var(--secondary);
-            margin-bottom: 16px;
-        }
-        .tool-card a {
-            background: var(--gradient);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
-        }
-        .tool-card a:hover {
-            background: linear-gradient(135deg, var(--primary-dark), #4338ca);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            margin: 0;
         }
 
         /* Full Footer */
@@ -449,6 +440,7 @@
         @media (max-width: 480px) {
             .main-content { padding: 16px clamp(12px, 4vw, 16px); }
             .tools-grid { grid-template-columns: 1fr; }
+            .tool-card { flex-direction: column; gap: 12px; }
             .footer-subscription form { flex-direction: column; }
         }
     </style>
@@ -497,23 +489,50 @@
     <!-- Main Content -->
     <main class="main-content">
         <section class="section">
-            <h1>Workspace Tools</h1>
-            <p>Explore powerful tools designed to enhance your productivity and collaboration on Cloudy. Create, manage, and succeed with ease.</p>
+            <h1>Your Productivity Hub</h1>
+            <p>Boost your workflow with Cloudy’s all-in-one workspace tools. Plan, create, and collaborate seamlessly.</p>
             <div class="tools-grid">
                 <div class="tool-card">
-                    <h3>Cloudy AI Editor</h3>
-                    <p>Leverage AI to draft content, edit designs, and streamline your workflow seamlessly.</p>
-                    <a href="cloudy-ai.html">Try Now</a>
+                    <span class="icon">📝</span>
+                    <div>
+                        <h3>Notes</h3>
+                        <p>Capture ideas, write drafts, and organize your thoughts with a flexible editor.</p>
+                    </div>
                 </div>
                 <div class="tool-card">
-                    <h3>Team Collaboration</h3>
-                    <p>Real-time collaboration with your team, complete with chat and file sharing.</p>
-                    <a href="team-collaboration.html">Get Started</a>
+                    <span class="icon">✅</span>
+                    <div>
+                        <h3>Tasks</h3>
+                        <p>Create to-do lists, set deadlines, and track progress effortlessly.</p>
+                    </div>
                 </div>
                 <div class="tool-card">
-                    <h3>Project Manager</h3>
-                    <p>Organize tasks, set deadlines, and track progress all in one place.</p>
-                    <a href="project-manager.html">Explore</a>
+                    <span class="icon">🗂️</span>
+                    <div>
+                        <h3>Databases</h3>
+                        <p>Build custom tables to manage projects, inventory, or customer data.</p>
+                    </div>
+                </div>
+                <div class="tool-card">
+                    <span class="icon">👥</span>
+                    <div>
+                        <h3>Collaboration</h3>
+                        <p>Share workspaces, assign tasks, and work together in real-time.</p>
+                    </div>
+                </div>
+                <div class="tool-card">
+                    <span class="icon">📅</span>
+                    <div>
+                        <h3>Calendar</h3>
+                        <p>Plan your schedule and sync deadlines across your projects.</p>
+                    </div>
+                </div>
+                <div class="tool-card">
+                    <span class="icon">🔗</span>
+                    <div>
+                        <h3>Integrations</h3>
+                        <p>Connect with your favorite tools to streamline your workflow.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -581,13 +600,13 @@
                 <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
                 <span>We do not sell or share your personal information.</span>
                 <div class="footer-bottom-links">
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="terms.html">Terms of Service</a></li>
-                    <li><a href="cookie-settings.html">Cookie Settings</a></li>
-                    <li><a href="whitepaper.html">Whitepaper</a></li>
-                    <li><a href="docs.html">Docs</a></li>
-                    <li><a href="security.html">Security</a></li>
-                    <li><a href="notice.html">Notices</a></li>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="cookie-settings.html">Cookie Settings</a>
+                    <a href="whitepaper.html">Whitepaper</a>
+                    <a href="docs.html">Docs</a>
+                    <a href="security.html">Security</a>
+                    <a href="notice.html">Notices</a>
                 </div>
             </div>
             <div class="social-icons">
