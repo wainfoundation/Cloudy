@@ -4,32 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloudy - Workspace Tools</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        /* Reset and Base Styles */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #fafafa;
+            font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            background: #f7f7f7;
             color: #2d2d2d;
-            line-height: 1.6;
-            font-size: 16px;
+            line-height: 1.5;
+            font-size: clamp(14px, 1.8vw, 15px);
             overflow-x: hidden;
         }
-        /* Header */
+
+        /* CSS Variables */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #6b7280;
+            --background: #f7f7f7;
+            --card-bg: #fff;
+            --gradient: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Desktop Header */
         header {
             background: #fff;
             padding: 16px 32px;
-            border-bottom: 1px solid #e5e5e5;
             position: sticky;
             top: 0;
             z-index: 1000;
-            transition: box-shadow 0.3s;
-        }
-        header.scrolled {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         .header-container {
             max-width: 1280px;
@@ -40,230 +51,416 @@
             flex-wrap: wrap;
         }
         .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2d2d2d;
-            transition: transform 0.3s;
+            font-size: 22px;
+            font-weight: 600;
+            color: #1f2937;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
         }
-        .logo:hover {
-            transform: scale(1.05);
+        .logo::before {
+            content: "☁️";
+            margin-right: 8px;
+            font-size: 22px;
+            transition: transform 0.3s ease;
         }
+        .logo:hover { transform: scale(1.05); }
+        .logo:hover::before { transform: translateY(-2px); }
         nav {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
+            gap: 12px;
         }
         nav a {
             color: #4b5563;
             text-decoration: none;
-            margin: 8px 24px 8px 0;
-            font-size: 14px;
+            margin: 8px clamp(12px, 2vw, 16px) 8px 0;
+            font-size: 13px;
             font-weight: 500;
-            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease, color 0.2s ease;
         }
-        nav a:hover {
-            color: #6366f1;
-        }
+        nav a:hover { background: #f5f6ff; color: var(--primary); }
+        nav a.active { background: #f5f6ff; color: var(--primary); font-weight: 600; }
 
-        /* Hero Section */
-        .hero {
-            padding: 80px 32px;
-            text-align: center;
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
             background: #fff;
-            border-bottom: 1px solid #e5e5e5;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards;
+            padding: clamp(10px, 3vw, 12px) clamp(12px, 4vw, 16px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .hero h1 {
-            font-size: clamp(32px, 5vw, 40px);
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: #1f2937;
-        }
-        .hero p {
-            font-size: clamp(16px, 3vw, 18px);
-            color: #6b7280;
-            margin-bottom: 32px;
-        }
-        .hero button {
-            background: #6366f1;
-            color: #fff;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .hero button:hover {
-            background: #4f46e5;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        /* Workspace Tools Section */
-        .workspace-tools {
-            max-width: 1280px;
-            margin: 64px auto;
-            padding: 0 32px;
-        }
-        .section-title {
-            font-size: clamp(28px, 4vw, 32px);
+        .mobile-header .logo {
+            font-size: 18px;
             font-weight: 600;
-            text-align: center;
-            margin-bottom: 48px;
             color: #1f2937;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
         }
-        .section-title.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .mobile-header .logo::before {
+            content: "☁️";
+            margin-right: 6px;
+            font-size: 20px;
         }
-        .tool-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-        }
-        .tool-card {
-            background: #fff;
-            padding: 24px;
-            border: 1px solid #e5e5e5;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        .tool-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .tool-card:hover {
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-            transform: translateY(-4px);
-        }
-        .tool-card .icon {
-            width: 50px;
-            height: 50px;
-            background: #f3f4f6;
-            border-radius: 8px;
+        .hamburger {
+            font-size: 20px;
+            background: none;
+            border: none;
+            color: var(--secondary);
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            min-width: 44px;
+            min-height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 16px;
-            font-size: 24px;
+        }
+        .hamburger:hover { background: #f5f6ff; color: #1f2937; }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-height: 100vh;
+            background: #fff;
+            padding: 60px 16px;
+            z-index: 999;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s ease;
+            overflow-y: auto;
+        }
+        .mobile-menu.open {
+            display: block;
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .mobile-menu ul { list-style: none; }
+        .mobile-menu li { margin: 8px 0; }
+        .mobile-menu a, .mobile-menu span {
+            color: #374151;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+        .mobile-menu a:hover { background: #f5f6ff; }
+        .mobile-menu .icon {
+            margin-right: 12px;
+            font-size: 16px;
+            width: 16px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px clamp(16px, 5vw, 32px);
+        }
+        .section {
+            margin-bottom: 40px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .section.visible { opacity: 1; }
+        .section h1 {
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #1f2937;
+        }
+        .section p {
+            font-size: 15px;
+            color: var(--secondary);
+            margin-bottom: 24px;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+            gap: 24px;
+        }
+        .tool-card {
+            background: var(--card-bg);
+            padding: clamp(16px, 3vw, 24px);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
         }
         .tool-card h3 {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 600;
             margin-bottom: 12px;
             color: #1f2937;
         }
         .tool-card p {
-            font-size: 14px;
-            color: #6b7280;
+            font-size: 13px;
+            color: var(--secondary);
+            margin-bottom: 16px;
+        }
+        .tool-card a {
+            background: var(--gradient);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        .tool-card a:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #4338ca);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
-        /* Footer */
+        /* Full Footer */
         footer {
             background: #fff;
-            color: #6b7280;
-            padding: 48px 32px;
-            border-top: 1px solid #e5e5e5;
+            color: var(--secondary);
+            padding: 48px clamp(16px, 5vw, 32px);
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
         }
         .footer-content {
             max-width: 1280px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
             gap: 32px;
         }
         .footer-section {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
+            transition: opacity 0.5s ease;
         }
-        .footer-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .footer-section.visible { opacity: 1; }
         .footer-section h4 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             margin-bottom: 16px;
             color: #1f2937;
         }
-        .footer-section ul {
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 8px; }
+        .footer-section a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            display: block;
+            padding: 6px 0;
+            border-radius: 4px;
+        }
+        .footer-section a:hover { color: var(--primary); background: #f5f6ff; }
+
+        .footer-mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            text-align: center;
+        }
+        .footer-mobile-nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
             list-style: none;
         }
-        .footer-section ul li {
-            margin-bottom: 12px;
-        }
-        .footer-section a {
-            color: #6b7280;
+        .footer-mobile-nav li { flex: 1; }
+        .footer-mobile-nav a {
+            color: var(--secondary);
             text-decoration: none;
-            transition: color 0.3s;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 8px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.2s ease;
         }
-        .footer-section a:hover {
-            color: #6366f1;
+        .footer-mobile-nav a:hover, .footer-mobile-nav a.active {
+            color: var(--primary);
+            background: #f5f6ff;
         }
-        .footer-bottom {
+        .footer-mobile-nav .icon { font-size: 18px; margin-bottom: 4px; }
+
+        .footer-subscription {
+            max-width: 1280px;
+            margin: 32px auto 0;
+            padding: 24px;
+            background: var(--background);
+            border-radius: 12px;
             text-align: center;
-            padding-top: 32px;
-            font-size: 14px;
-            color: #9ca3af;
+            box-shadow: var(--shadow-sm);
         }
+        .footer-subscription h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        .footer-subscription form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+        @media (min-width: 480px) { .footer-subscription form { flex-direction: row; } }
+        .footer-subscription input[type="email"] {
+            padding: 10px 16px;
+            font-size: 13px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            width: min(100%, 280px);
+            outline: none;
+            transition: border-color 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        .footer-subscription input[type="email"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
+        }
+        .footer-subscription button {
+            background: var(--gradient);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            box-shadow: var(--shadow-sm);
+        }
+        .footer-subscription button:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #4338ca);
+            box-shadow: var(--shadow-md);
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 32px auto 0;
+            font-size: 13px;
+            color: var(--secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            text-align: center;
+        }
+        .footer-bottom-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+        .footer-bottom-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .footer-bottom-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s ease;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .footer-bottom-links a:hover { color: var(--primary); background: #f5f6ff; }
+        .footer-app-name { font-weight: 600; color: var(--primary); }
+        .social-icons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex: 1;
+        }
+        .social-icons a {
+            color: var(--secondary);
+            font-size: clamp(16px, 2.5vw, 18px);
+            transition: all 0.3s ease;
+            padding: 8px;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+        .social-icons a:hover {
+            color: var(--primary);
+            background: #f5f6ff;
+            transform: scale(1.1);
+        }
+        .footer-powered { flex: 1; text-align: center; font-size: 13px; }
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .header-container {
-                padding: 12px 24px;
-            }
-            .tool-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .tools-grid { grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-            .hero {
-                padding: 60px 24px;
-            }
-            .workspace-tools {
-                padding: 0 24px;
-            }
+            header { display: none; }
+            .mobile-header { display: flex; }
+            .main-content { padding: 24px clamp(16px, 4vw, 24px); }
+            .footer-content { display: none; }
+            .footer-mobile-nav { display: block; }
+            .footer-bottom { flex-direction: column; gap: 16px; }
+            .footer-bottom-left, .social-icons, .footer-powered { flex: none; width: 100%; }
         }
         @media (max-width: 480px) {
-            .hero {
-                padding: 40px 16px;
-            }
-            .workspace-tools {
-                padding: 0 16px;
-            }
-            .tool-grid {
-                grid-template-columns: 1fr;
-            }
-            .section-title {
-                font-size: 24px;
-            }
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
+            .main-content { padding: 16px clamp(12px, 4vw, 16px); }
+            .tools-grid { grid-template-columns: 1fr; }
+            .footer-subscription form { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <div class="logo">Cloudy</div>
+        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    </header>
+
+    <!-- Desktop Header -->
     <header>
         <div class="header-container">
             <div class="logo">Cloudy</div>
@@ -273,66 +470,66 @@
                 <a href="pricing.html">Pricing</a>
                 <a href="categories.html">Categories</a>
                 <a href="top-creators.html">Top Creators</a>
-                <a href="learn-more.html">Learn More</a>
-                <a href="sign.html">Sign In</a>
+                <a href="learnmore.html">Learn More</a>
+                <a href="signup.html">Sign Up</a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <div class="hero">
-        <div class="hero-content">
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu">
+        <ul>
+            <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
+            <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
+            <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
+            <li><a href="categories.html"><span class="icon">📚</span>Categories</a></li>
+            <li><a href="top-creators.html"><span class="icon">🌟</span>Top Creators</a></li>
+            <li><a href="learnmore.html"><span class="icon">ℹ️</span>Learn More</a></li>
+            <li><a href="signup.html"><span class="icon">🚀</span>Sign Up</a></li>
+            <li><a href="dashboard.html"><span class="icon">📊</span>Dashboard</a></li>
+            <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            <li><a href="help-center.html"><span class="icon">❓</span>Help Center</a></li>
+            <li><a href="workspace-tools.html" class="active"><span class="icon">🛠️</span>Workspace Tools</a></li>
+            <li><a href="sign.html"><span class="icon">🚪</span>Sign Out</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="section">
             <h1>Workspace Tools</h1>
-            <p>Organize, create, and collaborate with powerful tools inspired by Notion.</p>
-            <button onclick="window.location.href='sign.html'">Try Now</button>
-        </div>
-    </div>
+            <p>Explore powerful tools designed to enhance your productivity and collaboration on Cloudy. Create, manage, and succeed with ease.</p>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3>Cloudy AI Editor</h3>
+                    <p>Leverage AI to draft content, edit designs, and streamline your workflow seamlessly.</p>
+                    <a href="cloudy-ai.html">Try Now</a>
+                </div>
+                <div class="tool-card">
+                    <h3>Team Collaboration</h3>
+                    <p>Real-time collaboration with your team, complete with chat and file sharing.</p>
+                    <a href="team-collaboration.html">Get Started</a>
+                </div>
+                <div class="tool-card">
+                    <h3>Project Manager</h3>
+                    <p>Organize tasks, set deadlines, and track progress all in one place.</p>
+                    <a href="project-manager.html">Explore</a>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    <!-- Workspace Tools Section -->
-    <div class="workspace-tools">
-        <h2 class="section-title">Your Productivity Hub</h2>
-        <div class="tool-grid">
-            <div class="tool-card">
-                <div class="icon">📝</div>
-                <h3>Notes</h3>
-                <p>Capture ideas, write drafts, and organize your thoughts with a flexible editor.</p>
-            </div>
-            <div class="tool-card">
-                <div class="icon">✅</div>
-                <h3>Tasks</h3>
-                <p>Create to-do lists, set deadlines, and track progress effortlessly.</p>
-            </div>
-            <div class="tool-card">
-                <div class="icon">🗂️</div>
-                <h3>Databases</h3>
-                <p>Build custom tables to manage projects, inventory, or customer data.</p>
-            </div>
-            <div class="tool-card">
-                <div class="icon">👥</div>
-                <h3>Collaboration</h3>
-                <p>Share workspaces, assign tasks, and work together in real-time.</p>
-            </div>
-            <div class="tool-card">
-                <div class="icon">📅</div>
-                <h3>Calendar</h3>
-                <p>Plan your schedule and sync deadlines across your projects.</p>
-            </div>
-            <div class="tool-card">
-                <div class="icon">🔗</div>
-                <h3>Integrations</h3>
-                <p>Connect with your favorite tools to streamline your workflow.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
+    <!-- Full Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Explore</h4>
+                <h4>Explore more ☁️</h4>
                 <ul>
+                    <li><a href="explore-more.html">Explore More</a></li>
                     <li><a href="categories.html">Categories</a></li>
                     <li><a href="top-creators.html">Top Creators</a></li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li><a href="discover.html">Discover</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -340,6 +537,8 @@
                 <ul>
                     <li><a href="workspace-tools.html">Workspace Tools</a></li>
                     <li><a href="sell.html">Sell Your Work</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="profile.html">Profile</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -347,6 +546,8 @@
                 <ul>
                     <li><a href="our-story.html">Our Story</a></li>
                     <li><a href="pi-payments.html">Pi Payments</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="whitepaper.html">Whitepaper</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -354,11 +555,49 @@
                 <ul>
                     <li><a href="help-center.html">Help Center</a></li>
                     <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="email-subscribers.html">Email Subscribers</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
                 </ul>
             </div>
         </div>
+        <div class="footer-mobile-nav">
+            <ul>
+                <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
+                <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
+                <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
+                <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
+                <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            </ul>
+        </div>
+        <div class="footer-subscription">
+            <h4>Subscribe to Our Newsletter ☁️</h4>
+            <form>
+                <input type="email" placeholder="Enter your email" required aria-label="Email for newsletter">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
         <div class="footer-bottom">
-            © 2025 Cloudy. All rights reserved. Powered by Pi Network.
+            <div class="footer-bottom-left">
+                <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
+                <span>We do not sell or share your personal information.</span>
+                <div class="footer-bottom-links">
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="cookie-settings.html">Cookie Settings</a></li>
+                    <li><a href="whitepaper.html">Whitepaper</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="security.html">Security</a></li>
+                    <li><a href="notice.html">Notices</a></li>
+                </div>
+            </div>
+            <div class="social-icons">
+                <a href="https://facebook.com/cloudy" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/cloudy" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://instagram.com/cloudy" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://telegram.org/cloudy" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="https://discord.com/cloudy" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+            <span class="footer-powered">Powered by Pi Network</span>
         </div>
     </footer>
 
@@ -369,17 +608,75 @@
             header.classList.toggle('scrolled', window.scrollY > 0);
         });
 
+        // Mobile menu toggle with debounce
+        let isToggling = false;
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            if (isToggling) return;
+            isToggling = true;
+            mobileMenu.classList.toggle('open');
+            const isOpen = mobileMenu.classList.contains('open');
+            hamburger.textContent = isOpen ? '✕' : '☰';
+            hamburger.setAttribute('aria-expanded', isOpen);
+            setTimeout(() => { isToggling = false; }, 300);
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                hamburger.textContent = '☰';
+                hamburger.setAttribute('aria-expanded', false);
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target) && mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                hamburger.textContent = '☰';
+                hamburger.setAttribute('aria-expanded', false);
+            }
+        });
+
         // Scroll reveal animations
-        const revealElements = document.querySelectorAll('.section-title, .tool-card, .footer-section');
-        const observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    obs.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.05, rootMargin: '20px' });
 
-        revealElements.forEach(el => observer.observe(el));
+        document.querySelectorAll('.section, .footer-section').forEach(el => observer.observe(el));
+
+        // Highlight active nav link
+        const currentPage = 'workspace-tools.html';
+        document.querySelectorAll('header nav a, .mobile-menu a, .footer-mobile-nav a, .footer-section a').forEach(link => {
+            if (link.getAttribute('href') === currentPage) link.classList.add('active');
+        });
+
+        // Footer mobile nav active state
+        document.querySelectorAll('.footer-mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelectorAll('.footer-mobile-nav a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+        // Subscription form validation
+        const subForm = document.querySelector('.footer-subscription form');
+        subForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = subForm.querySelector('input[type="email"]').value;
+            if (/^\S+@\S+\.\S+$/.test(email)) {
+                alert('Thank you for subscribing!');
+                subForm.reset();
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        });
     </script>
 </body>
 </html>
