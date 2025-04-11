@@ -28,10 +28,3 @@ It enables creators to upload, showcase, and sell digital goods — such as temp
 | Deployment  | Vercel + Render / Heroku      |
 
 ---
-
-## 🧑‍💻 How to Run Locally (Dev Mode)
-
-1. **Clone the repo**  
-   ```bash
-   git clone https://github.com/ReimagineTruth/cloudy.xyz.git
-   cd cloudy.xyz
