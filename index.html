@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloudy - Your All-in-One Creator Platform</title>
+    <title>Cloudy - Sell Your Work</title>
     <!-- Google Fonts: Inter -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-    <!-- Font Awesome CDN for social icons -->
+    <!-- Font Awesome CDN for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        /* Reset and Base Styles */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             font-weight: 400;
@@ -24,11 +21,22 @@
             overflow-x: hidden;
         }
 
+        /* CSS Variables */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #6b7280;
+            --background: #f7f7f7;
+            --card-bg: #fff;
+            --gradient: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
         /* Desktop Header */
         header {
             background: #fff;
             padding: 16px 32px;
-            border-bottom: none;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -55,15 +63,10 @@
             content: "☁️";
             margin-right: 8px;
             font-size: 22px;
-            display: inline-block;
             transition: transform 0.3s ease;
         }
-        .logo:hover {
-            transform: scale(1.05);
-        }
-        .logo:hover::before {
-            transform: translateY(-2px);
-        }
+        .logo:hover { transform: scale(1.05); }
+        .logo:hover::before { transform: translateY(-2px); }
         nav {
             display: flex;
             align-items: center;
@@ -80,10 +83,8 @@
             border-radius: 6px;
             transition: background 0.2s ease, color 0.2s ease;
         }
-        nav a:hover {
-            background: #f5f6ff;
-            color: #6366f1;
-        }
+        nav a:hover { background: #f5f6ff; color: var(--primary); }
+        nav a.active { background: #f5f6ff; color: var(--primary); font-weight: 600; }
 
         /* Mobile Header */
         .mobile-header {
@@ -114,7 +115,7 @@
             font-size: 20px;
             background: none;
             border: none;
-            color: #6b7280;
+            color: var(--secondary);
             cursor: pointer;
             padding: 10px;
             border-radius: 6px;
@@ -125,10 +126,7 @@
             align-items: center;
             justify-content: center;
         }
-        .hamburger:hover {
-            background: #f5f6ff;
-            color: #1f2937;
-        }
+        .hamburger:hover { background: #f5f6ff; color: #1f2937; }
 
         /* Mobile Menu */
         .mobile-menu {
@@ -145,7 +143,6 @@
             opacity: 0;
             transition: visibility 0.3s, opacity 0.3s ease;
             overflow-y: auto;
-            box-sizing: border-box;
         }
         .mobile-menu.open {
             display: block;
@@ -153,12 +150,8 @@
             opacity: 1;
             transform: translateX(0);
         }
-        .mobile-menu ul {
-            list-style: none;
-        }
-        .mobile-menu li {
-            margin: 8px 0;
-        }
+        .mobile-menu ul { list-style: none; }
+        .mobile-menu li { margin: 8px 0; }
         .mobile-menu a, .mobile-menu span {
             color: #374151;
             text-decoration: none;
@@ -170,9 +163,7 @@
             border-radius: 6px;
             transition: background 0.2s ease;
         }
-        .mobile-menu a:hover {
-            background: #f5f6ff;
-        }
+        .mobile-menu a:hover { background: #f5f6ff; }
         .mobile-menu .icon {
             margin-right: 12px;
             font-size: 16px;
@@ -180,291 +171,90 @@
             text-align: center;
         }
 
-        /* Hero Section */
-        .hero {
-            padding: clamp(40px, 10vw, 80px) clamp(16px, 5vw, 32px);
-            text-align: center;
-            background: linear-gradient(to bottom, #f5f6ff, #fff);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards;
-        }
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 32px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-        .hero h1 {
-            font-size: clamp(26px, 5vw, 32px);
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-        }
-        .hero p {
-            font-size: clamp(14px, 2.5vw, 16px);
-            font-weight: 400;
-            color: #6b7280;
-            margin-bottom: 32px;
-            max-width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .hero .cta-buttons {
-            display: flex;
-            gap: clamp(12px, 3vw, 16px);
-            justify-content: center;
-            flex-wrap: wrap;
-            flex-direction: column;
-            align-items: center;
-        }
-        @media (min-width: 480px) {
-            .hero .cta-buttons {
-                flex-direction: row;
-            }
-        }
-        .hero button {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-            color: #fff;
-            border: none;
-            padding: clamp(10px, 2vw, 12px) clamp(20px, 5vw, 28px);
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 160px;
-            min-height: 44px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-        .hero button:hover {
-            background: linear-gradient(135deg, #4f46e5, #4338ca);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-        .hero .secondary-btn {
-            background: #fff;
-            color: #6366f1;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .hero .secondary-btn:hover {
-            background: #f5f6ff;
-            color: #4f46e5;
-            border-color: #6366f1;
-            transform: translateY(-2px);
-        }
-
-        /* Features Section */
-        .features {
+        /* Main Content */
+        .main-content {
             max-width: 1280px;
-            margin: 64px auto;
-            padding: 0 clamp(16px, 5vw, 32px);
+            margin: 0 auto;
+            padding: 32px clamp(16px, 5vw, 32px);
         }
-        .features h2 {
-            font-size: clamp(22px, 3.5vw, 26px);
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 32px;
-            color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
+        .section {
+            margin-bottom: 40px;
             opacity: 0;
             transition: opacity 0.5s ease;
         }
-        .features h2.visible {
-            opacity: 1;
+        .section.visible { opacity: 1; }
+        .section h1 {
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #1f2937;
         }
-        .feature-grid {
+        .section p {
+            font-size: 15px;
+            color: var(--secondary);
+            margin-bottom: 24px;
+        }
+
+        /* Features Grid */
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
             gap: 24px;
         }
         .feature-card {
-            background: #fff;
+            background: var(--card-bg);
             padding: clamp(16px, 3vw, 24px);
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .feature-card.visible {
-            opacity: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
         }
         .feature-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            box-shadow: var(--shadow-md);
+        }
+        .feature-card .icon {
+            font-size: 24px;
+            color: var(--primary);
+            flex-shrink: 0;
         }
         .feature-card h3 {
             font-size: 16px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
         }
         .feature-card p {
             font-size: 13px;
-            font-weight: 400;
-            color: #6b7280;
+            color: var(--secondary);
+            margin: 0;
         }
-
-        /* Testimonials Section */
-        .testimonials {
-            background: #f7f7f7;
-            padding: 64px clamp(16px, 5vw, 32px);
-            text-align: center;
-        }
-        .testimonials h2 {
-            font-size: clamp(22px, 3.5vw, 26px);
-            font-weight: 600;
-            margin-bottom: 32px;
-            color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .testimonials h2.visible {
-            opacity: 1;
-        }
-        .testimonial-grid {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-            gap: 24px;
-        }
-        .testimonial-card {
-            background: #fff;
-            padding: clamp(16px, 3vw, 24px);
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .testimonial-card.visible {
-            opacity: 1;
-        }
-        .testimonial-card p {
-            font-size: clamp(12px, 1.8vw, 13px);
-            font-weight: 400;
-            color: #6b7280;
-            margin-bottom: 16px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 4;
-            -webkit-box-orient: vertical;
-        }
-        .testimonial-card .author {
+        .sell-button {
+            display: inline-block;
+            background: var(--gradient);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 6px;
             font-size: 14px;
             font-weight: 500;
-            color: #1f2937;
-            line-height: 1.3;
-        }
-
-        /* Pricing Section */
-        .pricing {
-            max-width: 1280px;
-            margin: 64px auto;
-            padding: 0 clamp(16px, 5vw, 32px);
-            text-align: center;
-        }
-        .pricing h2 {
-            font-size: clamp(22px, 3.5vw, 26px);
-            font-weight: 600;
-            margin-bottom: 32px;
-            color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .pricing h2.visible {
-            opacity: 1;
-        }
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-            gap: 24px;
-        }
-        .pricing-card {
-            background: #fff;
-            padding: clamp(24px, 4vw, 32px);
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+            margin-top: 24px;
             transition: all 0.3s ease;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            box-shadow: var(--shadow-sm);
         }
-        .pricing-card.visible {
-            opacity: 1;
-        }
-        .pricing-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-        .pricing-card h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-        }
-        .pricing-card .price {
-            font-size: clamp(22px, 4vw, 26px);
-            font-weight: 700;
-            color: #6366f1;
-            margin-bottom: 16px;
-            line-height: 1.3;
-        }
-        .pricing-card ul {
-            list-style: none;
-            margin-bottom: 24px;
-        }
-        .pricing-card ul li {
-            font-size: 13px;
-            font-weight: 400;
-            color: #6b7280;
-            margin-bottom: 12px;
-        }
-        .pricing-card button {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-            color: #fff;
-            border: none;
-            padding: clamp(10px, 2vw, 12px) clamp(20px, 5vw, 24px);
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-height: 44px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .pricing-card button:hover {
-            background: linear-gradient(135deg, #4f46e5, #4338ca);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        .sell-button:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #4338ca);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
-        /* Footer */
+        /* Full Footer */
         footer {
             background: #fff;
-            color: #6b7280;
+            color: var(--secondary);
             padding: 48px clamp(16px, 5vw, 32px);
-            border-top: none;
             box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
         }
         .footer-content {
@@ -478,25 +268,17 @@
             opacity: 0;
             transition: opacity 0.5s ease;
         }
-        .footer-section.visible {
-            opacity: 1;
-        }
+        .footer-section.visible { opacity: 1; }
         .footer-section h4 {
             font-size: 15px;
             font-weight: 600;
             margin-bottom: 16px;
             color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
         }
-        .footer-section ul {
-            list-style: none;
-        }
-        .footer-section ul li {
-            margin-bottom: 8px;
-        }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 8px; }
         .footer-section a {
-            color: #6b7280;
+            color: var(--secondary);
             text-decoration: none;
             font-size: 13px;
             font-weight: 400;
@@ -505,12 +287,8 @@
             padding: 6px 0;
             border-radius: 4px;
         }
-        .footer-section a:hover {
-            color: #6366f1;
-            background: #f5f6ff;
-        }
+        .footer-section a:hover { color: var(--primary); background: #f5f6ff; }
 
-        /* Mobile Bottom Navigation */
         .footer-mobile-nav {
             display: none;
             position: fixed;
@@ -519,7 +297,7 @@
             width: 100%;
             background: #fff;
             padding: 12px 16px;
-            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
             z-index: 1000;
             text-align: center;
         }
@@ -529,11 +307,9 @@
             gap: 24px;
             list-style: none;
         }
-        .footer-mobile-nav li {
-            flex: 1;
-        }
+        .footer-mobile-nav li { flex: 1; }
         .footer-mobile-nav a {
-            color: #6b7280;
+            color: var(--secondary);
             text-decoration: none;
             font-size: 11px;
             font-weight: 500;
@@ -545,31 +321,25 @@
             transition: all 0.2s ease;
         }
         .footer-mobile-nav a:hover, .footer-mobile-nav a.active {
-            color: #6366f1;
+            color: var(--primary);
             background: #f5f6ff;
         }
-        .footer-mobile-nav .icon {
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
+        .footer-mobile-nav .icon { font-size: 18px; margin-bottom: 4px; }
 
-        /* Subscription Form */
         .footer-subscription {
             max-width: 1280px;
             margin: 32px auto 0;
             padding: 24px;
-            background: #f7f7f7;
+            background: var(--background);
             border-radius: 12px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow-sm);
         }
         .footer-subscription h4 {
             font-size: 16px;
             font-weight: 600;
             color: #1f2937;
             margin-bottom: 16px;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
         }
         .footer-subscription form {
             display: flex;
@@ -579,29 +349,23 @@
             flex-wrap: wrap;
             flex-direction: column;
         }
-        @media (min-width: 480px) {
-            .footer-subscription form {
-                flex-direction: row;
-            }
-        }
+        @media (min-width: 480px) { .footer-subscription form { flex-direction: row; } }
         .footer-subscription input[type="email"] {
             padding: 10px 16px;
             font-size: 13px;
-            font-weight: 400;
             border: 1px solid #e5e7eb;
             border-radius: 6px;
             width: min(100%, 280px);
             outline: none;
             transition: border-color 0.3s ease;
-            box-sizing: border-box;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
         }
         .footer-subscription input[type="email"]:focus {
-            border-color: #6366f1;
+            border-color: var(--primary);
             box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
         }
         .footer-subscription button {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            background: var(--gradient);
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -611,20 +375,18 @@
             cursor: pointer;
             transition: all 0.3s ease;
             min-height: 44px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
         }
         .footer-subscription button:hover {
-            background: linear-gradient(135deg, #4f46e5, #4338ca);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            background: linear-gradient(135deg, var(--primary-dark), #4338ca);
+            box-shadow: var(--shadow-md);
         }
 
-        /* Footer Bottom */
         .footer-bottom {
             max-width: 1280px;
             margin: 32px auto 0;
             font-size: 13px;
-            font-weight: 400;
-            color: #6b7280;
+            color: var(--secondary);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -645,22 +407,15 @@
             justify-content: center;
         }
         .footer-bottom-links a {
-            color: #6b7280;
+            color: var(--secondary);
             text-decoration: none;
             font-size: 13px;
-            font-weight: 400;
             transition: color 0.2s ease;
             padding: 4px 8px;
             border-radius: 4px;
         }
-        .footer-bottom-links a:hover {
-            color: #6366f1;
-            background: #f5f6ff;
-        }
-        .footer-app-name {
-            font-weight: 600;
-            color: #6366f1;
-        }
+        .footer-bottom-links a:hover { color: var(--primary); background: #f5f6ff; }
+        .footer-app-name { font-weight: 600; color: var(--primary); }
         .social-icons {
             display: flex;
             gap: 16px;
@@ -668,7 +423,7 @@
             flex: 1;
         }
         .social-icons a {
-            color: #6b7280;
+            color: var(--secondary);
             font-size: clamp(16px, 2.5vw, 18px);
             transition: all 0.3s ease;
             padding: 8px;
@@ -680,94 +435,31 @@
             border-radius: 6px;
         }
         .social-icons a:hover {
-            color: #6366f1;
+            color: var(--primary);
             background: #f5f6ff;
             transform: scale(1.1);
         }
-        .footer-powered {
-            flex: 1;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 400;
-        }
+        .footer-powered { flex: 1; text-align: center; font-size: 13px; }
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .header-container, .features, .pricing {
-                padding: 0 clamp(16px, 4vw, 24px);
-            }
-            .hero {
-                padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 24px);
-            }
-            .hero-content {
-                padding: 24px;
-            }
-            .testimonials {
-                padding: 48px clamp(16px, 4vw, 24px);
-            }
-            .feature-grid, .testimonial-grid, .pricing-grid {
-                grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
-            }
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .features-grid { grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-            header {
-                display: none;
-            }
-            .mobile-header {
-                display: flex;
-            }
-            .hero {
-                padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 24px);
-                min-height: auto;
-            }
-            .hero-content {
-                box-shadow: none;
-                padding: 16px;
-            }
-            .features, .pricing {
-                padding: 0 clamp(16px, 4vw, 24px);
-            }
-            .testimonials {
-                padding: 48px clamp(16px, 4vw, 24px);
-            }
-            .footer-content {
-                display: none;
-            }
-            .footer-mobile-nav {
-                display: block;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                gap: 16px;
-            }
-            .footer-bottom-left, .social-icons, .footer-powered {
-                flex: none;
-                width: 100%;
-            }
+            header { display: none; }
+            .mobile-header { display: flex; }
+            .main-content { padding: 24px clamp(16px, 4vw, 24px); }
+            .footer-content { display: none; }
+            .footer-mobile-nav { display: block; }
+            .footer-bottom { flex-direction: column; gap: 16px; }
+            .footer-bottom-left, .social-icons, .footer-powered { flex: none; width: 100%; }
         }
         @media (max-width: 480px) {
-            .hero {
-                padding: clamp(32px, 8vw, 40px) clamp(12px, 4vw, 16px);
-            }
-            .hero .cta-buttons {
-                flex-direction: column;
-                gap: 12px;
-            }
-            .features, .pricing {
-                padding: 0 clamp(12px, 4vw, 16px);
-            }
-            .testimonials {
-                padding: 32px clamp(12px, 4vw, 16px);
-            }
-            .feature-grid, .testimonial-grid, .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-            .footer-subscription form {
-                flex-direction: column;
-            }
+            .main-content { padding: 16px clamp(12px, 4vw, 16px); }
+            .features-grid { grid-template-columns: 1fr; }
+            .feature-card { flex-direction: column; gap: 12px; }
+            .footer-subscription form { flex-direction: column; }
         }
     </style>
 </head>
@@ -789,6 +481,7 @@
                 <a href="categories.html">Categories</a>
                 <a href="top-creators.html">Top Creators</a>
                 <a href="learnmore.html">Learn More</a>
+                <a href="signup.html">Sign Up</a>
             </nav>
         </div>
     </header>
@@ -796,7 +489,7 @@
     <!-- Mobile Menu -->
     <nav class="mobile-menu">
         <ul>
-            <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
+            <li><a href="index.html"><span class="icon">🏠</span>Home</a></li>
             <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
             <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
             <li><a href="categories.html"><span class="icon">📚</span>Categories</a></li>
@@ -824,101 +517,60 @@
         </ul>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="hero">
-        <div class="hero-content">
-            <h1>Unleash Your Creativity with Cloudy ☁️</h1>
-            <p>The Pi-powered platform that combines productivity, commerce, and collaboration for creators and teams.</p>
-            <div class="cta-buttons">
-                <button onclick="window.location.href='sign.html'">Get Started</button>
-                <button class="secondary-btn" onclick="window.location.href='learnmore.html'">Learn More</button>
-                <button onclick="window.location.href='explore-more.html'">Explore More ☁️</button>
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="section">
+            <h1>How to Sell on Cloudy</h1>
+            <p>Unlock your earning potential with Cloudy’s powerful tools. Sell your digital creations and grow your audience effortlessly.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="icon">📦</span>
+                    <div>
+                        <h3>List Products</h3>
+                        <p>Upload digital goods like eBooks, templates, or music in minutes.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">💰</span>
+                    <div>
+                        <h3>Pi Payments</h3>
+                        <p>Accept fast, low-cost payments with Pi Network, no middleman.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🎟️</span>
+                    <div>
+                        <h3>Memberships</h3>
+                        <p>Offer exclusive content or perks with subscription tiers.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">📊</span>
+                    <div>
+                        <h3>Analytics</h3>
+                        <p>Track sales, audience growth, and performance with ease.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">📧</span>
+                    <div>
+                        <h3>Email Marketing</h3>
+                        <p>Engage your buyers with built-in email tools.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🌐</span>
+                    <div>
+                        <h3>Custom Pages</h3>
+                        <p>Create a branded storefront to showcase your work.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+            <a href="dashboard.html" class="sell-button">Start Selling Now</a>
+        </section>
+    </main>
 
-    <!-- Features Section -->
-    <div class="features" id="features">
-        <h2 class="section-title">Why Choose Cloudy?</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h3>Workspace Tools</h3>
-                <p>Create notes, manage tasks, and build databases like Notion, all in one place.</p>
-            </div>
-            <div class="feature-card">
-                <h3>Sell Digital Goods</h3>
-                <p>List and sell products, offer memberships, and use Pi for fast, low-cost transactions.</p>
-            </div>
-            <div class="feature-card">
-                <h3>Analytics Dashboard</h3>
-                <p>Track sales, subscribers, and performance with Gumroad-inspired insights.</p>
-            </div>
-            <div class="feature-card">
-                <h3>Collaboration</h3>
-                <p>Work with your team in real-time, share workspaces, and stay organized.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Testimonials Section -->
-    <div class="testimonials">
-        <h2 class="section-title">What Creators Say</h2>
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <p>"Cloudy transformed how I manage my projects and sell my eBooks. The Pi payments are a game-changer!"</p>
-                <span class="author">Jane D., Author</span>
-            </div>
-            <div class="testimonial-card">
-                <p>"The workspace tools are as good as Notion, and the sales features beat anything else I’ve tried."</p>
-                <span class="author">Mike R., Designer</span>
-            </div>
-            <div class="testimonial-card">
-                <p>"I love the analytics and how easy it is to connect with my audience. Highly recommend!"</p>
-                <span class="author">Sara K., Musician</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pricing Section -->
-    <div class="pricing" id="pricing">
-        <h2 class="section-title">Simple Pricing with Pi</h2>
-        <div class="pricing-grid">
-            <div class="pricing-card">
-                <h3>Free</h3>
-                <div class="price">0 Pi</div>
-                <ul>
-                    <li>Basic Workspace</li>
-                    <li>1 Product Listing</li>
-                    <li>Limited Analytics</li>
-                </ul>
-                <button onclick="window.location.href='sign.html'">Start Free</button>
-            </div>
-            <div class="pricing-card">
-                <h3>Creator</h3>
-                <div class="price">5 Pi/mo</div>
-                <ul>
-                    <li>Full Workspace Tools</li>
-                    <li>Unlimited Products</li>
-                    <li>Advanced Analytics</li>
-                    <li>Email Marketing</li>
-                </ul>
-                <button onclick="window.location.href='sign.html'">Get Started</button>
-            </div>
-            <div class="pricing-card">
-                <h3>Team</h3>
-                <div class="price">15 Pi/mo</div>
-                <ul>
-                    <li>All Creator Features</li>
-                    <li>Team Collaboration</li>
-                    <li>Priority Support</li>
-                    <li>Custom Domains</li>
-                </ul>
-                <button onclick="window.location.href='sign.html'">Get Started</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
+    <!-- Full Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -961,7 +613,7 @@
         </div>
         <div class="footer-mobile-nav">
             <ul>
-                <li><a href="home.html" class="active"><span class="icon">🏠</span>Home</a></li>
+                <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
                 <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
                 <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
                 <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
@@ -971,7 +623,7 @@
         <div class="footer-subscription">
             <h4>Subscribe to Our Newsletter ☁️</h4>
             <form>
-                <input type="email" placeholder="Enter your email" required>
+                <input type="email" placeholder="Enter your email" required aria-label="Email for newsletter">
                 <button type="submit">Subscribe</button>
             </form>
         </div>
@@ -1030,23 +682,51 @@
             });
         });
 
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target) && mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                hamburger.textContent = '☰';
+                hamburger.setAttribute('aria-expanded', false);
+            }
+        });
+
         // Scroll reveal animations
-        const observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    obs.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.05, rootMargin: '20px' });
 
-        document.querySelectorAll('.section-title, .feature-card, .testimonial-card, .pricing-card, .footer-section').forEach(el => observer.observe(el));
+        document.querySelectorAll('.section, .footer-section').forEach(el => observer.observe(el));
 
-        // Mobile nav active state
+        // Highlight active nav link
+        const currentPage = 'sell.html';
+        document.querySelectorAll('header nav a, .mobile-menu a, .footer-mobile-nav a, .footer-section a').forEach(link => {
+            if (link.getAttribute('href') === currentPage) link.classList.add('active');
+        });
+
+        // Footer mobile nav active state
         document.querySelectorAll('.footer-mobile-nav a').forEach(link => {
             link.addEventListener('click', () => {
                 document.querySelectorAll('.footer-mobile-nav a').forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
             });
+        });
+
+        // Subscription form validation
+        const subForm = document.querySelector('.footer-subscription form');
+        subForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = subForm.querySelector('input[type="email"]').value;
+            if (/^\S+@\S+\.\S+$/.test(email)) {
+                alert('Thank you for subscribing!');
+                subForm.reset();
+            } else {
+                alert('Please enter a valid email address.');
+            }
         });
     </script>
 </body>
