@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore More - Cloudy</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <!-- Font Awesome CDN for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            background: #f7f7f7;
+            color: #2d2d2d;
+            line-height: 1.5;
+            font-size: clamp(14px, 1.8vw, 15px);
+            overflow-x: hidden;
+        }
+
+        /* Desktop Header */
+        header {
+            background: #fff;
+            padding: 16px 32px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1f2937;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        .logo::before {
+            content: "☁️";
+            margin-right: 8px;
+            font-size: 22px;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        .logo:hover::before {
+            transform: translateY(-2px);
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        nav a {
+            color: #4b5563;
+            text-decoration: none;
+            margin: 8px clamp(12px, 2vw, 16px) 8px 0;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        nav a:hover {
+            background: #f5f6ff;
+            color: #6366f1;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            background: #fff;
+            padding: clamp(10px, 3vw, 12px) clamp(12px, 4vw, 16px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .mobile-header .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+        }
+        .mobile-header .logo::before {
+            content: "☁️";
+            margin-right: 6px;
+            font-size: 20px;
+        }
+        .hamburger {
+            font-size: 20px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hamburger:hover {
+            background: #f5f6ff;
+            color: #1f2937;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-height: 100vh;
+            background: #fff;
+            padding: 60px 16px;
+            z-index: 999;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s ease;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        .mobile-menu.open {
+            display: block;
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .mobile-menu ul {
+            list-style: none;
+        }
+        .mobile-menu li {
+            margin: 8px 0;
+        }
+        .mobile-menu a, .mobile-menu span {
+            color: #374151;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+        .mobile-menu a:hover {
+            background: #f5f6ff;
+        }
+        .mobile-menu .icon {
+            margin-right: 12px;
+            font-size: 16px;
+            width: 16px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .explore-main {
+            max-width: 1280px;
+            margin: 64px auto;
+            padding: 0 clamp(16px, 5vw, 32px);
+        }
+        .explore-main h1 {
+            font-size: clamp(26px, 5vw, 32px);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+        .explore-main h1::after {
+            content: " ☁️";
+            font-size: 28px;
+        }
+        .explore-section {
+            margin-bottom: 48px;
+        }
+        .explore-section h2 {
+            font-size: clamp(20px, 3vw, 24px);
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: 24px;
+        }
+        .explore-card {
+            background: #fff;
+            padding: clamp(16px, 3vw, 24px);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        .explore-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+        .explore-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+        .explore-card p {
+            font-size: 13px;
+            font-weight: 400;
+            color: #6b7280;
+            margin-bottom: 16px;
+        }
+        .explore-card a {
+            color: #6366f1;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .explore-card a:hover {
+            color: #4f46e5;
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: #fff;
+            color: #6b7280;
+            padding: 48px clamp(16px, 5vw, 32px);
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+            gap: 32px;
+        }
+        .footer-section h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+        .footer-section ul {
+            list-style: none;
+        }
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+        .footer-section a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            display: block;
+            padding: 6px 0;
+            border-radius: 4px;
+        }
+        .footer-section a:hover {
+            color: #6366f1;
+            background: #f5f6ff;
+        }
+
+        /* Mobile Bottom Navigation */
+        .footer-mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            text-align: center;
+        }
+        .footer-mobile-nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            list-style: none;
+        }
+        .footer-mobile-nav li {
+            flex: 1;
+        }
+        .footer-mobile-nav a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 8px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .footer-mobile-nav a:hover, .footer-mobile-nav a.active {
+            color: #6366f1;
+            background: #f5f6ff;
+        }
+        .footer-mobile-nav .icon {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        /* Footer Bottom */
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 32px auto 0;
+            font-size: 13px;
+            font-weight: 400;
+            color: #6b7280;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            text-align: center;
+        }
+        .footer-bottom-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+        .footer-bottom-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .footer-bottom-links a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .footer-bottom-links a:hover {
+            color: #6366f1;
+            background: #f5f6ff;
+        }
+        .footer-app-name {
+            font-weight: 600;
+            color: #6366f1;
+        }
+        .social-icons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex: 1;
+        }
+        .social-icons a {
+            color: #6b7280;
+            font-size: clamp(16px, 2.5vw, 18px);
+            transition: all 0.3s ease;
+            padding: 8px;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+        .social-icons a:hover {
+            color: #6366f1;
+            background: #f5f6ff;
+            transform: scale(1.1);
+        }
+        .footer-powered {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .header-container, .explore-main {
+                padding: 0 clamp(16px, 4vw, 24px);
+            }
+            .explore-grid {
+                grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+            }
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            header {
+                display: none;
+            }
+            .mobile-header {
+                display: flex;
+            }
+            .explore-main {
+                padding: 0 clamp(16px, 4vw, 24px);
+            }
+            .footer-content {
+                display: none;
+            }
+            .footer-mobile-nav {
+                display: block;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .footer-bottom-left, .social-icons, .footer-powered {
+                flex: none;
+                width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            .explore-main {
+                padding: 0 clamp(12px, 4vw, 16px);
+            }
+            .explore-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <div class="logo">Cloudy</div>
+        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    </header>
+
+    <!-- Desktop Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">Cloudy</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="categories.html">Categories</a>
+                <a href="top-creators.html">Top Creators</a>
+                <a href="learnmore.html">Learn More</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu">
+        <ul>
+            <li><a href="index.html"><span class="icon">🏠</span>Home</a></li>
+            <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
+            <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
+            <li><a href="categories.html"><span class="icon">📚</span>Categories</a></li>
+            <li><a href="top-creators.html"><span class="icon">🌟</span>Top Creators</a></li>
+            <li><a href="learnmore.html"><span class="icon">ℹ️</span>Learn More</a></li>
+            <li><a href="explore-more.html"><span class="icon">🔍</span>Explore More</a></li>
+            <li><a href="product.html"><span class="icon">📦</span>Product</a></li>
+            <li><a href="ai.html"><span class="icon">🤖</span>AI</a></li>
+            <li><a href="docs.html"><span class="icon">📜</span>Docs</a></li>
+            <li><a href="wikis.html"><span class="icon">📖</span>Wikis</a></li>
+            <li><a href="projects.html"><span class="icon">📋</span>Projects</a></li>
+            <li><a href="calendar.html"><span class="icon">📅</span>Calendar</a></li>
+            <li><a href="sites.html"><span class="icon">🌐</span>Sites</a></li>
+            <li><a href="mail.html"><span class="icon">✉️</span>Mail</a></li>
+            <li><a href="forms.html"><span class="icon">📝</span>Forms</a></li>
+            <li><a href="charts.html"><span class="icon">📊</span>Charts</a></li>
+            <li><a href="automations.html"><span class="icon">⚙️</span>Automations</a></li>
+            <li><a href="marketplace.html"><span class="icon">🛒</span>Marketplace</a></li>
+            <li><a href="whats-new.html"><span class="icon">🆕</span>What's New</a></li>
+            <li><a href="teams.html"><span class="icon">👥</span>Teams</a></li>
+            <li><a href="engineering.html"><span class="icon">🔧</span>Engineering</a></li>
+            <li><a href="enterprise.html"><span class="icon">🏢</span>Enterprise</a></li>
+            <li><a href="managers.html"><span class="icon">👩‍💼</span>Managers</a></li>
+            <li><a href="small-business.html"><span class="icon">🏪</span>Small Business</a></li>
+            <li><a href="education.html"><span class="icon">🎓</span>Education</a></li>
+            <li><a href="design.html"><span class="icon">🎨</span>Design</a></li>
+            <li><a href="start-ups.html"><span class="icon">🚀</span>Start-ups</a></li>
+            <li><a href="non-profits.html"><span class="icon">🤝</span>Non-profits</a></li>
+            <li><a href="individuals.html"><span class="icon">👤</span>Individuals</a></li>
+            <li><a href="personal.html"><span class="icon">🏡</span>Personal</a></li>
+            <li><a href="students.html"><span class="icon">🎒</span>Students</a></li>
+            <li><a href="creators.html"><span class="icon">✍️</span>Creators</a></li>
+            <li><a href="download.html"><span class="icon">⬇️</span>Download</a></li>
+            <li><a href="ios-android.html"><span class="icon">📱</span>iOS & Android</a></li>
+            <li><a href="mac-windows.html"><span class="icon">💻</span>Mac & Windows</a></li>
+            <li><a href="web-clipper.html"><span class="icon">✂️</span>Web Clipper</a></li>
+            <li><a href="request-demo.html"><span class="icon">📞</span>Request a Demo</a></li>
+            <li><a href="help-center.html"><span class="icon">❓</span>Help Center</a></li>
+            <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            <li><a href="sign.html"><span class="icon">🚪</span>Sign Out</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Explore Content -->
+    <main class="explore-main">
+        <h1>Explore More with Cloudy</h1>
+        
+        <section class="explore-section">
+            <h2>Products</h2>
+            <div class="explore-grid">
+                <div class="explore-card">
+                    <h3>Product</h3>
+                    <p>Discover the core of Cloudy’s all-in-one platform.</p>
+                    <a href="product.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>AI</h3>
+                    <p>Boost productivity with AI-powered tools.</p>
+                    <a href="ai.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Docs</h3>
+                    <p>Create and share documents effortlessly.</p>
+                    <a href="docs.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Wikis</h3>
+                    <p>Build knowledge bases for your team.</p>
+                    <a href="wikis.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Projects</h3>
+                    <p>Manage tasks and timelines in one place.</p>
+                    <a href="projects.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Calendar</h3>
+                    <p>Stay organized with a synced calendar.</p>
+                    <a href="calendar.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Sites</h3>
+                    <p>Build simple, beautiful websites.</p>
+                    <a href="sites.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Mail</h3>
+                    <p>Manage emails within Cloudy.</p>
+                    <a href="mail.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Forms</h3>
+                    <p>Collect data with custom forms.</p>
+                    <a href="forms.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Charts</h3>
+                    <p>Visualize data with dynamic charts.</p>
+                    <a href="charts.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Automations</h3>
+                    <p>Streamline workflows with automation.</p>
+                    <a href="automations.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Marketplace</h3>
+                    <p>Buy and sell digital goods with Pi.</p>
+                    <a href="marketplace.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>What's New</h3>
+                    <p>Check out the latest Cloudy updates.</p>
+                    <a href="whats-new.html">Learn More</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="explore-section">
+            <h2>Teams</h2>
+            <div class="explore-grid">
+                <div class="explore-card">
+                    <h3>Teams</h3>
+                    <p>Collaborate seamlessly with your team.</p>
+                    <a href="teams.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Engineering</h3>
+                    <p>Tools tailored for engineering teams.</p>
+                    <a href="engineering.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Enterprise</h3>
+                    <p>Scalable solutions for large organizations.</p>
+                    <a href="enterprise.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Managers</h3>
+                    <p>Simplify management and oversight.</p>
+                    <a href="managers.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Small Business</h3>
+                    <p>Grow your business with Cloudy.</p>
+                    <a href="small-business.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Education</h3>
+                    <p>Tools for educators and institutions.</p>
+                    <a href="education.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Design</h3>
+                    <p>Collaborate on design projects.</p>
+                    <a href="design.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Start-ups</h3>
+                    <p>Fuel your start-up’s growth.</p>
+                    <a href="start-ups.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Non-profits</h3>
+                    <p>Support your mission with Cloudy.</p>
+                    <a href="non-profits.html">Learn More</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="explore-section">
+            <h2>Individuals</h2>
+            <div class="explore-grid">
+                <div class="explore-card">
+                    <h3>Individuals</h3>
+                    <p>Boost personal productivity.</p>
+                    <a href="individuals.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Personal</h3>
+                    <p>Organize your life with Cloudy.</p>
+                    <a href="personal.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Students</h3>
+                    <p>Study smarter with tailored tools.</p>
+                    <a href="students.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Creators</h3>
+                    <p>Unleash your creativity.</p>
+                    <a href="creators.html">Learn More</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="explore-section">
+            <h2>Download</h2>
+            <div class="explore-grid">
+                <div class="explore-card">
+                    <h3>Download</h3>
+                    <p>Get Cloudy on any device.</p>
+                    <a href="download.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>iOS & Android</h3>
+                    <p>Take Cloudy on the go.</p>
+                    <a href="ios-android.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Mac & Windows</h3>
+                    <p>Desktop apps for seamless work.</p>
+                    <a href="mac-windows.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Web Clipper</h3>
+                    <p>Save web content to Cloudy.</p>
+                    <a href="web-clipper.html">Learn More</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="explore-section">
+            <h2>Learn</h2>
+            <div class="explore-grid">
+                <div class="explore-card">
+                    <h3>Request a Demo</h3>
+                    <p>See Cloudy in action.</p>
+                    <a href="request-demo.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Hire a Solutions Partner</h3>
+                    <p>Get expert help with Cloudy.</p>
+                    <a href="hire-partner.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Help Center</h3>
+                    <p>Find answers and support.</p>
+                    <a href="help-center.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Guides & Tutorials</h3>
+                    <p>Master Cloudy with step-by-step guides.</p>
+                    <a href="guides-tutorials.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Notion Academy</h3>
+                    <p>Learn advanced Cloudy skills.</p>
+                    <a href="notion-academy.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Customer Stories</h3>
+                    <p>Hear from Cloudy users.</p>
+                    <a href="customer-stories.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Webinars</h3>
+                    <p>Join live sessions with experts.</p>
+                    <a href="webinars.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Blog</h3>
+                    <p>Stay updated with Cloudy insights.</p>
+                    <a href="blog.html">Learn More</a>
+                </div>
+                <div class="explore-card">
+                    <h3>Community</h3>
+                    <p>Connect with other Cloudy users.</p>
+                    <a href="community.html">Learn More</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="explore-more.html">Explore More</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="top-creators.html">Top Creators</a></li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li><a href="discover.html">Discover</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Create</h4>
+                <ul>
+                    <li><a href="workspace-tools.html">Workspace Tools</a></li>
+                    <li><a href="sell.html">Sell Your Work</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="our-story.html">Our Story</a></li>
+                    <li><a href="pi-payments.html">Pi Payments</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="whitepaper.html">Whitepaper</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="help-center.html">Help Center</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="email-subscribers.html">Email Subscribers</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-mobile-nav">
+            <ul>
+                <li><a href="index.html"><span class="icon">🏠</span>Home</a></li>
+                <li><a href="product.html" class="active"><span class="icon">📦</span>Product</a></li>
+                <li><a href="docs.html"><span class="icon">📜</span>Docs</a></li>
+                <li><a href="marketplace.html"><span class="icon">🛒</span>Marketplace</a></li>
+                <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            </ul>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-left">
+                <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
+                <span>We do not sell or share your personal information.</span>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="cookie-settings.html">Cookie Settings</a>
+                    <a href="whitepaper.html">Whitepaper</a>
+                    <a href="docs.html">Docs</a>
+                    <a href="security.html">Security</a>
+                    <a href="notice.html">Notices</a>
+                </div>
+            </div>
+            <div class="social-icons">
+                <a href="https://facebook.com/cloudy" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/cloudy" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://instagram.com/cloudy" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://telegram.org/cloudy" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="https://discord.com/cloudy" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+            <span class="footer-powered">Powered by Pi Network</span>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle with debounce
+        let isToggling = false;
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            if (isToggling) return;
+            isToggling = true;
+            mobileMenu.classList.toggle('open');
+            const isOpen = mobileMenu.classList.contains('open');
+            hamburger.textContent = isOpen ? '✕' : '☰';
+            hamburger.setAttribute('aria-expanded', isOpen);
+            setTimeout(() => { isToggling = false; }, 300);
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                hamburger.textContent = '☰';
+                hamburger.setAttribute('aria-expanded', false);
+            });
+        });
+
+        // Mobile nav active state
+        document.querySelectorAll('.footer-mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelectorAll('.footer-mobile-nav a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
