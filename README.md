@@ -1,4 +1,5 @@
-# ☁️ Cloudy.xyz
+# ☁️ Cloudypi.xyz
+
 
 **Cloudy.xyz** is a decentralized digital product marketplace built exclusively for the **Pi Network** community.  
 It enables creators to upload, showcase, and sell digital goods — such as templates, design assets, eBooks, and tools — with payments powered 100% by Pi.
