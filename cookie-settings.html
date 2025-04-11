@@ -309,6 +309,76 @@
             background: #4f46e5;
         }
 
+        /* Cookie Notice */
+        .cookie-notice {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            animation: slideUp 0.5s ease forwards;
+        }
+        .cookie-notice.show {
+            display: flex;
+        }
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100%); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        .cookie-notice p {
+            font-size: 14px;
+            color: #6b7280;
+            margin: 0;
+        }
+        .cookie-notice a {
+            color: #6366f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .cookie-notice a:hover {
+            color: #4f46e5;
+        }
+        .cookie-notice-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+        .cookie-notice button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .cookie-notice .accept-all {
+            background: #6366f1;
+            color: #fff;
+            border: none;
+        }
+        .cookie-notice .accept-all:hover {
+            background: #4f46e5;
+        }
+        .cookie-notice .customize {
+            background: #fff;
+            color: #6366f1;
+            border: 1px solid #6366f1;
+        }
+        .cookie-notice .customize:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
         /* Footer */
         footer {
             background: #fff;
@@ -523,6 +593,17 @@
             .save-button {
                 width: 100%;
             }
+            .cookie-notice {
+                width: 95%;
+                padding: 16px;
+            }
+            .cookie-notice-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .cookie-notice button {
+                width: 100%;
+            }
             .footer-subscription input[type="email"] {
                 width: 100%;
             }
@@ -639,6 +720,15 @@
         </div>
     </div>
 
+    <!-- Cookie Notice -->
+    <div class="cookie-notice" id="cookie-notice">
+        <p>We use cookies to improve your experience on Cloudy. By continuing, you agree to our use of cookies as described in our <a href="privacy.html">Privacy Policy</a>.</p>
+        <div class="cookie-notice-buttons">
+            <button class="customize" onclick="window.location.href='cookie-settings.html'">Customize</button>
+            <button class="accept-all" id="accept-all">Accept All</button>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <div class="footer-content">
@@ -738,12 +828,10 @@
         // Mobile menu toggle
         const hamburger = document.querySelector('.hamburger');
         const mobileMenu = document.querySelector('.mobile-menu');
-
         hamburger.addEventListener('click', () => {
             mobileMenu.classList.toggle('open');
             hamburger.textContent = mobileMenu.classList.contains('open') ? '✕' : '☰';
         });
-
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('open');
@@ -760,19 +848,41 @@
                 }
             });
         }, { threshold: 0.1 });
-
         revealElements.forEach(el => observer.observe(el));
 
-        // Save button functionality (placeholder)
+        // Cookie Notice Logic
+        const cookieNotice = document.getElementById('cookie-notice');
+        const acceptAllButton = document.getElementById('accept-all');
+
+        // Check if user has already accepted cookies
+        if (!localStorage.getItem('cookiesAccepted')) {
+            cookieNotice.classList.add('show');
+        }
+
+        // Accept All button functionality
+        acceptAllButton.addEventListener('click', () => {
+            localStorage.setItem('cookiesAccepted', 'true');
+            document.querySelectorAll('.toggle-switch input:not(:disabled)').forEach(input => {
+                input.checked = true;
+            });
+            cookieNotice.classList.remove('show');
+            console.log('All cookies accepted');
+            // Add actual cookie-setting logic here
+        });
+
+        // Save Preferences button functionality
         document.querySelector('.save-button').addEventListener('click', () => {
             const preferences = {
                 analytics: document.querySelector('input[type="checkbox"]:nth-of-type(1)').checked,
                 personalization: document.querySelector('input[type="checkbox"]:nth-of-type(2)').checked,
                 marketing: document.querySelector('input[type="checkbox"]:nth-of-type(3)').checked
             };
+            localStorage.setItem('cookiesAccepted', 'true');
+            localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+            cookieNotice.classList.remove('show');
             console.log('Cookie Preferences Saved:', preferences);
             alert('Your cookie preferences have been saved!');
-            // Add actual save logic here (e.g., localStorage or API call)
+            // Add actual cookie-setting logic here
         });
     </script>
 </body>
