@@ -393,6 +393,23 @@
             flex-wrap: wrap;
             gap: 24px;
         }
+        .footer-bottom-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .footer-bottom-links {
+            display: flex;
+            gap: 16px;
+        }
+        .footer-bottom-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-bottom-links a:hover {
+            color: #6366f1;
+        }
         .footer-app-name {
             font-weight: 700;
             color: #6366f1;
@@ -646,7 +663,15 @@
             </form>
         </div>
         <div class="footer-bottom">
-            <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
+            <div class="footer-bottom-left">
+                <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
+                <span>We do not sell or share your personal information.</span>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="cookie-settings.html">Cookie Settings</a>
+                </div>
+            </div>
             <div class="social-icons">
                 <a href="https://facebook.com/cloudy" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                 <a href="https://twitter.com/cloudy" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
