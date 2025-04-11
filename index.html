@@ -70,7 +70,21 @@
             margin: 8px 24px 8px 0;
             font-size: 14px;
             font-weight: 500;
+            position: relative;
             transition: color 0.3s;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: #6366f1;
+            transition: width 0.3s ease;
+        }
+        nav a:hover::after {
+            width: 100%;
         }
         nav a:hover {
             color: #6366f1;
@@ -196,7 +210,7 @@
             flex-wrap: wrap;
         }
         .hero button {
-            background: #6366f1;
+            background: #6366f1; /* Reverted to default violet */
             color: #fff;
             border: none;
             padding: 12px 28px;
@@ -207,13 +221,13 @@
             transition: all 0.3s ease;
         }
         .hero button:hover {
-            background: #4f46e5;
+            background: #4f46e5; /* Reverted to default hover */
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
         .hero .secondary-btn {
             background: #fff;
-            color: #6366f1;
+            color: #6366f1; /* Reverted to default violet */
             border: 1px solid #6366f1;
         }
         .hero .secondary-btn:hover {
@@ -388,7 +402,7 @@
             margin-bottom: 12px;
         }
         .pricing-card button {
-            background: #6366f1;
+            background: #6366f1; /* Reverted to default violet */
             color: #fff;
             border: none;
             padding: 12px 24px;
@@ -398,7 +412,7 @@
             transition: all 0.3s ease;
         }
         .pricing-card button:hover {
-            background: #4f46e5;
+            background: #4f46e5; /* Reverted to default hover */
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
@@ -517,7 +531,7 @@
             border-color: #6366f1;
         }
         .footer-subscription button {
-            background: #6366f1;
+            background: #6366f1; /* Reverted to default violet */
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -528,7 +542,7 @@
             transition: background 0.3s;
         }
         .footer-subscription button:hover {
-            background: #4f46e5;
+            background: #4f46e5; /* Reverted to default hover */
         }
 
         /* Footer Bottom with Social Icons */
@@ -542,6 +556,23 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 24px;
+        }
+        .footer-bottom-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .footer-bottom-links {
+            display: flex;
+            gap: 16px;
+        }
+        .footer-bottom-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-bottom-links a:hover {
+            color: #6366f1;
         }
         .footer-app-name {
             font-weight: 700;
@@ -619,9 +650,6 @@
             .feature-grid, .testimonial-grid, .pricing-grid {
                 grid-template-columns: 1fr;
             }
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
             .footer-subscription input[type="email"] {
                 width: 100%;
             }
@@ -636,21 +664,7 @@
     </style>
 </head>
 <body>
-    <!-- Desktop Header -->
-    <header>
-        <div class="header-container">
-            <div class="logo">Cloudy</div>
-            <nav>
-                <a href="features.html">Features</a>
-                <a href="pricing.html">Pricing</a>
-                <a href="categories.html">Categories</a>
-                <a href="top-creators.html">Top Creators</a>
-                <a href="sign.html">Sign In</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Mobile Header -->
+     <!-- Mobile Header -->
     <header class="mobile-header">
         <div class="logo">Cloudy</div>
         <button class="hamburger">☰</button>
@@ -678,6 +692,13 @@
             <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
             <li><a href="dashboard.html"><span class="icon">📊</span>Dashboard</a></li>
             <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            <li><a href="whitepaper.html"><span class="icon">📄</span>Whitepaper</a></li>
+            <li><a href="docs.html"><span class="icon">📜</span>Docs</a></li>
+            <li><a href="security.html"><span class="icon">🔒</span>Security</a></li>
+            <li><a href="notice.html"><span class="icon">📢</span>Notices</a></li>
+            <li><a href="privacy.html"><span class="icon">🛡️</span>Privacy Policy</a></li>
+            <li><a href="terms.html"><span class="icon">📝</span>Terms of Service</a></li>
+            <li><a href="cookie-settings.html"><span class="icon">🍪</span>Cookie Settings</a></li>
             <li><span class="user-info" id="user-name"><span class="icon">🙋</span>Welcome, [User]</span></li>
             <li><a href="sign.html"><span class="icon">🚪</span>Sign Out</a></li>
         </ul>
@@ -804,6 +825,8 @@
                     <li><a href="pi-payments.html">Pi Payments</a></li>
                     <li><a href="team.html">Team</a></li>
                     <li><a href="community.html">Community</a></li>
+                    <li><a href="whitepaper.html">Whitepaper</a></li>
+                    <li><a href="docs.html">Docs</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -813,28 +836,39 @@
                     <li><a href="contact-us.html">Contact Us</a></li>
                     <li><a href="email-subscribers.html">Email Subscribers</a></li>
                     <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="security.html">Security</a></li>
+                    <li><a href="notice.html">Notices</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-mobile-horizontal">
             <ul>
                 <li><a href="home.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
                 <li><a href="categories.html">Categories</a></li>
                 <li><a href="top-creators.html">Top Creators</a></li>
-                <li><a href="new-releases.html">New Releases</a></li>
-                <li><a href="discover.html">Discover</a></li>
+                <li><a href="learnmore.html">Learn More</a></li>
                 <li><a href="workspace-tools.html">Workspace Tools</a></li>
                 <li><a href="sell.html">Sell Your Work</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="profile.html">Profile</a></li>
                 <li><a href="our-story.html">Our Story</a></li>
                 <li><a href="pi-payments.html">Pi Payments</a></li>
-                <li><a href="team.html">Team</a></li>
-                <li><a href="community.html">Community</a></li>
                 <li><a href="help-center.html">Help Center</a></li>
                 <li><a href="contact-us.html">Contact Us</a></li>
                 <li><a href="email-subscribers.html">Email Subscribers</a></li>
-                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="new-releases.html">New Releases</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="discover.html">Discover</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="whitepaper.html">Whitepaper</a></li>
+                <li><a href="docs.html">Docs</a></li>
+                <li><a href="security.html">Security</a></li>
+                <li><a href="notice.html">Notices</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+                <li><a href="cookie-settings.html">Cookie Settings</a></li>
             </ul>
         </div>
         <div class="footer-subscription">
@@ -845,7 +879,19 @@
             </form>
         </div>
         <div class="footer-bottom">
-            <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
+            <div class="footer-bottom-left">
+                <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
+                <span>We do not sell or share your personal information.</span>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="cookie-settings.html">Cookie Settings</a>
+                    <a href="whitepaper.html">Whitepaper</a>
+                    <a href="docs.html">Docs</a>
+                    <a href="security.html">Security</a>
+                    <a href="notice.html">Notices</a>
+                </div>
+            </div>
             <div class="social-icons">
                 <a href="https://facebook.com/cloudy" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                 <a href="https://twitter.com/cloudy" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
