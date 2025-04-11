@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudy - Affiliate Program with Pi Payments</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f7f7f7;
+            color: #2d2d2d;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+        header {
+            background: #fff;
+            padding: 16px 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .logo::before { content: "☁️"; margin-right: 8px; }
+        nav a {
+            color: #4b5563;
+            text-decoration: none;
+            margin-left: 16px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+        nav a:hover { background: #f5f6ff; color: #6366f1; }
+        .container {
+            max-width: 1280px;
+            margin: 64px auto;
+            padding: 0 32px;
+        }
+        .section {
+            background: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 32px;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        p, li {
+            color: #6b7280;
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+        ul, ol { list-style: none; }
+        .faq-item {
+            margin-bottom: 24px;
+        }
+        .faq-item strong {
+            color: #374151;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .feedback-item {
+            border-left: 4px solid #6366f1;
+            padding-left: 16px;
+            margin-bottom: 16px;
+        }
+        .cta-button {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .cta-button:hover {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            transform: translateY(-2px);
+        }
+        .pi-logo {
+            color: #6366f1;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .section { padding: 24px; }
+            h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Cloudy</div>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="affiliates.html">Affiliates</a>
+                <a href="affiliates-pi.html">Pi Affiliates</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h1>Join the Cloudy Pi Affiliate Program</h1>
+            <p>Earn 50% commission on the first year of subscription fees for new Cloudy paid plan users you refer—and get paid in <span class="pi-logo">Pi</span> cryptocurrency! Leverage Pi Network’s 60M+ users to monetize your audience effortlessly.</p>
+            <a href="#apply" class="cta-button">Apply Now</a>
+        </div>
+
+        <div class="section">
+            <h2>Who Can Apply?</h2>
+            <p>We welcome:</p>
+            <ul>
+                <li>Content creators, bloggers, and influencers in productivity or crypto niches.</li>
+                <li>Pi Network enthusiasts with engaged communities.</li>
+                <li>Educators, developers, or anyone excited about Cloudy and Pi payments.</li>
+                <li>No minimum audience size—just a passion for promotion. Applications reviewed for alignment.</li>
+            </ul>
+            <p>Global program launched April 2025. Join from anywhere!</p>
+        </div>
+
+        <div class="section">
+            <h2>How It Works</h2>
+            <ol>
+                <li><strong>Apply</strong>: Submit your details via our portal, including your Pi wallet address.</li>
+                <li><strong>Get Your Link</strong>: Receive a unique affiliate link after approval.</li>
+                <li><strong>Promote</strong>: Share via social media, blogs, or Cloudy templates. Use our Pi-focused resources.</li>
+                <li><strong>Earn in Pi</strong>: Get 50% of first-year fees (e.g., 48 Pi for Plus at $8/month) paid monthly to your Pi wallet.</li>
+                <li><strong>Track</strong>: Monitor performance via our dashboard, synced with Pi Network.</li>
+            </ol>
+            <p><strong>Cookie Window</strong>: 180 days, last-click attribution.</p>
+        </div>
+
+        <div class="section">
+            <h2>Why Pi Payments?</h2>
+            <p>Cloudy partners with Pi Network to offer:</p>
+            <ul>
+                <li><strong>Fast Payouts</strong>: Instant transfers to your Pi wallet, no bank delays.</li>
+                <li><strong>Low Fees</strong>: Minimal transaction costs compared to PayPal or bank transfers.</li>
+                <li><strong>Crypto Rewards</strong>: Earn in Pi, a growing cryptocurrency with real-world utility.</li>
+                <li><strong>Global Reach</strong>: Accessible to 60M+ Pi users across 155+ countries.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>User Feedback</h2>
+            <div class="feedback-item">
+                <p>“Earning Pi with Cloudy is a game-changer! Made 200 Pi in a month sharing templates.” – <em>Alex P., Pi Miner</em></p>
+            </div>
+            <div class="feedback-item">
+                <p>“Love the instant Pi payouts—no waiting like with PayPal. Super easy to promote!” – <em>Lina K., Blogger</em></p>
+            </div>
+            <div class="feedback-item">
+                <p>“Approval took a day, and I wish more upgraded from free plans, but Pi rewards are solid.” – <em>Ravi S., Influencer</em></p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>FAQ</h2>
+            <div class="faq-item">
+                <strong>Who can apply?</strong>
+                <p>Creators, influencers, or Pi fans passionate about Cloudy. No audience minimum, reviewed for fit.</p>
+            </div>
+            <div class="faq-item">
+                <strong>Do I need a paid Cloudy account?</strong>
+                <p>No, it’s free to join, no subscription required.</p>
+            </div>
+            <div class="faq-item">
+                <strong>How much Pi can I earn?</strong>
+                <p>50% of first-year fees—e.g., 48 Pi for Plus ($8/month) or 90 Pi for Business ($15/month), based on Pi’s value at payout.</p>
+            </div>
+            <div class="faq-item">
+                <strong>How does Pi payment work?</strong>
+                <p>Commissions convert to Pi and transfer monthly to your Pi wallet (min 5 Pi payout).</p>
+            </div>
+            <div class="faq-item">
+                <strong>What’s the cookie window?</strong>
+                <p>180 days. Credit applies if they upgrade within 6 months.</p>
+            </div>
+            <div class="faq-item">
+                <strong>Can I self-refer?</strong>
+                <p>No, self-referrals are prohibited.</p>
+            </div>
+            <div class="faq-item">
+                <strong>What resources are provided?</strong>
+                <p>Pi-specific guides, templates, and promo assets in our Affiliate Kit.</p>
+            </div>
+        </div>
+
+        <div class="section" id="apply">
+            <h2>Get Started with Pi Earnings</h2>
+            <p>Turn your Cloudy passion into Pi rewards. Apply now!</p>
+            <a href="#" class="cta-button" onclick="alert('Pi Affiliate application coming soon! Link your Pi wallet to join.')">Apply Now</a>
+        </div>
+    </div>
+</body>
+</html>
