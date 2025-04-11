@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Shop unique digital products, Notion templates, and creative tools on Cloudy Marketplace.">
-    <title>Cloudy Marketplace</title>
+    <title>Cloudy Marketplace - Discover Digital Creations</title>
     <!-- Google Fonts: Inter -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-    <!-- Font Awesome CDN for icons -->
+    <!-- Font Awesome CDN for social icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         * {
@@ -29,6 +28,7 @@
         header {
             background: #fff;
             padding: 16px 32px;
+            border-bottom: none;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -55,6 +55,7 @@
             content: "☁️";
             margin-right: 8px;
             font-size: 22px;
+            display: inline-block;
             transition: transform 0.3s ease;
         }
         .logo:hover {
@@ -144,6 +145,7 @@
             opacity: 0;
             transition: visibility 0.3s, opacity 0.3s ease;
             overflow-y: auto;
+            box-sizing: border-box;
         }
         .mobile-menu.open {
             display: block;
@@ -157,7 +159,7 @@
         .mobile-menu li {
             margin: 8px 0;
         }
-        .mobile-menu a {
+        .mobile-menu a, .mobile-menu span {
             color: #374151;
             text-decoration: none;
             font-size: 15px;
@@ -180,104 +182,157 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #6366f1 0%, #a5b4fc 100%);
-            color: #fff;
+            padding: clamp(40px, 10vw, 80px) clamp(16px, 5vw, 32px);
             text-align: center;
-            padding: 64px clamp(16px, 5vw, 32px);
-            margin-bottom: 48px;
+            background: linear-gradient(to bottom, #f5f6ff, #fff);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
         .hero h1 {
-            font-size: clamp(28px, 5vw, 36px);
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        .hero h1::after {
-            content: " ☁️";
-            font-size: 32px;
-        }
-        .hero p {
-            font-size: clamp(16px, 2vw, 18px);
-            margin-bottom: 24px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .hero .cta {
-            display: inline-block;
-            background: #fff;
-            color: #6366f1;
+            font-size: clamp(26px, 5vw, 32px);
             font-weight: 600;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: transform 0.2s ease;
-        }
-        .hero .cta:hover {
-            transform: scale(1.05);
-        }
-
-        /* Main Marketplace Content */
-        .marketplace-main {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 clamp(16px, 5vw, 32px);
-        }
-        .marketplace-section {
-            margin-bottom: 48px;
-        }
-        .marketplace-section h2 {
-            font-size: clamp(20px, 3vw, 24px);
-            font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             color: #1f2937;
             line-height: 1.3;
             letter-spacing: -0.01em;
         }
-        .marketplace-grid {
+        .hero p {
+            font-size: clamp(14px, 2.5vw, 16px);
+            font-weight: 400;
+            color: #6b7280;
+            margin-bottom: 32px;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero .cta-buttons {
+            display: flex;
+            gap: clamp(12px, 3vw, 16px);
+            justify-content: center;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+        }
+        @media (min-width: 480px) {
+            .hero .cta-buttons {
+                flex-direction: row;
+            }
+        }
+        .hero button {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            border: none;
+            padding: clamp(10px, 2vw, 12px) clamp(20px, 5vw, 28px);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 160px;
+            min-height: 44px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .hero button:hover {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        .hero .secondary-btn {
+            background: #fff;
+            color: #6366f1;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .hero .secondary-btn:hover {
+            background: #f5f6ff;
+            color: #4f46e5;
+            border-color: #6366f1;
+            transform: translateY(-2px);
+        }
+
+        /* Marketplace Sections */
+        .marketplace-section {
+            max-width: 1280px;
+            margin: 64px auto;
+            padding: 0 clamp(16px, 5vw, 32px);
+        }
+        .marketplace-section h2 {
+            font-size: clamp(22px, 3.5vw, 26px);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 32px;
+            color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .marketplace-section h2.visible {
+            opacity: 1;
+        }
+        .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
             gap: 24px;
         }
-        .marketplace-card {
+        .feature-card {
             background: #fff;
             padding: clamp(16px, 3vw, 24px);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
-            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
-        .marketplace-card:hover {
+        .feature-card.visible {
+            opacity: 1;
+        }
+        .feature-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         }
-        .marketplace-card img {
+        .feature-card img {
             max-width: 100%;
             border-radius: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             aspect-ratio: 16 / 9;
             object-fit: cover;
         }
-        .marketplace-card h3 {
+        .feature-card h3 {
             font-size: 16px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             color: #1f2937;
             line-height: 1.3;
             letter-spacing: -0.01em;
         }
-        .marketplace-card p {
+        .feature-card p {
             font-size: 13px;
             font-weight: 400;
             color: #6b7280;
             margin-bottom: 12px;
         }
-        .marketplace-card .price {
+        .feature-card .price {
             font-size: 14px;
             font-weight: 500;
             color: #6366f1;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
-        .marketplace-card a {
+        .feature-card a {
             display: inline-block;
             background: #6366f1;
             color: #fff;
@@ -288,7 +343,7 @@
             text-decoration: none;
             transition: background 0.2s ease;
         }
-        .marketplace-card a:hover {
+        .feature-card a:hover {
             background: #4f46e5;
         }
 
@@ -297,6 +352,7 @@
             background: #fff;
             color: #6b7280;
             padding: 48px clamp(16px, 5vw, 32px);
+            border-top: none;
             box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
         }
         .footer-content {
@@ -305,6 +361,13 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
             gap: 32px;
+        }
+        .footer-section {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .footer-section.visible {
+            opacity: 1;
         }
         .footer-section h4 {
             font-size: 15px;
@@ -334,6 +397,116 @@
             color: #6366f1;
             background: #f5f6ff;
         }
+
+        /* Mobile Bottom Navigation */
+        .footer-mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            text-align: center;
+        }
+        .footer-mobile-nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            list-style: none;
+        }
+        .footer-mobile-nav li {
+            flex: 1;
+        }
+        .footer-mobile-nav a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 8px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .footer-mobile-nav a:hover, .footer-mobile-nav a.active {
+            color: #6366f1;
+            background: #f5f6ff;
+        }
+        .footer-mobile-nav .icon {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        /* Subscription Form */
+        .footer-subscription {
+            max-width: 1280px;
+            margin: 32px auto 0;
+            padding: 24px;
+            background: #f7f7f7;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .footer-subscription h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+        .footer-subscription form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+        @media (min-width: 480px) {
+            .footer-subscription form {
+                flex-direction: row;
+            }
+        }
+        .footer-subscription input[type="email"] {
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 400;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            width: min(100%, 280px);
+            outline: none;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .footer-subscription input[type="email"]:focus {
+            border-color: #6366f1;
+            box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
+        }
+        .footer-subscription button {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .footer-subscription button:hover {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Footer Bottom */
         .footer-bottom {
             max-width: 1280px;
             margin: 32px auto 0;
@@ -408,10 +581,16 @@
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .header-container, .marketplace-main {
+            .header-container, .marketplace-section {
                 padding: 0 clamp(16px, 4vw, 24px);
             }
-            .marketplace-grid {
+            .hero {
+                padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 24px);
+            }
+            .hero-content {
+                padding: 24px;
+            }
+            .feature-grid {
                 grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
             }
             .footer-content {
@@ -425,44 +604,53 @@
             .mobile-header {
                 display: flex;
             }
-            .marketplace-main {
+            .hero {
+                padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 24px);
+                min-height: auto;
+            }
+            .hero-content {
+                box-shadow: none;
+                padding: 16px;
+            }
+            .marketplace-section {
                 padding: 0 clamp(16px, 4vw, 24px);
             }
-            .hero {
-                padding: 48px clamp(16px, 4vw, 24px);
-            }
             .footer-content {
-                grid-template-columns: 1fr;
+                display: none;
+            }
+            .footer-mobile-nav {
+                display: block;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .footer-bottom-left, .social-icons, .footer-powered {
+                flex: none;
+                width: 100%;
             }
         }
         @media (max-width: 480px) {
-            .marketplace-main {
+            .hero {
+                padding: clamp(32px, 8vw, 40px) clamp(12px, 4vw, 16px);
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .marketplace-section {
                 padding: 0 clamp(12px, 4vw, 16px);
             }
-            .marketplace-grid {
+            .feature-grid {
                 grid-template-columns: 1fr;
             }
-        }
-
-        /* Skip Link */
-        .skip-link {
-            position: absolute;
-            top: -999px;
-            left: -999px;
-            background: #fff;
-            padding: 8px;
-            z-index: 10000;
-        }
-        .skip-link:focus {
-            top: 10px;
-            left: 10px;
+            .footer-subscription form {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Skip Link for Accessibility -->
-    <a href="#main-content" class="skip-link">Skip to content</a>
-
     <!-- Mobile Header -->
     <header class="mobile-header">
         <div class="logo">Cloudy</div>
@@ -473,190 +661,188 @@
     <header>
         <div class="header-container">
             <div class="logo">Cloudy</div>
-            <nav aria-label="Main navigation">
+            <nav>
                 <a href="home.html">Home</a>
                 <a href="marketplace.html">Marketplace</a>
                 <a href="sell.html">Sell</a>
+                <a href="categories.html">Categories</a>
+                <a href="top-creators.html">Top Creators</a>
                 <a href="learnmore.html">Learn More</a>
-                <a href="community.html">Community</a>
             </nav>
         </div>
     </header>
 
     <!-- Mobile Menu -->
-    <nav class="mobile-menu" aria-label="Mobile navigation">
+    <nav class="mobile-menu">
         <ul>
             <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
             <li><a href="marketplace.html"><span class="icon">🛒</span>Marketplace</a></li>
             <li><a href="sell.html"><span class="icon">💸</span>Sell</a></li>
+            <li><a href="categories.html"><span class="icon">📚</span>Categories</a></li>
+            <li><a href="top-creators.html"><span class="icon">🌟</span>Top Creators</a></li>
             <li><a href="learnmore.html"><span class="icon">ℹ️</span>Learn More</a></li>
-            <li><a href="community.html"><span class="icon">👥</span>Community</a></li>
+            <li><a href="explore-more.html"><span class="icon">🔍</span>Explore More</a></li>
+            <li><a href="workspace-tools.html"><span class="icon">🛠️</span>Workspace Tools</a></li>
+            <li><a href="our-story.html"><span class="icon">📖</span>Our Story</a></li>
+            <li><a href="pi-payments.html"><span class="icon">π</span>Pi Payments</a></li>
+            <li><a href="email-subscribers.html"><span class="icon">✉️</span>Email Subscribers</a></li>
+            <li><a href="new-releases.html"><span class="icon">🆕</span>New Releases</a></li>
+            <li><a href="team.html"><span class="icon">👥</span>Team</a></li>
+            <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
+            <li><a href="dashboard.html"><span class="icon">📊</span>Dashboard</a></li>
+            <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            <li><a href="whitepaper.html"><span class="icon">📄</span>Whitepaper</a></li>
+            <li><a href="security.html"><span class="icon">🔒</span>Security</a></li>
+            <li><a href="notice.html"><span class="icon">📢</span>Notices</a></li>
+            <li><a href="privacy.html"><span class="icon">🛡️</span>Privacy Policy</a></li>
+            <li><a href="terms.html"><span class="icon">📝</span>Terms of Service</a></li>
+            <li><a href="cookie-settings.html"><span class="icon">🍪</span>Cookie Settings</a></li>
+            <li><span class="user-info" id="user-name"><span class="icon">🙋</span>Welcome, [User]</span></li>
+            <li><a href="sign.html"><span class="icon">🚪</span>Sign Out</a></li>
         </ul>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Cloudy Marketplace</h1>
-        <p>Browse a world of digital creativity—Notion templates, art, ebooks, and more from independent creators.</p>
-        <a href="#featured-products" class="cta">Explore Now</a>
+        <div class="hero-content">
+            <h1>Cloudy Marketplace ☁️</h1>
+            <p>Discover digital treasures—templates, art, tools, and more from creators worldwide.</p>
+            <div class="cta-buttons">
+                <button onclick="window.location.href='#featured-products'">Start Shopping</button>
+                <button class="secondary-btn" onclick="window.location.href='sell.html'">Sell Your Work</button>
+            </div>
+        </div>
     </section>
 
-    <!-- Main Marketplace Content -->
-    <main id="main-content" class="marketplace-main">
-        <section id="featured-products" class="marketplace-section">
-            <h2>Featured Products</h2>
-            <div class="marketplace-grid">
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Notion Ultimate Planner template">
-                    <h3>Notion Ultimate Planner</h3>
-                    <p>A complete system for tasks, goals, and habits.</p>
-                    <div class="price">$24.99</div>
-                    <a href="product.html">Buy Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Watercolor Art Bundle">
-                    <h3>Watercolor Art Bundle</h3>
-                    <p>50 high-quality digital illustrations.</p>
-                    <div class="price">$19.99</div>
-                    <a href="product.html">Buy Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Freelancer’s Ebook">
-                    <h3>Freelancer’s Ebook</h3>
-                    <p>Guide to building a successful freelance career.</p>
-                    <div class="price">$14.99</div>
-                    <a href="product.html">Buy Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Notion Team Hub">
-                    <h3>Notion Team Hub</h3>
-                    <p>Collaborative workspace for small teams.</p>
-                    <div class="price">$29.99</div>
-                    <a href="product.html">Buy Now</a>
-                </div>
+    <!-- Main Marketplace Content (Index Style) -->
+    <section id="featured-products" class="marketplace-section">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/280x160" alt="Notion Ultimate Planner template">
+                <h3>Notion Ultimate Planner</h3>
+                <p>A complete system for tasks and goals.</p>
+                <div class="price">$24.99</div>
+                <a href="product.html">Buy Now</a>
             </div>
-        </section>
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/280x160" alt="Watercolor Art Bundle">
+                <h3>Watercolor Art Bundle</h3>
+                <p>50 high-quality digital illustrations.</p>
+                <div class="price">$19.99</div>
+                <a href="product.html">Buy Now</a>
+            </div>
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/280x160" alt="Freelancer’s Ebook">
+                <h3>Freelancer’s Ebook</h3>
+                <p>Guide to a successful freelance career.</p>
+                <div class="price">$14.99</div>
+                <a href="product.html">Buy Now</a>
+            </div>
+        </div>
+    </section>
 
-        <section class="marketplace-section">
-            <h2>Explore Categories</h2>
-            <div class="marketplace-grid">
-                <div class="marketplace-card">
-                    <h3>Notion Templates</h3>
-                    <p>Planners, trackers, and dashboards for productivity.</p>
-                    <a href="categories.html#notion">Shop Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <h3>Digital Art</h3>
-                    <p>Illustrations, graphics, and printables.</p>
-                    <a href="categories.html#art">Shop Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <h3>Ebooks & Guides</h3>
-                    <p>Expert knowledge in digital format.</p>
-                    <a href="categories.html#ebooks">Shop Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <h3>Creative Tools</h3>
-                    <p>Fonts, presets, and design assets.</p>
-                    <a href="categories.html#tools">Shop Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <h3>Music & Audio</h3>
-                    <p>Royalty-free tracks and sound effects.</p>
-                    <a href="categories.html#music">Shop Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <h3>Printables</h3>
-                    <p>Planners, wall art, and DIY projects.</p>
-                    <a href="categories.html#printables">Shop Now</a>
-                </div>
+    <section class="marketplace-section">
+        <h2 class="section-title">Popular Categories</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Notion Templates</h3>
+                <p>Boost productivity with custom layouts.</p>
+                <a href="categories.html#notion">Explore</a>
             </div>
-        </section>
+            <div class="feature-card">
+                <h3>Digital Art</h3>
+                <p>Unique graphics and illustrations.</p>
+                <a href="categories.html#art">Explore</a>
+            </div>
+            <div class="feature-card">
+                <h3>Ebooks & Guides</h3>
+                <p>Knowledge from top creators.</p>
+                <a href="categories.html#ebooks">Explore</a>
+            </div>
+        </div>
+    </section>
 
-        <section class="marketplace-section">
-            <h2>Top Creators</h2>
-            <div class="marketplace-grid">
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Creator Jane Doe profile">
-                    <h3>Jane Doe</h3>
-                    <p>Notion expert with 50+ templates sold.</p>
-                    <a href="creator.html#jane-doe">View Profile</a>
-                </div>
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Creator Alex Smith profile">
-                    <h3>Alex Smith</h3>
-                    <p>Digital artist specializing in watercolor.</p>
-                    <a href="creator.html#alex-smith">View Profile</a>
-                </div>
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Creator Sam Lee profile">
-                    <h3>Sam Lee</h3>
-                    <p>Author of best-selling ebooks.</p>
-                    <a href="creator.html#sam-lee">View Profile</a>
-                </div>
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Creator Riley Kim profile">
-                    <h3>Riley Kim</h3>
-                    <p>Creator of unique design tools.</p>
-                    <a href="creator.html#riley-kim">View Profile</a>
-                </div>
+    <section class="marketplace-section">
+        <h2 class="section-title">Top Creators</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/280x160" alt="Creator Jane Doe profile">
+                <h3>Jane Doe</h3>
+                <p>Notion expert with 50+ templates.</p>
+                <a href="creator.html#jane-doe">View Profile</a>
             </div>
-        </section>
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/280x160" alt="Creator Alex Smith profile">
+                <h3>Alex Smith</h3>
+                <p>Digital artist specializing in watercolor.</p>
+                <a href="creator.html#alex-smith">View Profile</a>
+            </div>
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/280x160" alt="Creator Sam Lee profile">
+                <h3>Sam Lee</h3>
+                <p>Author of best-selling ebooks.</p>
+                <a href="creator.html#sam-lee">View Profile</a>
+            </div>
+        </div>
+    </section>
 
-        <section class="marketplace-section">
-            <h2>New Releases</h2>
-            <div class="marketplace-grid">
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Notion Student Organizer template">
-                    <h3>Notion Student Organizer</h3>
-                    <p>Perfect for managing classes and assignments.</p>
-                    <div class="price">$12.99</div>
-                    <a href="product.html">Buy Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Minimalist Font Pack">
-                    <h3>Minimalist Font Pack</h3>
-                    <p>10 sleek fonts for modern design.</p>
-                    <div class="price">$9.99</div>
-                    <a href="product.html">Buy Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Mindfulness Audio Pack">
-                    <h3>Mindfulness Audio Pack</h3>
-                    <p>Relaxing tracks for focus and calm.</p>
-                    <div class="price">$15.99</div>
-                    <a href="product.html">Buy Now</a>
-                </div>
-                <div class="marketplace-card">
-                    <img src="https://via.placeholder.com/280x160" alt="Printable Wall Art Set">
-                    <h3>Printable Wall Art Set</h3>
-                    <p>5 modern designs for your space.</p>
-                    <div class="price">$7.99</div>
-                    <a href="product.html">Buy Now</a>
-                </div>
+    <section class="marketplace-section">
+        <h2 class="section-title">New Releases</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/280x160" alt="Notion Student Organizer template">
+                <h3>Notion Student Organizer</h3>
+                <p>Manage classes and assignments.</p>
+                <div class="price">$12.99</div>
+                <a href="product.html">Buy Now</a>
             </div>
-        </section>
-    </main>
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/280x160" alt="Minimalist Font Pack">
+                <h3>Minimalist Font Pack</h3>
+                <p>10 sleek fonts for design.</p>
+                <div class="price">$9.99</div>
+                <a href="product.html">Buy Now</a>
+            </div>
+            <div class="feature-card">
+                <img src="https://via.placeholder.com/280x160" alt="Printable Wall Art Set">
+                <h3>Printable Wall Art Set</h3>
+                <p>5 modern designs for your space.</p>
+                <div class="price">$7.99</div>
+                <a href="product.html">Buy Now</a>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Marketplace</h4>
+                <h4>Explore more ☁️</h4>
                 <ul>
-                    <li><a href="marketplace.html">Browse All</a></li>
+                    <li><a href="explore-more.html">Explore More</a></li>
                     <li><a href="categories.html">Categories</a></li>
                     <li><a href="top-creators.html">Top Creators</a></li>
                     <li><a href="new-releases.html">New Releases</a></li>
+                    <li><a href="discover.html">Discover</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Creators</h4>
+                <h4>Create</h4>
                 <ul>
-                    <li><a href="sell.html">Sell on Cloudy</a></li>
-                    <li><a href="dashboard.html">Creator Dashboard</a></li>
-                    <li><a href="marketplace-tips.html">Marketplace Tips</a></li>
+                    <li><a href="workspace-tools.html">Workspace Tools</a></li>
+                    <li><a href="sell.html">Sell Your Work</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="our-story.html">Our Story</a></li>
                     <li><a href="pi-payments.html">Pi Payments</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="whitepaper.html">Whitepaper</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -664,19 +850,26 @@
                 <ul>
                     <li><a href="help-center.html">Help Center</a></li>
                     <li><a href="contact-us.html">Contact Us</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="community.html">Community</a></li>
+                    <li><a href="email-subscribers.html">Email Subscribers</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
                 </ul>
             </div>
-            <div class="footer-section">
-                <h4>About</h4>
-                <ul>
-                    <li><a href="our-story.html">Our Story</a></li>
-                    <li><a href="team.html">Team</a></li>
-                    <li><a href="whitepaper.html">Whitepaper</a></li>
-                    <li><a href="security.html">Security</a></li>
-                </ul>
-            </div>
+        </div>
+        <div class="footer-mobile-nav">
+            <ul>
+                <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
+                <li><a href="marketplace.html" class="active"><span class="icon">🛒</span>Marketplace</a></li>
+                <li><a href="sell.html"><span class="icon">💸</span>Sell</a></li>
+                <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
+                <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            </ul>
+        </div>
+        <div class="footer-subscription">
+            <h4>Subscribe to Our Newsletter ☁️</h4>
+            <form>
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
         </div>
         <div class="footer-bottom">
             <div class="footer-bottom-left">
@@ -686,7 +879,10 @@
                     <a href="privacy.html">Privacy Policy</a>
                     <a href="terms.html">Terms of Service</a>
                     <a href="cookie-settings.html">Cookie Settings</a>
+                    <a href="whitepaper.html">Whitepaper</a>
+                    <a href="docs.html">Docs</a>
                     <a href="security.html">Security</a>
+                    <a href="notice.html">Notices</a>
                 </div>
             </div>
             <div class="social-icons">
@@ -696,25 +892,30 @@
                 <a href="https://telegram.org/cloudy" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
                 <a href="https://discord.com/cloudy" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
             </div>
-            <span class="footer-powered">Powered by <a href="pi-network.html">Pi Network</a></span>
+            <span class="footer-powered">Powered by Pi Network</span>
         </div>
     </footer>
 
     <script>
-        // Mobile menu toggle with focus management
+        // Header shadow on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 0);
+        });
+
+        // Mobile menu toggle with debounce
+        let isToggling = false;
         const hamburger = document.querySelector('.hamburger');
         const mobileMenu = document.querySelector('.mobile-menu');
-        const focusableElements = mobileMenu.querySelectorAll('a');
-        const firstFocusable = focusableElements[0];
-        const lastFocusable = focusableElements[focusableElements.length - 1];
 
         hamburger.addEventListener('click', () => {
-            const isOpen = mobileMenu.classList.toggle('open');
+            if (isToggling) return;
+            isToggling = true;
+            mobileMenu.classList.toggle('open');
+            const isOpen = mobileMenu.classList.contains('open');
             hamburger.textContent = isOpen ? '✕' : '☰';
             hamburger.setAttribute('aria-expanded', isOpen);
-            if (isOpen) {
-                firstFocusable.focus();
-            }
+            setTimeout(() => { isToggling = false; }, 300);
         });
 
         mobileMenu.querySelectorAll('a').forEach(link => {
@@ -725,17 +926,23 @@
             });
         });
 
-        // Focus trap for accessibility
-        mobileMenu.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab' && mobileMenu.classList.contains('open')) {
-                if (e.shiftKey && document.activeElement === firstFocusable) {
-                    e.preventDefault();
-                    lastFocusable.focus();
-                } else if (!e.shiftKey && document.activeElement === lastFocusable) {
-                    e.preventDefault();
-                    firstFocusable.focus();
+        // Scroll reveal animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
-            }
+            });
+        }, { threshold: 0.05, rootMargin: '20px' });
+
+        document.querySelectorAll('.section-title, .feature-card, .footer-section').forEach(el => observer.observe(el));
+
+        // Mobile nav active state
+        document.querySelectorAll('.footer-mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelectorAll('.footer-mobile-nav a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
         });
     </script>
 </body>
