@@ -3,33 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloudy - Pi Payments</title>
+    <title>Pi Payments - Cloudy</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        /* Inherit all styles from the main template */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #fafafa;
+            font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            background: #f7f7f7;
             color: #2d2d2d;
-            line-height: 1.6;
-            font-size: 16px;
+            line-height: 1.5;
+            font-size: clamp(14px, 1.8vw, 15px);
             overflow-x: hidden;
         }
-        /* Header */
+
+        /* Desktop Header */
         header {
             background: #fff;
             padding: 16px 32px;
-            border-bottom: 1px solid #e5e5e5;
+            border-bottom: none;
             position: sticky;
             top: 0;
             z-index: 1000;
-            transition: box-shadow 0.3s;
-        }
-        header.scrolled {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         .header-container {
             max-width: 1280px;
@@ -40,37 +44,156 @@
             flex-wrap: wrap;
         }
         .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2d2d2d;
-            transition: transform 0.3s;
+            font-size: 22px;
+            font-weight: 600;
+            color: #1f2937;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        .logo::before {
+            content: "☁️";
+            margin-right: 8px;
+            font-size: 22px;
+            display: inline-block;
+            transition: transform 0.3s ease;
         }
         .logo:hover {
             transform: scale(1.05);
+        }
+        .logo:hover::before {
+            transform: translateY(-2px);
         }
         nav {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
+            gap: 12px;
         }
         nav a {
             color: #4b5563;
             text-decoration: none;
-            margin: 8px 24px 8px 0;
-            font-size: 14px;
+            margin: 8px clamp(12px, 2vw, 16px) 8px 0;
+            font-size: 13px;
             font-weight: 500;
-            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease, color 0.2s ease;
         }
         nav a:hover {
+            background: #f5f6ff;
             color: #6366f1;
+        }
+        nav a.active {
+            background: #f5f6ff;
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            background: #fff;
+            padding: clamp(10px, 3vw, 12px) clamp(12px, 4vw, 16px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .mobile-header .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+        }
+        .mobile-header .logo::before {
+            content: "☁️";
+            margin-right: 6px;
+            font-size: 20px;
+        }
+        .hamburger {
+            font-size: 20px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hamburger:hover {
+            background: #f5f6ff;
+            color: #1f2937;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-height: 100vh;
+            background: #fff;
+            padding: 60px 16px;
+            z-index: 999;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s ease;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        .mobile-menu.open {
+            display: block;
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .mobile-menu ul {
+            list-style: none;
+        }
+        .mobile-menu li {
+            margin: 8px 0;
+        }
+        .mobile-menu a, .mobile-menu span {
+            color: #374151;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+        .mobile-menu a:hover {
+            background: #f5f6ff;
+        }
+        .mobile-menu .icon {
+            margin-right: 12px;
+            font-size: 16px;
+            width: 16px;
+            text-align: center;
         }
 
         /* Hero Section */
         .hero {
-            padding: 80px 32px;
+            padding: clamp(40px, 10vw, 80px) clamp(16px, 5vw, 32px);
             text-align: center;
-            background: #fff;
-            border-bottom: 1px solid #e5e5e5;
+            background: linear-gradient(to bottom, #f5f6ff, #fff);
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
             opacity: 0;
             animation: fadeIn 1s ease forwards;
         }
@@ -80,190 +203,455 @@
         .hero-content {
             max-width: 900px;
             margin: 0 auto;
+            background: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
         .hero h1 {
-            font-size: clamp(32px, 5vw, 40px);
+            font-size: clamp(32px, 6vw, 40px);
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             color: #1f2937;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
         }
         .hero p {
-            font-size: clamp(16px, 3vw, 18px);
+            font-size: clamp(16px, 2.5vw, 18px);
+            font-weight: 400;
             color: #6b7280;
             margin-bottom: 32px;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
         }
         .hero button {
-            background: #6366f1;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: #fff;
             border: none;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: clamp(10px, 2vw, 12px) clamp(20px, 5vw, 28px);
+            border-radius: 6px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
+            min-width: 160px;
+            min-height: 44px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
         .hero button:hover {
-            background: #4f46e5;
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
-        /* Pi Payments Section */
-        .pi-payments {
+        /* Features Section */
+        .features {
             max-width: 1280px;
             margin: 64px auto;
-            padding: 0 32px;
+            padding: 0 clamp(16px, 5vw, 32px);
         }
         .section-title {
-            font-size: clamp(28px, 4vw, 32px);
+            font-size: clamp(22px, 3.5vw, 26px);
             font-weight: 600;
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 32px;
             color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
+            transition: opacity 0.5s ease;
         }
         .section-title.visible {
             opacity: 1;
-            transform: translateY(0);
         }
-        .payment-grid {
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: 24px;
         }
-        .payment-card {
+        .feature-card {
             background: #fff;
-            padding: 24px;
-            border: 1px solid #e5e5e5;
+            padding: clamp(16px, 3vw, 24px);
             border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             opacity: 0;
-            transform: translateY(30px);
+            transition: opacity 0.5s ease;
         }
-        .payment-card.visible {
+        .feature-card.visible {
             opacity: 1;
-            transform: translateY(0);
         }
-        .payment-card:hover {
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        .feature-card:hover {
             transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         }
-        .payment-card .icon {
-            width: 50px;
-            height: 50px;
-            background: #f3f4f6;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            font-size: 24px;
-        }
-        .payment-card h3 {
-            font-size: 20px;
+        .feature-card h3 {
+            font-size: 16px;
             font-weight: 600;
             margin-bottom: 12px;
             color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
         }
-        .payment-card p {
-            font-size: 14px;
+        .feature-card p {
+            font-size: 13px;
+            font-weight: 400;
             color: #6b7280;
+        }
+
+        /* Developer Section */
+        .developer {
+            background: #f7f7f7;
+            padding: 64px clamp(16px, 5vw, 32px);
+            text-align: center;
+        }
+        .developer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .developer p {
+            font-size: clamp(16px, 2.5vw, 18px);
+            font-weight: 400;
+            color: #6b7280;
+            margin-bottom: 32px;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .developer button {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            border: none;
+            padding: clamp(10px, 2vw, 12px) clamp(20px, 5vw, 28px);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 160px;
+            min-height: 44px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .developer button:hover {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
         /* Footer */
         footer {
             background: #fff;
             color: #6b7280;
-            padding: 48px 32px;
-            border-top: 1px solid #e5e5e5;
+            padding: 48px clamp(16px, 5vw, 32px);
+            border-top: none;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
         }
         .footer-content {
             max-width: 1280px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
             gap: 32px;
         }
         .footer-section {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
+            transition: opacity 0.5s ease;
         }
         .footer-section.visible {
             opacity: 1;
-            transform: translateY(0);
         }
         .footer-section h4 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             margin-bottom: 16px;
             color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
         }
         .footer-section ul {
             list-style: none;
         }
         .footer-section ul li {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         .footer-section a {
             color: #6b7280;
             text-decoration: none;
-            transition: color 0.3s;
+            font-size: 13px;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            display: block;
+            padding: 6px 0;
+            border-radius: 4px;
         }
         .footer-section a:hover {
             color: #6366f1;
+            background: #f5f6ff;
         }
-        .footer-bottom {
+
+        /* Mobile Bottom Navigation */
+        .footer-mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
             text-align: center;
-            padding-top: 32px;
-            font-size: 14px;
-            color: #9ca3af;
+        }
+        .footer-mobile-nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            list-style: none;
+        }
+        .footer-mobile-nav li {
+            flex: 1;
+        }
+        .footer-mobile-nav a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 8px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .footer-mobile-nav a:hover, .footer-mobile-nav a.active {
+            color: #6366f1;
+            background: #f5f6ff;
+        }
+        .footer-mobile-nav .icon {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        /* Subscription Form */
+        .footer-subscription {
+            max-width: 1280px;
+            margin: 32px auto 0;
+            padding: 24px;
+            background: #f7f7f7;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .footer-subscription h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+        .footer-subscription form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+        @media (min-width: 480px) {
+            .footer-subscription form {
+                flex-direction: row;
+            }
+        }
+        .footer-subscription input[type="email"] {
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 400;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            width: min(100%, 280px);
+            outline: none;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .footer-subscription input[type="email"]:focus {
+            border-color: #6366f1;
+            box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
+        }
+        .footer-subscription button {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .footer-subscription button:hover {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Footer Bottom */
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 32px auto 0;
+            font-size: 13px;
+            font-weight: 400;
+            color: #6b7280;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            text-align: center;
+        }
+        .footer-bottom-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+        .footer-bottom-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .footer-bottom-links a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .footer-bottom-links a:hover {
+            color: #6366f1;
+            background: #f5f6ff;
+        }
+        .footer-app-name {
+            font-weight: 600;
+            color: #6366f1;
+        }
+        .social-icons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex: 1;
+        }
+        .social-icons a {
+            color: #6b7280;
+            font-size: clamp(16px, 2.5vw, 18px);
+            transition: all 0.3s ease;
+            padding: 8px;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+        .social-icons a:hover {
+            color: #6366f1;
+            background: #f5f6ff;
+            transform: scale(1.1);
+        }
+        .footer-powered {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 400;
         }
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .header-container {
-                padding: 12px 24px;
+            .header-container, .features {
+                padding: 0 clamp(16px, 4vw, 24px);
             }
-            .payment-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            .hero {
+                padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 24px);
+            }
+            .hero-content {
+                padding: 24px;
+            }
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
             }
             .footer-content {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
         @media (max-width: 768px) {
-            .hero {
-                padding: 60px 24px;
+            header {
+                display: none;
             }
-            .pi-payments {
-                padding: 0 24px;
+            .mobile-header {
+                display: flex;
+            }
+            .hero {
+                padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 24px);
+                min-height: auto;
+            }
+            .hero-content {
+                box-shadow: none;
+                padding: 16px;
+            }
+            .features, .developer {
+                padding: 0 clamp(16px, 4vw, 24px);
+            }
+            .footer-content {
+                display: none;
+            }
+            .footer-mobile-nav {
+                display: block;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .footer-bottom-left, .social-icons, .footer-powered {
+                flex: none;
+                width: 100%;
             }
         }
         @media (max-width: 480px) {
             .hero {
-                padding: 40px 16px;
+                padding: clamp(32px, 8vw, 40px) clamp(12px, 4vw, 16px);
             }
-            .pi-payments {
-                padding: 0 16px;
+            .features, .developer {
+                padding: 0 clamp(12px, 4vw, 16px);
             }
-            .payment-grid {
+            .features-grid {
                 grid-template-columns: 1fr;
             }
-            .section-title {
-                font-size: 24px;
-            }
-            .footer-content {
-                grid-template-columns: 1fr;
+            .footer-subscription form {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <div class="logo">Cloudy</div>
+        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    </header>
+
+    <!-- Desktop Header -->
     <header>
         <div class="header-container">
             <div class="logo">Cloudy</div>
@@ -274,57 +662,84 @@
                 <a href="categories.html">Categories</a>
                 <a href="top-creators.html">Top Creators</a>
                 <a href="learnmore.html">Learn More</a>
-                <a href="workspace-tools.html">Workspace Tools</a>
-                <a href="sell.html">Sell Your Work</a>
-                <a href="our-story.html">Our Story</a>
-                <a href="sign.html">Sign In</a>
+                <a href="signup.html">Sign Up</a>
             </nav>
         </div>
     </header>
 
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu">
+        <ul>
+            <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
+            <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
+            <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
+            <li><a href="categories.html"><span class="icon">📚</span>Categories</a></li>
+            <li><a href="top-creators.html"><span class="icon">🌟</span>Top Creators</a></li>
+            <li><a href="learnmore.html"><span class="icon">ℹ️</span>Learn More</a></li>
+            <li><a href="signup.html"><span class="icon">🚀</span>Sign Up</a></li>
+            <li><a href="explore-more.html"><span class="icon">🔍</span>Explore More</a></li>
+            <li><a href="workspace-tools.html"><span class="icon">🛠️</span>Workspace Tools</a></li>
+            <li><a href="sell.html"><span class="icon">🛒</span>Sell Your Work</a></li>
+            <li><a href="our-story.html"><span class="icon">📖</span>Our Story</a></li>
+            <li><a href="pi-payments.html"><span class="icon">π</span>Pi Payments</a></li>
+            <li><a href="email-subscribers.html"><span class="icon">✉️</span>Email Subscribers</a></li>
+            <li><a href="new-releases.html"><span class="icon">🆕</span>New Releases</a></li>
+            <li><a href="team.html"><span class="icon">👥</span>Team</a></li>
+            <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
+            <li><a href="dashboard.html"><span class="icon">📊</span>Dashboard</a></li>
+            <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            <li><a href="whitepaper.html"><span class="icon">📄</span>Whitepaper</a></li>
+            <li><a href="security.html"><span class="icon">🔒</span>Security</a></li>
+            <li><a href="notice.html"><span class="icon">📢</span>Notices</a></li>
+            <li><a href="privacy.html"><span class="icon">🛡️</span>Privacy Policy</a></li>
+            <li><a href="terms.html"><span class="icon">📝</span>Terms of Service</a></li>
+            <li><a href="cookie-settings.html"><span class="icon">🍪</span>Cookie Settings</a></li>
+            <li><span class="user-info" id="user-name"><span class="icon">🙋</span>Welcome, [User]</span></li>
+            <li><a href="sign.html"><span class="icon">🚪</span>Sign Out</a></li>
+        </ul>
+    </nav>
+
     <!-- Hero Section -->
     <div class="hero">
         <div class="hero-content">
-            <h1>Pi Payments</h1>
-            <p>Fast, low-cost transactions powered by Pi Network for creators and buyers.</p>
-            <button onclick="window.location.href='sign.html'">Get Started</button>
+            <h1>Pi Payments on Cloudy</h1>
+            <p>Experience seamless transactions with Pi Network on Cloudy. Pay for services, support creators, or donate to our mission using Pi, the cryptocurrency designed for everyday use.</p>
+            <div class="buttons">
+                <button onclick="window.location.href='donation.html'">Donate with Pi</button>
+                <button onclick="window.location.href='developer-tools.html'">Build with Pi</button>
+            </div>
         </div>
     </div>
 
-    <!-- Pi Payments Section -->
-    <div class="pi-payments">
+    <!-- Features Section -->
+    <div class="features">
         <h2 class="section-title">Why Pi Payments?</h2>
-        <div class="payment-grid">
-            <div class="payment-card">
-                <div class="icon">⚡</div>
-                <h3>Lightning Fast</h3>
-                <p>Transactions process instantly, so buyers get access and sellers get paid without delay.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Secure Transactions</h3>
+                <p>Pi Network’s blockchain ensures every payment is secure, transparent, and verified, protecting both users and creators.</p>
             </div>
-            <div class="payment-card">
-                <div class="icon">💸</div>
-                <h3>Low Fees</h3>
-                <p>Keep more of your earnings with Pi’s minimal transaction costs compared to traditional methods.</p>
+            <div class="feature-card">
+                <h3>Support Creators</h3>
+                <p>Pay creators directly with Pi for their content, tools, or services, fostering a vibrant creative economy.</p>
             </div>
-            <div class="payment-card">
-                <div class="icon">🌍</div>
-                <h3>Global Reach</h3>
-                <p>Sell to anyone, anywhere, with Pi’s worldwide network of users.</p>
+            <div class="feature-card">
+                <h3>Instant Donations</h3>
+                <p>Donate Pi to Cloudy’s open-source projects, like TruthWeb, with zero fees and instant processing.</p>
             </div>
-            <div class="payment-card">
-                <div class="icon">🔒</div>
-                <h3>Secure</h3>
-                <p>Pi’s blockchain technology ensures safe, reliable payments you can trust.</p>
+            <div class="feature-card">
+                <h3>Global Access</h3>
+                <p>Use Pi anywhere in the world, making Cloudy accessible to Pioneers without traditional banking barriers.</p>
             </div>
-            <div class="payment-card">
-                <div class="icon">📱</div>
-                <h3>Mobile-Friendly</h3>
-                <p>Pay or get paid on the go with Pi’s seamless mobile integration.</p>
-            </div>
-            <div class="payment-card">
-                <div class="icon">🤝</div>
-                <h3>Community-Driven</h3>
-                <p>Join a growing ecosystem where creators and supporters connect through Pi.</p>
-            </div>
+        </div>
+    </div>
+
+    <!-- Developer Section -->
+    <div class="developer">
+        <h2 class="section-title">Integrate Pi Payments</h2>
+        <div class="developer-content">
+            <p>Developers can leverage Cloudy’s Pi Payment SDK to integrate seamless transactions into their apps. From monetizing content to accepting donations, our tools make Pi payments easy and secure.</p>
+            <button onclick="window.location.href='developer-tools.html'">Explore Developer Tools</button>
         </div>
     </div>
 
@@ -332,10 +747,13 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Explore</h4>
+                <h4>Explore more ☁️</h4>
                 <ul>
+                    <li><a href="explore-more.html">Explore More</a></li>
                     <li><a href="categories.html">Categories</a></li>
                     <li><a href="top-creators.html">Top Creators</a></li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li><a href="discover.html">Discover</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -343,6 +761,8 @@
                 <ul>
                     <li><a href="workspace-tools.html">Workspace Tools</a></li>
                     <li><a href="sell.html">Sell Your Work</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="profile.html">Profile</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -350,18 +770,58 @@
                 <ul>
                     <li><a href="our-story.html">Our Story</a></li>
                     <li><a href="pi-payments.html">Pi Payments</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="whitepaper.html">Whitepaper</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="help-center.html">Help Center</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="email-subscribers.html">Email Subscribers</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
                 </ul>
             </div>
         </div>
+        <div class="footer-mobile-nav">
+            <ul>
+                <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
+                <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
+                <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
+                <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
+                <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            </ul>
+        </div>
+        <div class="footer-subscription">
+            <h4>Subscribe to Our Newsletter ☁️</h4>
+            <form>
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
         <div class="footer-bottom">
-            © 2025 Cloudy. All rights reserved. Powered by Pi Network.
+            <div class="footer-bottom-left">
+                <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
+                <span>We do not sell or share your personal information.</span>
+                <div class="footer-bottom-links">
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="cookie-settings.html">Cookie Settings</a></li>
+                    <li><a href="whitepaper.html">Whitepaper</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="security.html">Security</a></li>
+                    <li><a href="notice.html">Notices</a></li>
+                </div>
+            </div>
+            <div class="social-icons">
+                <a href="https://facebook.com/cloudy" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/cloudy" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://instagram.com/cloudy" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://telegram.org/cloudy" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="https://discord.com/cloudy" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+            <span class="footer-powered">Powered by Pi Network</span>
         </div>
     </footer>
 
@@ -372,17 +832,55 @@
             header.classList.toggle('scrolled', window.scrollY > 0);
         });
 
+        // Mobile menu toggle with debounce
+        let isToggling = false;
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            if (isToggling) return;
+            isToggling = true;
+            mobileMenu.classList.toggle('open');
+            const isOpen = mobileMenu.classList.contains('open');
+            hamburger.textContent = isOpen ? '✕' : '☰';
+            hamburger.setAttribute('aria-expanded', isOpen);
+            setTimeout(() => { isToggling = false; }, 300);
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                hamburger.textContent = '☰';
+                hamburger.setAttribute('aria-expanded', false);
+            });
+        });
+
         // Scroll reveal animations
-        const revealElements = document.querySelectorAll('.section-title, .payment-card, .footer-section');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.05, rootMargin: '20px' });
 
-        revealElements.forEach(el => observer.observe(el));
+        document.querySelectorAll('.section-title, .feature-card, .footer-section').forEach(el => observer.observe(el));
+
+        // Highlight active nav link
+        const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+        document.querySelectorAll('header nav a, .footer-mobile-nav a').forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+
+        // Mobile nav active state
+        document.querySelectorAll('.footer-mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelectorAll('.footer-mobile-nav a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
