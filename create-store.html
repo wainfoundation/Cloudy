@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Store - Cloudy</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Cloudy styles (same as sell.html, store.html) */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f7f7f7;
+            color: #2d2d2d;
+            line-height: 1.5;
+            font-size: clamp(14px, 1.8vw, 15px);
+        }
+        header, .mobile-header, .mobile-menu {
+            /* Same as sell.html */
+            background: #fff;
+            padding: 16px 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        nav a {
+            color: #4b5563;
+            text-decoration: none;
+            margin: 8px 16px;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        nav a:hover { background: #f5f6ff; color: #6366f1; }
+        nav a.active { background: #f5f6ff; color: #6366f1; font-weight: 600; }
+        .mobile-header { display: none; }
+        .hamburger { font-size: 20px; background: none; border: none; cursor: pointer; }
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #fff;
+            padding: 60px 16px;
+            z-index: 999;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s ease;
+        }
+        .mobile-menu.open { display: block; visibility: visible; opacity: 1; }
+        .mobile-menu a { color: #374151; text-decoration: none; font-size: 15px; padding: 12px; display: block; }
+
+        /* Hero */
+        .hero {
+            padding: clamp(40px, 10vw, 80px) clamp(16px, 5vw, 32px);
+            text-align: center;
+            background: linear-gradient(to bottom, #e0e7ff, #fff);
+        }
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .hero h1 { font-size: clamp(32px, 6vw, 40px); color: #1f2937; }
+        .hero p { font-size: clamp(16px, 2.5vw, 18px); color: #6b7280; }
+
+        /* Store Builder */
+        .store-builder {
+            max-width: 1280px;
+            margin: 64px auto;
+            padding: 0 32px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 32px;
+        }
+        .sidebar {
+            background: #fff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .sidebar h3 { font-size: 18px; color: #1f2937; margin-bottom: 16px; }
+        .component {
+            background: #f7f7f7;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            cursor: move;
+            text-align: center;
+            font-size: 14px;
+            color: #4b5563;
+        }
+        .canvas {
+            background: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            min-height: 600px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .canvas-section {
+            border: 1px dashed #e5e7eb;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            min-height: 100px;
+        }
+        .canvas-section.dragging-over { border-color: #6366f1; background: #f5f6ff; }
+        .canvas-section input, .canvas-section textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        .canvas-section img { max-width: 100%; height: auto; border-radius: 8px; }
+        .remove-section {
+            background: #dc2626;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        /* Store Details Form */
+        .store-details {
+            max-width: 900px;
+            margin: 64px auto;
+            padding: 0 32px;
+        }
+        .form-content {
+            background: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .form-grid {
+            display: grid;
+            gap: 24px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group label { font-size: 14px; font-weight: 500; color: #1f2937; }
+        .form-group input, .form-group textarea {
+            padding: 10px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            width: 100%;
+        }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .form-group button {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .error { color: #dc2626; font-size: 12px; display: none; }
+        .form-group.invalid .error { display: block; }
+        .success-message {
+            display: none;
+            background: #d1fae5;
+            color: #065f46;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 24px;
+        }
+        .success-message.visible { display: block; }
+
+        /* Product Upload */
+        .product-upload {
+            max-width: 900px;
+            margin: 64px auto;
+            padding: 0 32px;
+        }
+        .drop-zone {
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .drop-zone.dragover { border-color: #6366f1; background: #f5f6ff; }
+        .product-list .product-item {
+            background: #f7f7f7;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        .product-item input, .product-item textarea, .product-item select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        .product-item .remove { background: #dc2626; color: #fff; padding: 8px; border: none; border-radius: 6px; }
+
+        /* Footer (same as sell.html) */
+        footer {
+            background: #fff;
+            padding: 48px 32px;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+        }
+        .footer-section h4 { font-size: 15px; color: #1f2937; }
+        .footer-section a { color: #6b7280; text-decoration: none; font-size: 13px; }
+        .footer-bottom { text-align: center; margin-top: 32px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { display: none; }
+            .mobile-header { display: flex; }
+            .store-builder { grid-template-columns: 1fr; }
+            .sidebar { margin-bottom: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header and Mobile Menu -->
+    <header class="mobile-header">
+        <div class="logo">Cloudy</div>
+        <button class="hamburger" aria-label="Toggle menu">☰</button>
+    </header>
+    <header>
+        <div class="header-container">
+            <div class="logo">Cloudy</div>
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="marketplace.html">Marketplace</a>
+                <a href="sell.html">Sell</a>
+                <a href="store.html">Your Store</a>
+                <a href="create-store.html" class="active">Create Store</a>
+            </nav>
+        </div>
+    </header>
+    <nav class="mobile-menu">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="marketplace.html">Marketplace</a></li>
+            <li><a href="sell.html">Sell</a></li>
+            <li><a href="store.html">Your Store</a></li>
+            <li><a href="create-store.html">Create Store</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Build Your Store</h1>
+            <p>Create a stunning storefront for your digital products with drag-and-drop ease. Sell templates, graphics, and more with Pi.</p>
+        </div>
+    </div>
+
+    <!-- Store Details -->
+    <div class="store-details">
+        <h2 class="section-title">Store Details</h2>
+        <div class="form-content">
+            <div class="success-message" id="success-message">Store created! Visit your <a href="store.html">store</a>.</div>
+            <form class="form-grid" id="store-form">
+                <div class="form-group">
+                    <label for="store-name">Store Name *</label>
+                    <input type="text" id="store-name" placeholder="e.g., @CreativeCloud" required>
+                    <span class="error" id="store-name-error">Name required (3-50 chars).</span>
+                </div>
+                <div class="form-group">
+                    <label for="store-description">Description *</label>
+                    <input type="text" id="store-description" placeholder="e.g., Digital templates" required>
+                    <span class="error" id="store-description-error">Description required (5-100 chars).</span>
+                </div>
+                <div class="form-group">
+                    <label for="store-bio">Bio *</label>
+                    <textarea id="store-bio" placeholder="About your store..." required></textarea>
+                    <span class="error" id="store-bio-error">Bio required (10-500 chars).</span>
+                </div>
+                <div class="form-group">
+                    <label for="store-banner">Banner Image</label>
+                    <input type="file" id="store-banner" accept=".jpg,.png">
+                    <span class="error" id="store-banner-error">Invalid image (max 5MB).</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Store Builder -->
+    <div class="store-builder">
+        <div class="sidebar">
+            <h3>Add Sections</h3>
+            <div class="component" draggable="true" data-type="hero">Hero Section</div>
+            <div class="component" draggable="true" data-type="products">Product Grid</div>
+            <div class="component" draggable="true" data-type="bio">Bio Section</div>
+        </div>
+        <div class="canvas" id="canvas">
+            <h3>Drop Sections Here</h3>
+            <!-- Sections added dynamically -->
+        </div>
+    </div>
+
+    <!-- Product Upload -->
+    <div class="product-upload">
+        <h2 class="section-title">Add Products</h2>
+        <div class="form-content">
+            <div class="drop-zone" id="drop-zone">
+                <p>Drag & drop products or click to upload</p>
+                <input type="file" id="product-files" multiple accept=".pdf,.zip,.jpg,.png,.docx,.mp4">
+            </div>
+            <div class="product-list" id="product-list"></div>
+            <button id="publish-store" class="form-group button">Publish Store</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Explore</h4>
+                <a href="marketplace.html">Marketplace</a>
+                <a href="sell.html">Sell</a>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <a href="contact-us.html">Contact Us</a>
+                <a href="faqs.html">FAQs</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 Cloudy. All rights reserved.</span>
+            <span>Powered by Pi Network</span>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            hamburger.textContent = mobileMenu.classList.contains('open') ? '✕' : '☰';
+        });
+
+        // Drag-and-drop builder
+        const components = document.querySelectorAll('.component');
+        const canvas = document.getElementById('canvas');
+        let draggedComponent = null;
+
+        components.forEach(comp => {
+            comp.addEventListener('dragstart', (e) => {
+                draggedComponent = e.target.dataset.type;
+                e.dataTransfer.setData('text/plain', draggedComponent);
+            });
+        });
+
+        canvas.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            canvas.classList.add('dragging-over');
+        });
+        canvas.addEventListener('dragleave', () => {
+            canvas.classList.remove('dragging-over');
+        });
+        canvas.addEventListener('drop', (e) => {
+            e.preventDefault();
+            canvas.classList.remove('dragging-over');
+            const type = e.dataTransfer.getData('text/plain');
+            const section = document.createElement('div');
+            section.className = 'canvas-section';
+            section.dataset.type = type;
+
+            if (type === 'hero') {
+                section.innerHTML = `
+                    <h3>Hero Section</h3>
+                    <input type="text" placeholder="Hero Title" class="hero-title">
+                    <input type="file" accept=".jpg,.png" class="hero-image">
+                    <button class="remove-section">Remove</button>
+                `;
+            } else if (type === 'products') {
+                section.innerHTML = `
+                    <h3>Product Grid</h3>
+                    <p>Products will display here</p>
+                    <button class="remove-section">Remove</button>
+                `;
+            } else if (type === 'bio') {
+                section.innerHTML = `
+                    <h3>Bio Section</h3>
+                    <textarea placeholder="Enter bio text"></textarea>
+                    <button class="remove-section">Remove</button>
+                `;
+            }
+
+            canvas.appendChild(section);
+            section.querySelector('.remove-section')?.addEventListener('click', () => section.remove());
+        });
+
+        // Product upload
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('product-files');
+        const productList = document.getElementById('product-list');
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+        function handleFiles(files) {
+            for (let file of files) {
+                if (file.size > 100 * 1024 * 1024) {
+                    alert(`File ${file.name} too large (max 100MB)`);
+                    continue;
+                }
+                const id = Date.now() + Math.random();
+                const item = document.createElement('div');
+                item.className = 'product-item';
+                item.dataset.id = id;
+                item.innerHTML = `
+                    <label>File: ${file.name}</label>
+                    <input type="text" class="product-title" placeholder="Product Title" required>
+                    <span class="error title-error">Title required</span>
+                    <textarea class="product-description" placeholder="Description" required></textarea>
+                    <span class="error description-error">Description required</span>
+                    <input type="number" class="product-price" placeholder="Price (Pi)" step="0.01" min="0.01" required>
+                    <span class="error price-error">Price required</span>
+                    <select class="product-category" required>
+                        <option value="" disabled selected>Category</option>
+                        <option value="templates">Templates</option>
+                        <option value="graphics">Graphics</option>
+                        <option value="code">Code</option>
+                    </select>
+                    <span class="error category-error">Category required</span>
+                    <input type="file" class="product-cover" accept=".jpg,.png">
+                    <span class="error cover-error">Invalid image</span>
+                    <button class="remove">Remove</button>
+                `;
+                productList.appendChild(item);
+                item.querySelector('.remove').addEventListener('click', () => item.remove());
+            }
+        }
+
+        // Publish store
+        const publishButton = document.getElementById('publish-store');
+        const successMessage = document.getElementById('success-message');
+
+        publishButton.addEventListener('click', () => {
+            let isValid = true;
+
+            // Validate store details
+            const storeName = document.getElementById('store-name').value.trim();
+            const storeDescription = document.getElementById('store-description').value.trim();
+            const storeBio = document.getElementById('store-bio').value.trim();
+            const storeBanner = document.getElementById('store-banner').files[0];
+
+            if (!storeName || storeName.length < 3) {
+                document.getElementById('store-name').parentElement.classList.add('invalid');
+                isValid = false;
+            }
+            if (!storeDescription || storeDescription.length < 5) {
+                document.getElementById('store-description').parentElement.classList.add('invalid');
+                isValid = false;
+            }
+            if (!storeBio || storeBio.length < 10) {
+                document.getElementById('store-bio').parentElement.classList.add('invalid');
+                isValid = false;
+            }
+            if (storeBanner && storeBanner.size > 5 * 1024 * 1024) {
+                document.getElementById('store-banner').parentElement.classList.add('invalid');
+                isValid = false;
+            }
+
+            // Validate sections
+            const sections = [];
+            document.querySelectorAll('.canvas-section').forEach(section => {
+                const type = section.dataset.type;
+                if (type === 'hero') {
+                    sections.push({
+                        type,
+                        title: section.querySelector('.hero-title')?.value,
+                        image: section.querySelector('.hero-image')?.files[0]
+                    });
+                } else if (type === 'products') {
+                    sections.push({ type });
+                } else if (type === 'bio') {
+                    sections.push({
+                        type,
+                        text: section.querySelector('textarea')?.value
+                    });
+                }
+            });
+
+            // Validate products
+            const products = [];
+            document.querySelectorAll('.product-item').forEach(item => {
+                const title = item.querySelector('.product-title').value.trim();
+                const description = item.querySelector('.product-description').value.trim();
+                const price = parseFloat(item.querySelector('.product-price').value);
+                const category = item.querySelector('.product-category').value;
+                const cover = item.querySelector('.product-cover').files[0];
+
+                let valid = true;
+                if (!title || title.length < 3) {
+                    item.querySelector('.title-error').style.display = 'block';
+                    valid = false;
+                }
+                if (!description || description.length < 10) {
+                    item.querySelector('.description-error').style.display = 'block';
+                    valid = false;
+                }
+                if (!price || price < 0.01) {
+                    item.querySelector('.price-error').style.display = 'block';
+                    valid = false;
+                }
+                if (!category) {
+                    item.querySelector('.category-error').style.display = 'block';
+                    valid = false;
+                }
+                if (cover && cover.size > 5 * 1024 * 1024) {
+                    item.querySelector('.cover-error').style.display = 'block';
+                    valid = false;
+                }
+
+                if (valid) {
+                    products.push({ title, description, price, category, cover });
+                } else {
+                    isValid = false;
+                }
+            });
+
+            if (isValid) {
+                successMessage.classList.add('visible');
+                setTimeout(() => successMessage.classList.remove('visible'), 5000);
+
+                // Backend placeholder
+                /*
+                const formData = new FormData();
+                formData.append('storeName', storeName);
+                formData.append('storeDescription', storeDescription);
+                formData.append('storeBio', storeBio);
+                if (storeBanner) formData.append('storeBanner', storeBanner);
+                sections.forEach((sec, i) => {
+                    formData.append(`sections[${i}][type]`, sec.type);
+                    if (sec.title) formData.append(`sections[${i}][title]`, sec.title);
+                    if (sec.text) formData.append(`sections[${i}][text]`, sec.text);
+                    if (sec.image) formData.append(`sections[${i}][image]`, sec.image);
+                });
+                products.forEach((prod, i) => {
+                    formData.append(`products[${i}][title]`, prod.title);
+                    formData.append(`products[${i}][description]`, prod.description);
+                    formData.append(`products[${i}][price]`, prod.price);
+                    formData.append(`products[${i}][category]`, prod.category);
+                    if (prod.cover) formData.append(`products[${i}][cover]`, prod.cover);
+                });
+
+                fetch('/api/create-store', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Authorization': 'Bearer <pi_token>' }
+                })
+                .then(res => res.json())
+                .then(data => window.location.href = 'store.html');
+                */
+            }
+        });
+    </script>
+</body>
+</html>
