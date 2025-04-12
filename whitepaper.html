@@ -265,8 +265,8 @@
             width: 200px;
             margin: 32px auto 0;
             padding: 12px 24px;
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-            color: #fff;
+            background: #000000;
+            color: #ffffff;
             border: none;
             border-radius: 6px;
             font-size: 16px;
@@ -275,16 +275,21 @@
             text-align: center;
             text-decoration: none;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         .download-button:hover {
-            background: linear-gradient(135deg, #4f46e5, #4338ca);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background: #333333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             transform: translateY(-2px);
         }
         .download-button:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+        @media (max-width: 480px) {
+            .download-button {
+                width: 100%;
+            }
         }
 
         /* Footer */
@@ -565,12 +570,6 @@
             }
             .whitepaper-section h2 {
                 font-size: clamp(18px, 3vw, 20px);
-            }
-            .download-button {
-                width: 100%;
-            }
-            .footer-subscription form {
-                flex-direction: column;
             }
         }
     </style>
