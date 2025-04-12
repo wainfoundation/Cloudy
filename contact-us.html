@@ -3,33 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloudy - Contact Us</title>
+    <title>Contact Us - Cloudy</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        /* Inherit all styles from the main template */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #fafafa;
+            font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            background: #f7f7f7;
             color: #2d2d2d;
-            line-height: 1.6;
-            font-size: 16px;
+            line-height: 1.5;
+            font-size: clamp(14px, 1.8vw, 15px);
             overflow-x: hidden;
         }
-        /* Header */
+
+        /* Desktop Header */
         header {
             background: #fff;
             padding: 16px 32px;
-            border-bottom: 1px solid #e5e5e5;
+            border-bottom: none;
             position: sticky;
             top: 0;
             z-index: 1000;
-            transition: box-shadow 0.3s;
-        }
-        header.scrolled {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         .header-container {
             max-width: 1280px;
@@ -40,37 +44,156 @@
             flex-wrap: wrap;
         }
         .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2d2d2d;
-            transition: transform 0.3s;
+            font-size: 22px;
+            font-weight: 600;
+            color: #1f2937;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        .logo::before {
+            content: "☁️";
+            margin-right: 8px;
+            font-size: 22px;
+            display: inline-block;
+            transition: transform 0.3s ease;
         }
         .logo:hover {
             transform: scale(1.05);
+        }
+        .logo:hover::before {
+            transform: translateY(-2px);
         }
         nav {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
+            gap: 12px;
         }
         nav a {
             color: #4b5563;
             text-decoration: none;
-            margin: 8px 24px 8px 0;
-            font-size: 14px;
+            margin: 8px clamp(12px, 2vw, 16px) 8px 0;
+            font-size: 13px;
             font-weight: 500;
-            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease, color 0.2s ease;
         }
         nav a:hover {
+            background: #f5f6ff;
             color: #6366f1;
+        }
+        nav a.active {
+            background: #f5f6ff;
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            background: #fff;
+            padding: clamp(10px, 3vw, 12px) clamp(12px, 4vw, 16px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .mobile-header .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+        }
+        .mobile-header .logo::before {
+            content: "☁️";
+            margin-right: 6px;
+            font-size: 20px;
+        }
+        .hamburger {
+            font-size: 20px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hamburger:hover {
+            background: #f5f6ff;
+            color: #1f2937;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-height: 100vh;
+            background: #fff;
+            padding: 60px 16px;
+            z-index: 999;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s ease;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        .mobile-menu.open {
+            display: block;
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .mobile-menu ul {
+            list-style: none;
+        }
+        .mobile-menu li {
+            margin: 8px 0;
+        }
+        .mobile-menu a, .mobile-menu span {
+            color: #374151;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+        .mobile-menu a:hover {
+            background: #f5f6ff;
+        }
+        .mobile-menu .icon {
+            margin-right: 12px;
+            font-size: 16px;
+            width: 16px;
+            text-align: center;
         }
 
         /* Hero Section */
         .hero {
-            padding: 80px 32px;
+            padding: clamp(40px, 10vw, 80px) clamp(16px, 5vw, 32px);
             text-align: center;
-            background: #fff;
-            border-bottom: 1px solid #e5e5e5;
+            background: linear-gradient(to bottom, #e0e7ff, #fff);
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
             opacity: 0;
             animation: fadeIn 1s ease forwards;
         }
@@ -80,148 +203,218 @@
         .hero-content {
             max-width: 900px;
             margin: 0 auto;
+            background: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
         .hero h1 {
-            font-size: clamp(32px, 5vw, 40px);
+            font-size: clamp(32px, 6vw, 40px);
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             color: #1f2937;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
         }
         .hero p {
-            font-size: clamp(16px, 3vw, 18px);
+            font-size: clamp(16px, 2.5vw, 18px);
+            font-weight: 400;
             color: #6b7280;
             margin-bottom: 32px;
-        }
-        .hero button {
-            background: #6366f1;
-            color: #fff;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .hero button:hover {
-            background: #4f46e5;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* Contact Section */
-        .contact {
-            max-width: 1280px;
+        /* Contact Form Section */
+        .contact-form {
+            max-width: 900px;
             margin: 64px auto;
-            padding: 0 32px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
+            padding: 0 clamp(16px, 5vw, 32px);
+            text-align: center;
         }
         .section-title {
-            font-size: clamp(28px, 4vw, 32px);
+            font-size: clamp(22px, 3.5vw, 26px);
             font-weight: 600;
-            text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 32px;
             color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
+            transition: opacity 0.5s ease;
         }
         .section-title.visible {
             opacity: 1;
-            transform: translateY(0);
         }
-        .contact-form {
+        .form-content {
             background: #fff;
-            padding: 32px;
-            border: 1px solid #e5e5e5;
+            padding: clamp(24px, 5vw, 32px);
             border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.5s ease;
+            transition: opacity 0.5s ease;
         }
-        .contact-form.visible {
+        .form-content.visible {
             opacity: 1;
-            transform: translateY(0);
         }
-        .contact-form h2 {
-            font-size: 24px;
-            font-weight: 600;
+        .form-content p {
+            font-size: clamp(16px, 2.5vw, 18px);
+            font-weight: 400;
+            color: #6b7280;
             margin-bottom: 24px;
-            color: #1f2937;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .contact-form label {
-            display: block;
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .form-group label {
             font-size: 14px;
             font-weight: 500;
-            color: #4b5563;
+            color: #1f2937;
             margin-bottom: 8px;
         }
-        .contact-form input,
-        .contact-form textarea {
+        .form-group input, .form-group textarea, .form-group select {
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 400;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
             width: 100%;
-            padding: 12px;
-            margin-bottom: 16px;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            font-size: 14px;
-            color: #2d2d2d;
-            background: #fafafa;
-            transition: border-color 0.3s;
-        }
-        .contact-form input:focus,
-        .contact-form textarea:focus {
-            border-color: #6366f1;
+            max-width: 500px;
             outline: none;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background: #fff;
         }
-        .contact-form textarea {
-            height: 120px;
+        .form-group textarea {
             resize: vertical;
+            min-height: 120px;
         }
-        .contact-form button {
-            background: #6366f1;
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
+        }
+        .form-group button {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: #fff;
             border: none;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
+            min-width: 160px;
+            min-height: 44px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
-        .contact-form button:hover {
-            background: #4f46e5;
+        .form-group button:hover {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
-        .contact-details {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.5s ease;
+        .form-group .error {
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+            text-align: left;
+            width: 100%;
+            max-width: 500px;
         }
-        .contact-details.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .form-group.invalid .error {
+            display: block;
         }
-        .contact-details h2 {
-            font-size: 24px;
-            font-weight: 600;
+        .success-message {
+            display: none;
+            background: #d1fae5;
+            color: #065f46;
+            padding: 16px;
+            border-radius: 6px;
             margin-bottom: 24px;
-            color: #1f2937;
+            font-size: 14px;
+            text-align: center;
+            animation: slideIn 0.3s ease;
         }
-        .contact-details p {
+        .success-message.visible {
+            display: block;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Support Channels Section */
+        .support-channels {
+            background: #f7f7f7;
+            padding: 64px clamp(16px, 5vw, 32px);
+            text-align: center;
+        }
+        .support-channels-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .support-channels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: 24px;
+        }
+        .channel-card {
+            background: #fff;
+            padding: clamp(16px, 3vw, 24px);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .channel-card.visible {
+            opacity: 1;
+        }
+        .channel-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+        .channel-card h3 {
             font-size: 16px;
-            color: #6b7280;
-            margin-bottom: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
         }
-        .contact-details a {
+        .channel-card p {
+            font-size: 13px;
+            font-weight: 400;
+            color: #6b7280;
+        }
+        .channel-card a {
             color: #6366f1;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: color 0.2s ease;
         }
-        .contact-details a:hover {
+        .channel-card a:hover {
             color: #4f46e5;
         }
 
@@ -229,95 +422,309 @@
         footer {
             background: #fff;
             color: #6b7280;
-            padding: 48px 32px;
-            border-top: 1px solid #e5e5e5;
+            padding: 48px clamp(16px, 5vw, 32px);
+            border-top: none;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
         }
         .footer-content {
             max-width: 1280px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
             gap: 32px;
         }
         .footer-section {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
+            transition: opacity 0.5s ease;
         }
         .footer-section.visible {
             opacity: 1;
-            transform: translateY(0);
         }
         .footer-section h4 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             margin-bottom: 16px;
             color: #1f2937;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
         }
         .footer-section ul {
             list-style: none;
         }
         .footer-section ul li {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         .footer-section a {
             color: #6b7280;
             text-decoration: none;
-            transition: color 0.3s;
+            font-size: 13px;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            display: block;
+            padding: 6px 0;
+            border-radius: 4px;
         }
         .footer-section a:hover {
             color: #6366f1;
+            background: #f5f6ff;
         }
-        .footer-bottom {
+
+        /* Mobile Bottom Navigation */
+        .footer-mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
             text-align: center;
-            padding-top: 32px;
-            font-size: 14px;
-            color: #9ca3af;
+        }
+        .footer-mobile-nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            list-style: none;
+        }
+        .footer-mobile-nav li {
+            flex: 1;
+        }
+        .footer-mobile-nav a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 8px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .footer-mobile-nav a:hover, .footer-mobile-nav a.active {
+            color: #6366f1;
+            background: #f5f6ff;
+        }
+        .footer-mobile-nav .icon {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        /* Subscription Form */
+        .footer-subscription {
+            max-width: 1280px;
+            margin: 32px auto 0;
+            padding: 24px;
+            background: #f7f7f7;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .footer-subscription h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+        .footer-subscription form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+        @media (min-width: 480px) {
+            .footer-subscription form {
+                flex-direction: row;
+            }
+        }
+        .footer-subscription input[type="email"] {
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 400;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            width: min(100%, 280px);
+            outline: none;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .footer-subscription input[type="email"]:focus {
+            border-color: #6366f1;
+            box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
+        }
+        .footer-subscription button {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .footer-subscription button:hover {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Footer Bottom */
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 32px auto 0;
+            font-size: 13px;
+            font-weight: 400;
+            color: #6b7280;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            text-align: center;
+        }
+        .footer-bottom-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+        .footer-bottom-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .footer-bottom-links a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            transition: color 0.2s ease;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .footer-bottom-links a:hover {
+            color: #6366f1;
+            background: #f5f6ff;
+        }
+        .footer-app-name {
+            font-weight: 600;
+            color: #6366f1;
+        }
+        .social-icons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex: 1;
+        }
+        .social-icons a {
+            color: #6b7280;
+            font-size: clamp(16px, 2.5vw, 18px);
+            transition: all 0.3s ease;
+            padding: 8px;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+        .social-icons a:hover {
+            color: #6366f1;
+            background: #f5f6ff;
+            transform: scale(1.1);
+        }
+        .footer-powered {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 400;
         }
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .header-container {
-                padding: 12px 24px;
+            .header-container, .contact-form {
+                padding: 0 clamp(16px, 4vw, 24px);
             }
-            .contact {
-                grid-template-columns: 1fr;
-                gap: 32px;
+            .hero {
+                padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 24px);
+            }
+            .hero-content {
+                padding: 24px;
+            }
+            .support-channels-grid {
+                grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
             }
             .footer-content {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
         @media (max-width: 768px) {
-            .hero {
-                padding: 60px 24px;
+            header {
+                display: none;
             }
-            .contact {
-                padding: 0 24px;
+            .mobile-header {
+                display: flex;
+            }
+            .hero {
+                padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 24px);
+                min-height: auto;
+            }
+            .hero-content {
+                box-shadow: none;
+                padding: 16px;
+            }
+            .contact-form, .support-channels {
+                padding: 0 clamp(16px, 4vw, 24px);
+            }
+            .footer-content {
+                display: none;
+            }
+            .footer-mobile-nav {
+                display: block;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .footer-bottom-left, .social-icons, .footer-powered {
+                flex: none;
+                width: 100%;
             }
         }
         @media (max-width: 480px) {
             .hero {
-                padding: 40px 16px;
+                padding: clamp(32px, 8vw, 40px) clamp(12px, 4vw, 16px);
             }
-            .contact {
-                padding: 0 16px;
+            .contact-form, .support-channels {
+                padding: 0 clamp(12px, 4vw, 16px);
             }
-            .section-title {
-                font-size: 24px;
-            }
-            .contact-form h2,
-            .contact-details h2 {
-                font-size: 20px;
-            }
-            .footer-content {
+            .support-channels-grid {
                 grid-template-columns: 1fr;
+            }
+            .footer-subscription form {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <div class="logo">Cloudy</div>
+        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    </header>
+
+    <!-- Desktop Header -->
     <header>
         <div class="header-container">
             <div class="logo">Cloudy</div>
@@ -328,48 +735,112 @@
                 <a href="categories.html">Categories</a>
                 <a href="top-creators.html">Top Creators</a>
                 <a href="learnmore.html">Learn More</a>
-                <a href="workspace-tools.html">Workspace Tools</a>
-                <a href="sell.html">Sell Your Work</a>
-                <a href="our-story.html">Our Story</a>
-                <a href="pi-payments.html">Pi Payments</a>
-                <a href="help-center.html">Help Center</a>
-                <a href="sign.html">Sign In</a>
+                <a href="signup.html">Sign Up</a>
             </nav>
         </div>
     </header>
 
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu">
+        <ul>
+            <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
+            <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
+            <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
+            <li><a href="categories.html"><span class="icon">📚</span>Categories</a></li>
+            <li><a href="top-creators.html"><span class="icon">🌟</span>Top Creators</a></li>
+            <li><a href="learnmore.html"><span class="icon">ℹ️</span>Learn More</a></li>
+            <li><a href="signup.html"><span class="icon">🚀</span>Sign Up</a></li>
+            <li><a href="explore-more.html"><span class="icon">🔍</span>Explore More</a></li>
+            <li><a href="workspace-tools.html"><span class="icon">🛠️</span>Workspace Tools</a></li>
+            <li><a href="sell.html"><span class="icon">🛒</span>Sell Your Work</a></li>
+            <li><a href="our-story.html"><span class="icon">📖</span>Our Story</a></li>
+            <li><a href="pi-payments.html"><span class="icon">π</span>Pi Payments</a></li>
+            <li><a href="email-subscribers.html"><span class="icon">✉️</span>Email Subscribers</a></li>
+            <li><a href="new-releases.html"><span class="icon">🆕</span>New Releases</a></li>
+            <li><a href="team.html"><span class="icon">👥</span>Team</a></li>
+            <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
+            <li><a href="dashboard.html"><span class="icon">📊</span>Dashboard</a></li>
+            <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            <li><a href="whitepaper.html"><span class="icon">📄</span>Whitepaper</a></li>
+            <li><a href="security.html"><span class="icon">🔒</span>Security</a></li>
+            <li><a href="notice.html"><span class="icon">📢</span>Notices</a></li>
+            <li><a href="privacy.html"><span class="icon">🛡️</span>Privacy Policy</a></li>
+            <li><a href="terms.html"><span class="icon">📝</span>Terms of Service</a></li>
+            <li><a href="cookie-settings.html"><span class="icon">🍪</span>Cookie Settings</a></li>
+            <li><span class="user-info" id="user-name"><span class="icon">🙋</span>Welcome, [User]</span></li>
+            <li><a href="sign.html"><span class="icon">🚪</span>Sign Out</a></li>
+        </ul>
+    </nav>
+
     <!-- Hero Section -->
     <div class="hero">
         <div class="hero-content">
-            <h1>Contact Us</h1>
-            <p>We’re here to help—reach out with questions, feedback, or support needs.</p>
-            <button onclick="window.location.href='sign.html'">Sign In</button>
+            <h1>Contact Cloudy</h1>
+            <p>We’re here to help Pioneers, creators, and developers. Reach out with questions, feedback, or ideas to shape Cloudy’s future.</p>
         </div>
     </div>
 
-    <!-- Contact Section -->
-    <div class="contact">
-        <h2 class="section-title">Get in Touch</h2>
-        <div class="contact-form">
-            <h2>Send a Message</h2>
-            <form>
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Your name" required>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Your email" required>
-                <label for="subject">Subject</label>
-                <input type="text" id="subject" name="subject" placeholder="What’s this about?" required>
-                <label for="message">Message</label>
-                <textarea id="message" name="message" placeholder="Your message" required></textarea>
-                <button type="submit">Send Message</button>
+    <!-- Contact Form Section -->
+    <div class="contact-form">
+        <h2 class="section-title">Send Us a Message</h2>
+        <div class="form-content">
+            <div class="success-message" id="success-message">Thank you for your message! Our team will respond soon.</div>
+            <p>Fill out the form below, and our team will get back to you as soon as possible. For urgent issues, join our Discord community.</p>
+            <form class="form-grid" id="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Your name" required>
+                    <span class="error">Please enter your name.</span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Your email" required>
+                    <span class="error">Please enter a valid email.</span>
+                </div>
+                <div class="form-group">
+                    <label for="reason">Reason for Contact</label>
+                    <select id="reason" required>
+                        <option value="" disabled selected>Select a reason</option>
+                        <option value="support">Technical Support</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="error">Please select a reason.</span>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" placeholder="Tell us more..." required></textarea>
+                    <span class="error">Please enter your message.</span>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Send Message</button>
+                </div>
             </form>
         </div>
-        <div class="contact-details">
-            <h2>Other Ways to Reach Us</h2>
-            <p><strong>Email:</strong> <a href="mailto:support@cloudy.com">support@cloudy.com</a></p>
-            <p><strong>Twitter:</strong> <a href="https://twitter.com/cloudy" target="_blank">@cloudy</a></p>
-            <p><strong>Address:</strong> 123 Creator Lane, Pi City, PC 45678</p>
-            <p><strong>Hours:</strong> Monday–Friday, 9 AM–5 PM (UTC)</p>
+    </div>
+
+    <!-- Support Channels Section -->
+    <div class="support-channels">
+        <h2 class="section-title">Other Ways to Connect</h2>
+        <div class="support-channels-content">
+            <div class="support-channels-grid">
+                <div class="channel-card">
+                    <h3>Discord Community</h3>
+                    <p>Join our Discord server for real-time support, discussions, and updates from the Cloudy team.</p>
+                    <p><a href="https://discord.com/cloudy" target="_blank">Join Discord</a></p>
+                </div>
+                <div class="channel-card">
+                    <h3>Email Support</h3>
+                    <p>Send us an email for detailed inquiries or technical support. We respond within 48 hours.</p>
+                    <p><a href="mailto:support@cloudy.network">support@cloudy.network</a></p>
+                </div>
+                <div class="channel-card">
+                    <h3>Twitter (X) Support</h3>
+                    <p>Tweet us your questions or feedback, and our team will respond promptly.</p>
+                    <p><a href="https://twitter.com/cloudy" target="_blank">@Cloudy</a></p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -377,10 +848,13 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Explore</h4>
+                <h4>Explore more ☁️</h4>
                 <ul>
+                    <li><a href="explore-more.html">Explore More</a></li>
                     <li><a href="categories.html">Categories</a></li>
                     <li><a href="top-creators.html">Top Creators</a></li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                    <li><a href="discover.html">Discover</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -388,6 +862,8 @@
                 <ul>
                     <li><a href="workspace-tools.html">Workspace Tools</a></li>
                     <li><a href="sell.html">Sell Your Work</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="profile.html">Profile</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -395,6 +871,8 @@
                 <ul>
                     <li><a href="our-story.html">Our Story</a></li>
                     <li><a href="pi-payments.html">Pi Payments</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="whitepaper.html">Whitepaper</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -402,11 +880,49 @@
                 <ul>
                     <li><a href="help-center.html">Help Center</a></li>
                     <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="email-subscribers.html">Email Subscribers</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
                 </ul>
             </div>
         </div>
+        <div class="footer-mobile-nav">
+            <ul>
+                <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
+                <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
+                <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
+                <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
+                <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+            </ul>
+        </div>
+        <div class="footer-subscription">
+            <h4>Subscribe to Our Newsletter ☁️</h4>
+            <form>
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
         <div class="footer-bottom">
-            © 2025 Cloudy. All rights reserved. Powered by Pi Network.
+            <div class="footer-bottom-left">
+                <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
+                <span>We do not sell or share your personal information.</span>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="cookie-settings.html">Cookie Settings</a>
+                    <a href="whitepaper.html">Whitepaper</a>
+                    <a href="docs.html">Docs</a>
+                    <a href="security.html">Security</a>
+                    <a href="notice.html">Notices</a>
+                </div>
+            </div>
+            <div class="social-icons">
+                <a href="https://facebook.com/cloudy" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/cloudy" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://instagram.com/cloudy" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://telegram.org/cloudy" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="https://discord.com/cloudy" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+            <span class="footer-powered">Powered by Pi Network</span>
         </div>
     </footer>
 
@@ -417,22 +933,149 @@
             header.classList.toggle('scrolled', window.scrollY > 0);
         });
 
+        // Mobile menu toggle with debounce
+        let isToggling = false;
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            if (isToggling) return;
+            isToggling = true;
+            mobileMenu.classList.toggle('open');
+            const isOpen = mobileMenu.classList.contains('open');
+            hamburger.textContent = isOpen ? '✕' : '☰';
+            hamburger.setAttribute('aria-expanded', isOpen);
+            setTimeout(() => { isToggling = false; }, 300);
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                hamburger.textContent = '☰';
+                hamburger.setAttribute('aria-expanded', false);
+            });
+        });
+
         // Scroll reveal animations
-        const revealElements = document.querySelectorAll('.section-title, .contact-form, .contact-details, .footer-section');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.05, rootMargin: '20px' });
 
-        revealElements.forEach(el => observer.observe(el));
+        document.querySelectorAll('.section-title, .form-content, .channel-card, .footer-section').forEach(el => observer.observe(el));
 
-        // Basic form submission placeholder
-        document.querySelector('form').addEventListener('submit', (e) => {
+        // Highlight active nav link
+        const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+        document.querySelectorAll('header nav a, .footer-mobile-nav a').forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+
+        // Mobile nav active state
+        document.querySelectorAll('.footer-mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelectorAll('.footer-mobile-nav a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+        // Contact form submission with validation
+        const contactForm = document.getElementById('contact-form');
+        const successMessage = document.getElementById('success-message');
+
+        contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Thank you! Your message has been sent. (This is a placeholder—form submission requires backend integration.)');
+            let isValid = true;
+
+            // Reset previous errors
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('invalid');
+            });
+
+            // Validate fields
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const reason = document.getElementById('reason').value;
+            const message = document.getElementById('message').value.trim();
+
+            if (!name) {
+                document.getElementById('name').parentElement.classList.add('invalid');
+                isValid = false;
+            }
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('email').parentElement.classList.add('invalid');
+                isValid = false;
+            }
+            if (!reason) {
+                document.getElementById('reason').parentElement.classList.add('invalid');
+                isValid = false;
+            }
+            if (!message) {
+                document.getElementById('message').parentElement.classList.add('invalid');
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Show success message
+                successMessage.classList.add('visible');
+                setTimeout(() => {
+                    successMessage.classList.remove('visible');
+                }, 5000);
+
+                // Placeholder for backend API call
+                /*
+                fetch('/api/contact', {
+                    method: 'POST',
+                    body: JSON.stringify({ name, email, reason, message }),
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    successMessage.classList.add('visible');
+                    setTimeout(() => {
+                        successMessage.classList.remove('visible');
+                    }, 5000);
+                    contactForm.reset();
+                })
+                .catch(error => {
+                    alert('Error sending message: ' + error);
+                });
+                */
+                contactForm.reset();
+            }
+        });
+
+        // Newsletter subscription (placeholder for backend integration)
+        const newsletterForm = document.querySelector('.footer-subscription form');
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = newsletterForm.querySelector('input[type="email"]').value.trim();
+            if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Thank you for subscribing to Cloudy’s newsletter!');
+                // Placeholder for backend API call
+                /*
+                fetch('/api/subscribe', {
+                    method: 'POST',
+                    body: JSON.stringify({ email }),
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Subscribed successfully!');
+                    newsletterForm.reset();
+                })
+                .catch(error => {
+                    alert('Error subscribing: ' + error);
+                });
+                */
+                newsletterForm.reset();
+            } else {
+                alert('Please enter a valid email address.');
+            }
         });
     </script>
 </body>
