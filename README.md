@@ -1,10 +1,24 @@
-# CloudyPi Game Platform
+# ☁️ Cloudypi.xyz
 
-A gaming platform that integrates with the Pi Network for cryptocurrency rewards.
 
+**Cloudy.xyz** is a decentralized digital product marketplace built exclusively for the **Pi Network** community.  
+It enables creators to upload, showcase, and sell digital goods — such as templates, design assets, eBooks, and tools — with payments powered 100% by Pi.
+
+---
+
+## 🚀 Features
+
+- 📦 Upload & sell digital products (PDFs, ZIPs, audio, etc.)
+- 🔐 Pi Network–native authentication and wallet integration
+- 🛍️ Creator storefronts with follower support
+- 💾 Secure file delivery after purchase
+- 📊 Sales and download analytics for creators
+- 🌍 Web app optimized for Pi Browser
+
+---
 ## Features
 
-- HTML5 game platform
+- HTML5 platform
 - Pi Network integration for cryptocurrency rewards
 - Ad integration for additional rewards
 - User authentication and profile management
