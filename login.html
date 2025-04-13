@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloudy - Log In</title>
-    <!-- Google Fonts: Inter -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-    <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Login - CloudyPi.xyz</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Pi SDK -->
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <script>Pi.init({ version: "2.0", sandbox: true });</script>
-    <!-- API Integration -->
-    <script src="/js/api.js"></script>
+    <!-- Our authentication script -->
+    <script src="js/pi-auth.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -268,181 +264,107 @@
         }
     </style>
 </head>
-<body>
-    <!-- Mobile Header -->
-    <header class="mobile-header">
-        <div class="logo">Cloudy</div>
-        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
-    </header>
-
-    <!-- Desktop Header -->
-    <header>
-        <div class="header-container">
-            <div class="logo">Cloudy</div>
-            <nav>
-                <a href="home.html">Home</a>
-                <a href="features.html">Features</a>
-                <a href="pricing.html">Pricing</a>
-                <a href="categories.html">Categories</a>
-                <a href="top-creators.html">Top Creators</a>
-                <a href="contact-sales.html">Contact Sales</a>
-                <a href="signup.html">Sign Up</a>
-            </nav>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-gray-800">Welcome to CloudyPi</h1>
+            <p class="text-gray-600">Sign in to your account</p>
         </div>
-    </header>
 
-    <!-- Mobile Menu -->
-    <nav class="mobile-menu">
-        <ul>
-            <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
-            <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
-            <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
-            <li><a href="categories.html"><span class="icon">📚</span>Categories</a></li>
-            <li><a href="top-creators.html"><span class="icon">👑</span>Top Creators</a></li>
-            <li><a href="contact-sales.html"><span class="icon">📞</span>Contact Sales</a></li>
-            <li><a href="signup.html"><span class="icon">✍️</span>Sign Up</a></li>
-        </ul>
-    </nav>
+        <!-- Pi Network Login Button -->
+        <div class="mb-6">
+            <button onclick="handlePiLogin()" 
+                    class="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 flex items-center justify-center">
+                <img src="https://minepi.com/favicon.ico" alt="Pi Network" class="w-6 h-6 mr-2">
+                Sign in with Pi Network
+            </button>
+        </div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <h1>Welcome Back!</h1>
-        <p>Log in to your Cloudy account</p>
-        
-        <div class="login-box">
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
+        <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-white text-gray-500">Or continue with email</span>
+            </div>
+        </div>
+
+        <!-- Traditional Login Form -->
+        <form id="loginForm" class="space-y-4">
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember" name="remember"
+                        class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                    <label for="remember" class="ml-2 block text-sm text-gray-900">Remember me</label>
                 </div>
 
-                <button type="submit" class="submit-button">Log In</button>
-                <button type="button" class="pi-button" onclick="handlePiLogin()">
-                    <i class="fas fa-wallet"></i> Log in with Pi
-                </button>
+                <a href="#" class="text-sm text-purple-600 hover:text-purple-500">Forgot password?</a>
+            </div>
 
-                <div id="errorMessage" class="error-message"></div>
-                <div id="successMessage" class="success-message"></div>
+            <button type="submit"
+                class="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50">
+                Sign in
+            </button>
+        </form>
 
-                <p style="margin-top: 20px; text-align: center;">
-                    Don't have an account? <a href="signup.html" style="color: #6366f1;">Sign up</a>
-                </p>
-            </form>
-        </div>
+        <p class="mt-4 text-center text-sm text-gray-600">
+            Don't have an account?
+            <a href="signup.html" class="font-medium text-purple-600 hover:text-purple-500">Sign up</a>
+        </p>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Explore more ☁️</h4>
-                <ul>
-                    <li><a href="explore-more.html">Explore More</a></li>
-                    <li><a href="categories.html">Categories</a></li>
-                    <li><a href="top-creators.html">Top Creators</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Create</h4>
-                <ul>
-                    <li><a href="workspace-tools.html">Workspace Tools</a></li>
-                    <li><a href="sell.html">Sell Your Work</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>About</h4>
-                <ul>
-                    <li><a href="our-story.html">Our Story</a></li>
-                    <li><a href="pi-payments.html">Pi Payments</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="help-center.html">Help Center</a></li>
-                    <li><a href="contact-sales.html">Contact Sales</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-bottom-left">
-                <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
-            </div>
-            <span class="footer-powered">Powered by Pi Network</span>
-        </div>
-    </footer>
-
     <script>
-        // Mobile menu toggle
-        const hamburger = document.querySelector('.hamburger');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        
-        hamburger.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-            hamburger.setAttribute('aria-expanded', 
-                hamburger.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-            );
-        });
+        async function handlePiLogin() {
+            try {
+                const result = await window.piAuth.authenticate();
+                console.log('Pi login successful:', result);
+                window.location.href = '/dashboard.html';
+            } catch (error) {
+                console.error('Pi login failed:', error);
+                alert('Login failed: ' + error.message);
+            }
+        }
 
-        // Login form handling
-        async function handleLogin(event) {
-            event.preventDefault();
-            
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('errorMessage');
-            const successMessage = document.getElementById('successMessage');
-            const submitButton = document.querySelector('.submit-button');
-
-            // Reset messages
-            errorMessage.style.display = 'none';
-            successMessage.style.display = 'none';
-            submitButton.disabled = true;
 
             try {
-                const response = await window.api.login(email, password);
-                
-                // Store the token
-                window.api.setToken(response.token);
-                
-                // Show success message
-                successMessage.textContent = 'Login successful! Redirecting...';
-                successMessage.style.display = 'block';
-                
-                // Redirect to dashboard after successful login
-                setTimeout(() => {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('jwt_token', data.token);
+                    localStorage.setItem('user_data', JSON.stringify(data.user));
                     window.location.href = '/dashboard.html';
-                }, 1500);
-            } catch (error) {
-                errorMessage.textContent = error.message || 'Failed to login. Please try again.';
-                errorMessage.style.display = 'block';
-                submitButton.disabled = false;
-            }
-        }
-
-        async function handlePiLogin() {
-            const errorMessage = document.getElementById('errorMessage');
-            const successMessage = document.getElementById('successMessage');
-            
-            try {
-                const response = await window.api.loginWithPi();
-                if (response.token) {
-                    successMessage.textContent = 'Pi login successful!';
-                    successMessage.style.display = 'block';
-                    errorMessage.style.display = 'none';
-                    window.location.href = '/home.html';
+                } else {
+                    alert(data.message || 'Login failed');
                 }
             } catch (error) {
-                errorMessage.textContent = error.message || 'Pi login failed. Please try again.';
-                errorMessage.style.display = 'block';
-                successMessage.style.display = 'none';
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
             }
-        }
+        });
     </script>
 </body>
 </html>
