@@ -5,7 +5,16 @@ export interface IUser extends Document {
   email: string;
   password: string;
   name: string;
-  role: 'user' | 'admin';
+  role: 'user' | 'admin' | 'creator';
+  piWalletAddress: string;
+  profilePicture: string;
+  bio: string;
+  isCreator: boolean;
+  storeId?: mongoose.Types.ObjectId;
+  purchasedProducts: mongoose.Types.ObjectId[];
+  createdProducts: mongoose.Types.ObjectId[];
+  totalSpent: number;
+  totalEarned: number;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -31,8 +40,45 @@ const userSchema = new Schema<IUser>({
   },
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'creator'],
     default: 'user'
+  },
+  piWalletAddress: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  profilePicture: {
+    type: String,
+    default: 'default-avatar.png'
+  },
+  bio: {
+    type: String,
+    default: ''
+  },
+  isCreator: {
+    type: Boolean,
+    default: false
+  },
+  storeId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Store'
+  },
+  purchasedProducts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Product'
+  }],
+  createdProducts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Product'
+  }],
+  totalSpent: {
+    type: Number,
+    default: 0
+  },
+  totalEarned: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: true

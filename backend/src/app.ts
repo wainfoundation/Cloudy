@@ -5,6 +5,12 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
+import donationRoutes from './routes/donation.routes';
+import rewardsRoutes from './routes/rewards.routes';
+import paymentRoutes from './routes/payment.routes';
+import subscriptionRoutes from './routes/subscription.routes';
+import userRoutes from './routes/user.routes';
+import gameRoutes from './routes/game.routes';
 
 // Load environment variables
 dotenv.config();
@@ -38,6 +44,12 @@ mongoose.connect(MONGODB_URI)
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/donations', donationRoutes);
+app.use('/api/rewards', rewardsRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/subscriptions', subscriptionRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/games', gameRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
