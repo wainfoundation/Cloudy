@@ -59,7 +59,7 @@ The frontend will be available at http://localhost:8080
 
 ## License
 
-This project is licensed under the ISC License.
+This project is licensed under the Pios License.
 
 **Cloudy.xyz** is a decentralized digital product marketplace built exclusively for the **Pi Network** community.  
 It enables creators to upload, showcase, and sell digital goods — such as templates, design assets, eBooks, and tools — with payments powered 100% by Pi.
