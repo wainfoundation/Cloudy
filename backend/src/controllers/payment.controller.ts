@@ -4,6 +4,84 @@ import Subscription from '../models/Subscription';
 import Donation from '../models/Donation';
 import { AuthRequest } from '../middleware/auth';
 
+// Create a new payment
+export const createPayment = async (req: AuthRequest, res: Response) => {
+  try {
+    const { amount, type, metadata } = req.body;
+    const userId = req.user?._id;
+    
+    if (!userId) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+    
+    // Create a new payment
+    const payment = new Payment({
+      userId,
+      amount,
+      type,
+      metadata,
+      status: 'pending',
+      paymentId: `pi_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
+    });
+    
+    await payment.save();
+    
+    res.status(201).json({ 
+      message: 'Payment created successfully', 
+      payment 
+    });
+  } catch (error) {
+    console.error('Error creating payment:', error);
+    res.status(500).json({ message: 'Error creating payment' });
+  }
+};
+
+// Get payment by ID
+export const getPaymentById = async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user?._id;
+    
+    const payment = await Payment.findOne({ 
+      _id: id,
+      userId 
+    });
+    
+    if (!payment) {
+      return res.status(404).json({ message: 'Payment not found' });
+    }
+    
+    res.json({ payment });
+  } catch (error) {
+    console.error('Error fetching payment:', error);
+    res.status(500).json({ message: 'Error fetching payment' });
+  }
+};
+
+// Verify a payment
+export const verifyPayment = async (req: AuthRequest, res: Response) => {
+  try {
+    const { paymentId, txid } = req.body;
+    
+    // Find the payment
+    const payment = await Payment.findOne({ paymentId });
+    if (!payment) {
+      return res.status(404).json({ message: 'Payment not found' });
+    }
+    
+    // In a real implementation, you would verify the transaction with Pi Network API
+    // For now, we'll just update the payment status
+    payment.status = 'completed';
+    payment.txid = txid;
+    await payment.save();
+    
+    res.json({ message: 'Payment verified successfully', payment });
+  } catch (error) {
+    console.error('Error verifying payment:', error);
+    res.status(500).json({ message: 'Error verifying payment' });
+  }
+};
+
 // Approve a payment
 export const approvePayment = async (req: AuthRequest, res: Response) => {
   try {

@@ -1,53 +1,41 @@
-import React from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
+'use client';
+
+import { ReactNode } from 'react';
+import { usePiNetwork } from '@/hooks/usePiNetwork';
+import PiAuth from './PiAuth';
 
 interface LayoutProps {
-  children: React.ReactNode;
-  title?: string;
+  children: ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, title = 'CloudyPi' }) => {
+const Layout = ({ children }: LayoutProps) => {
+  const { piNetwork, isLoading, error } = usePiNetwork();
+
   return (
     <div className="min-h-screen bg-gray-100">
-      <Head>
-        <title>{title}</title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-
-      <nav className="bg-white shadow-lg">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center py-4">
-            <Link href="/" className="text-2xl font-bold text-gray-800">
-              CloudyPi
-            </Link>
-            <div className="space-x-4">
-              <Link href="/games" className="text-gray-600 hover:text-gray-900">
-                Games
-              </Link>
-              <Link href="/marketplace" className="text-gray-600 hover:text-gray-900">
-                Marketplace
-              </Link>
-              <Link href="/profile" className="text-gray-600 hover:text-gray-900">
-                Profile
-              </Link>
+      <header className="bg-white shadow">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex">
+              <div className="flex-shrink-0 flex items-center">
+                <h1 className="text-xl font-bold">CloudyPi</h1>
+              </div>
+            </div>
+            <div className="flex items-center">
+              {isLoading ? (
+                <div>Loading...</div>
+              ) : error ? (
+                <div className="text-red-500">{error.message}</div>
+              ) : (
+                <PiAuth />
+              )}
             </div>
           </div>
-        </div>
-      </nav>
-
-      <main className="container mx-auto px-4 py-8">
+        </nav>
+      </header>
+      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         {children}
       </main>
-
-      <footer className="bg-white shadow-lg mt-8">
-        <div className="container mx-auto px-4 py-6">
-          <div className="text-center text-gray-600">
-            © {new Date().getFullYear()} CloudyPi. All rights reserved.
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
