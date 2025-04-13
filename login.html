@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Pi SDK -->
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <script>Pi.init({ version: "2.0" });</script>
+    <script>Pi.init({ version: "2.0", sandbox: true });</script>
+    <!-- API Integration -->
+    <script src="/js/api.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -149,25 +151,73 @@
             max-width: 400px;
             margin: 0 auto;
         }
-        .pi-button {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-            color: #fff;
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+        }
+        .error-message {
+            color: #dc2626;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+        .success-message {
+            color: #059669;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+        .submit-button {
+            background: #6366f1;
+            color: white;
             border: none;
             padding: 12px 24px;
             border-radius: 6px;
-            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
             width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            transition: background-color 0.2s ease;
+        }
+        .submit-button:hover {
+            background: #4f46e5;
+        }
+        .submit-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        .pi-button {
+            background: #8A2BE2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+            transition: background-color 0.2s ease;
         }
         .pi-button:hover {
-            background: linear-gradient(135deg, #4f46e5, #4338ca);
-            transform: translateY(-2px);
+            background: #7B1FA2;
         }
         footer {
             background: #fff;
@@ -248,21 +298,41 @@
             <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
             <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
             <li><a href="categories.html"><span class="icon">📚</span>Categories</a></li>
-            <li><a href="top-creators.html"><span class="icon">🌟</span>Top Creators</a></li>
+            <li><a href="top-creators.html"><span class="icon">👑</span>Top Creators</a></li>
             <li><a href="contact-sales.html"><span class="icon">📞</span>Contact Sales</a></li>
-            <li><a href="signup.html"><span class="icon">🚀</span>Sign Up</a></li>
+            <li><a href="signup.html"><span class="icon">✍️</span>Sign Up</a></li>
         </ul>
     </nav>
 
     <!-- Main Content -->
     <div class="container">
-        <h1>Log In to Cloudy</h1>
-        <p>Access your account using your Pi Network credentials.</p>
+        <h1>Welcome Back!</h1>
+        <p>Log in to your Cloudy account</p>
+        
         <div class="login-box">
-            <button class="pi-button" onclick="loginWithPi()">
-                <i class="fab fa-pi"></i> Log In with Pi
-            </button>
-            <p style="margin-top: 16px;">New to Cloudy? <a href="signup.html" style="color: #6366f1;">Sign Up</a></p>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="submit-button">Log In</button>
+                <button type="button" class="pi-button" onclick="handlePiLogin()">
+                    <i class="fas fa-wallet"></i> Log in with Pi
+                </button>
+
+                <div id="errorMessage" class="error-message"></div>
+                <div id="successMessage" class="success-message"></div>
+
+                <p style="margin-top: 20px; text-align: center;">
+                    Don't have an account? <a href="signup.html" style="color: #6366f1;">Sign up</a>
+                </p>
+            </form>
         </div>
     </div>
 
@@ -311,31 +381,67 @@
         // Mobile menu toggle
         const hamburger = document.querySelector('.hamburger');
         const mobileMenu = document.querySelector('.mobile-menu');
+        
         hamburger.addEventListener('click', () => {
             mobileMenu.classList.toggle('open');
-            const isOpen = mobileMenu.classList.contains('open');
-            hamburger.textContent = isOpen ? '✕' : '☰';
-            hamburger.setAttribute('aria-expanded', isOpen);
+            hamburger.setAttribute('aria-expanded', 
+                hamburger.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+            );
         });
 
-        // Pi SDK Login
-        async function loginWithPi() {
+        // Login form handling
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const submitButton = document.querySelector('.submit-button');
+
+            // Reset messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            submitButton.disabled = true;
+
             try {
-                const scopes = ['username', 'payments'];
-                const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
-                console.log('Login successful:', authResult);
-                alert(`Welcome back, ${authResult.user.username}!`);
-                window.location.href = 'dashboard.html'; // Redirect to dashboard
+                const response = await window.api.login(email, password);
+                
+                // Store the token
+                window.api.setToken(response.token);
+                
+                // Show success message
+                successMessage.textContent = 'Login successful! Redirecting...';
+                successMessage.style.display = 'block';
+                
+                // Redirect to dashboard after successful login
+                setTimeout(() => {
+                    window.location.href = '/dashboard.html';
+                }, 1500);
             } catch (error) {
-                console.error('Login failed:', error);
-                alert('Login failed. Please try again or sign up.');
+                errorMessage.textContent = error.message || 'Failed to login. Please try again.';
+                errorMessage.style.display = 'block';
+                submitButton.disabled = false;
             }
         }
 
-        function onIncompletePaymentFound(payment) {
-            console.log('Incomplete payment found:', payment);
-            // Handle incomplete payment logic if needed
-            return { approved: false, message: 'Payment incomplete. Please complete it in Pi Browser.' };
+        async function handlePiLogin() {
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            
+            try {
+                const response = await window.api.loginWithPi();
+                if (response.token) {
+                    successMessage.textContent = 'Pi login successful!';
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                    window.location.href = '/home.html';
+                }
+            } catch (error) {
+                errorMessage.textContent = error.message || 'Pi login failed. Please try again.';
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+            }
         }
     </script>
 </body>

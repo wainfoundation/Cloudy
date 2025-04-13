@@ -3,47 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloudy Dashboard - Manage Your Account</title>
+    <title>Cloudy - Dashboard</title>
     <!-- Google Fonts: Inter -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- API Integration -->
+    <script src="/js/api.js"></script>
     <style>
-        /* Reset and Base Styles */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
         body {
-            font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            font-weight: 400;
+            font-family: 'Inter', sans-serif;
             background: #f7f7f7;
             color: #2d2d2d;
             line-height: 1.5;
-            font-size: clamp(14px, 1.8vw, 15px);
-            overflow-x: hidden;
         }
-
-        /* CSS Variables */
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #6b7280;
-            --background: #f7f7f7;
-            --card-bg: #fff;
-            --gradient: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        /* Desktop Header */
         header {
             background: #fff;
             padding: 16px 32px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         .header-container {
@@ -52,937 +33,180 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
         }
         .logo {
             font-size: 22px;
             font-weight: 600;
             color: #1f2937;
-            letter-spacing: -0.01em;
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s ease;
         }
         .logo::before {
             content: "☁️";
             margin-right: 8px;
-            font-size: 22px;
-            transition: transform 0.3s ease;
         }
-        .logo:hover {
-            transform: scale(1.05);
-        }
-        .logo:hover::before {
-            transform: translateY(-2px);
-        }
-        nav {
+        .user-nav {
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        nav a {
-            color: #4b5563;
-            text-decoration: none;
-            margin: 8px clamp(12px, 2vw, 16px) 8px 0;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: background 0.2s ease, color 0.2s ease;
-        }
-        nav a:hover {
-            background: #f5f6ff;
-            color: var(--primary);
-        }
-        nav a.active {
-            background: #f5f6ff;
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Mobile Header */
-        .mobile-header {
-            display: none;
-            background: #fff;
-            padding: clamp(10px, 3vw, 12px) clamp(12px, 4vw, 16px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .mobile-header .logo {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1f2937;
-            letter-spacing: -0.01em;
-            display: flex;
-            align-items: center;
-        }
-        .mobile-header .logo::before {
-            content: "☁️";
-            margin-right: 6px;
-            font-size: 20px;
-        }
-        .hamburger {
-            font-size: 20px;
-            background: none;
-            border: none;
-            color: var(--secondary);
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            min-width: 44px;
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .hamburger:hover {
-            background: #f5f6ff;
-            color: #1f2937;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            max-height: 100vh;
-            background: #fff;
-            padding: 60px 16px;
-            z-index: 999;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0.3s, opacity 0.3s ease;
-            overflow-y: auto;
-        }
-        .mobile-menu.open {
-            display: block;
-            visibility: visible;
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .mobile-menu ul {
-            list-style: none;
-        }
-        .mobile-menu li {
-            margin: 8px 0;
-        }
-        .mobile-menu a, .mobile-menu span {
-            color: #374151;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border-radius: 6px;
-            transition: background 0.2s ease;
-        }
-        .mobile-menu a:hover {
-            background: #f5f6ff;
-        }
-        .mobile-menu .icon {
-            margin-right: 12px;
-            font-size: 16px;
-            width: 16px;
-            text-align: center;
-        }
-
-        /* Dashboard Layout */
-        .dashboard {
-            display: flex;
-            min-height: calc(100vh - 60px); /* Adjust for header height */
-        }
-        .sidebar {
-            width: 250px;
-            background: #fff;
-            padding: 24px;
-            box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 60px;
-            height: calc(100vh - 60px);
-            overflow-y: auto;
-        }
-        .sidebar ul {
-            list-style: none;
-        }
-        .sidebar li {
-            margin: 8px 0;
-        }
-        .sidebar a {
-            color: #374151;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-        .sidebar a:hover, .sidebar a.active {
-            background: #f5f6ff;
-            color: var(--primary);
-        }
-        .sidebar .icon {
-            margin-right: 12px;
-            font-size: 16px;
-            width: 16px;
-            text-align: center;
-        }
-        .main-content {
-            flex: 1;
-            padding: 32px clamp(16px, 5vw, 32px);
-            max-width: 1280px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        .section {
-            margin-bottom: 40px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .section.visible {
-            opacity: 1;
-        }
-        .section h2 {
-            font-size: clamp(20px, 3vw, 24px);
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #1f2937;
-        }
-
-        /* Widgets */
-        .widget-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
             gap: 24px;
         }
-        .widget {
-            background: var(--card-bg);
-            padding: clamp(16px, 3vw, 24px);
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-        }
-        .widget:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-        .widget h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #1f2937;
-        }
-        .widget p {
-            font-size: 13px;
-            color: var(--secondary);
-            margin-bottom: 16px;
-        }
-        .widget button, .widget .button {
-            background: var(--gradient);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-height: 44px;
-            box-shadow: var(--shadow-sm);
-            text-decoration: none;
-            display: inline-block;
-        }
-        .widget button:hover, .widget .button:hover {
-            background: linear-gradient(135deg, var(--primary-dark), #4338ca);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        .progress-bar {
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-        .progress {
-            height: 100%;
-            background: var(--gradient);
-            transition: width 0.5s ease;
-        }
-        .activity-list {
-            list-style: none;
-        }
-        .activity-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 13px;
-            color: var(--secondary);
-        }
-        .activity-list li:last-child {
-            border-bottom: none;
-        }
-        .widget a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-        .widget a:hover {
-            text-decoration: underline;
-        }
-
-        /* Team Section */
-        .team-form {
+        .user-info {
             display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        .team-form input {
-            padding: 10px 16px;
-            font-size: 13px;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            outline: none;
-            transition: border-color 0.3s ease;
-            box-shadow: var(--shadow-sm);
-            flex: 1;
-            min-width: 200px;
-        }
-        .team-form input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
-        }
-
-        /* Full Footer */
-        footer {
-            background: #fff;
-            color: var(--secondary);
-            padding: 48px clamp(16px, 5vw, 32px);
-            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
-        }
-        .footer-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
-            gap: 32px;
-        }
-        .footer-section {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .footer-section.visible {
-            opacity: 1;
-        }
-        .footer-section h4 {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #1f2937;
-        }
-        .footer-section ul {
-            list-style: none;
-        }
-        .footer-section ul li {
-            margin-bottom: 8px;
-        }
-        .footer-section a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 400;
-            transition: color 0.2s ease;
-            display: block;
-            padding: 6px 0;
-            border-radius: 4px;
-        }
-        .footer-section a:hover {
-            color: var(--primary);
-            background: #f5f6ff;
-        }
-
-        /* Mobile Bottom Navigation */
-        .footer-mobile-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #fff;
-            padding: 12px 16px;
-            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
-            z-index: 1000;
-            text-align: center;
-        }
-        .footer-mobile-nav ul {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            list-style: none;
-        }
-        .footer-mobile-nav li {
-            flex: 1;
-        }
-        .footer-mobile-nav a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: 500;
-            padding: 8px;
-            border-radius: 6px;
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            transition: all 0.2s ease;
-        }
-        .footer-mobile-nav a:hover, .footer-mobile-nav a.active {
-            color: var(--primary);
-            background: #f5f6ff;
-        }
-        .footer-mobile-nav .icon {
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-
-        /* Subscription Form */
-        .footer-subscription {
-            max-width: 1280px;
-            margin: 32px auto 0;
-            padding: 24px;
-            background: var(--background);
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-        }
-        .footer-subscription h4 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 16px;
-        }
-        .footer-subscription form {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            flex-direction: column;
-        }
-        @media (min-width: 480px) {
-            .footer-subscription form {
-                flex-direction: row;
-            }
-        }
-        .footer-subscription input[type="email"] {
-            padding: 10px 16px;
-            font-size: 13px;
-            font-weight: 400;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            width: min(100%, 280px);
-            outline: none;
-            transition: border-color 0.3s ease;
-            box-shadow: var(--shadow-sm);
-        }
-        .footer-subscription input[type="email"]:focus {
-            border-color: var(--primary);
-            box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
-        }
-        .footer-subscription button {
-            background: var(--gradient);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-height: 44px;
-            box-shadow: var(--shadow-sm);
-        }
-        .footer-subscription button:hover {
-            background: linear-gradient(135deg, var(--primary-dark), #4338ca);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Footer Bottom */
-        .footer-bottom {
-            max-width: 1280px;
-            margin: 32px auto 0;
-            font-size: 13px;
-            font-weight: 400;
-            color: var(--secondary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 24px;
-            text-align: center;
-        }
-        .footer-bottom-left {
-            display: flex;
-            flex-direction: column;
             gap: 8px;
-            flex: 1;
         }
-        .footer-bottom-links {
+        .user-name {
+            font-weight: 500;
+            color: #1f2937;
+        }
+        .logout-button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .logout-button:hover {
+            background: #dc2626;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 32px auto;
+            padding: 0 32px;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        .dashboard-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .card-header {
             display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
         }
-        .footer-bottom-links a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 400;
-            transition: color 0.2s ease;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-        .footer-bottom-links a:hover {
-            color: var(--primary);
-            background: #f5f6ff;
-        }
-        .footer-app-name {
+        .card-title {
+            font-size: 18px;
             font-weight: 600;
-            color: var(--primary);
+            color: #1f2937;
         }
-        .social-icons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex: 1;
-        }
-        .social-icons a {
-            color: var(--secondary);
-            font-size: clamp(16px, 2.5vw, 18px);
-            transition: all 0.3s ease;
-            padding: 8px;
-            min-width: 44px;
-            min-height: 44px;
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: #f3f4f6;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 6px;
+            color: #6366f1;
         }
-        .social-icons a:hover {
-            color: var(--primary);
-            background: #f5f6ff;
-            transform: scale(1.1);
+        .card-content {
+            color: #6b7280;
         }
-        .footer-powered {
-            flex: 1;
+        .loading {
             text-align: center;
-            font-size: 13px;
-            font-weight: 400;
+            padding: 48px;
+            color: #6b7280;
         }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 200px;
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 16px;
             }
-            .widget-grid {
-                grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
-            }
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 768px) {
-            header {
-                display: none;
-            }
-            .mobile-header {
-                display: flex;
-            }
-            .dashboard {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: static;
-                box-shadow: none;
-                border-bottom: 1px solid #e5e7eb;
-            }
-            .main-content {
-                padding: 24px clamp(16px, 4vw, 24px);
-            }
-            .footer-content {
-                display: none;
-            }
-            .footer-mobile-nav {
-                display: block;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                gap: 16px;
-            }
-            .footer-bottom-left, .social-icons, .footer-powered {
-                flex: none;
-                width: 100%;
-            }
-        }
-        @media (max-width: 480px) {
-            .main-content {
-                padding: 16px clamp(12px, 4vw, 16px);
-            }
-            .widget-grid {
+            .dashboard-grid {
                 grid-template-columns: 1fr;
-            }
-            .team-form {
-                flex-direction: column;
-            }
-            .team-form input {
-                min-width: 100%;
-            }
-            .footer-subscription form {
-                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Mobile Header -->
-    <header class="mobile-header">
-        <div class="logo">Cloudy</div>
-        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
-    </header>
-
-    <!-- Desktop Header -->
     <header>
         <div class="header-container">
             <div class="logo">Cloudy</div>
-            <nav>
-                <a href="home.html">Home</a>
-                <a href="features.html">Features</a>
-                <a href="pricing.html">Pricing</a>
-                <a href="categories.html">Categories</a>
-                <a href="top-creators.html">Top Creators</a>
-                <a href="learnmore.html">Learn More</a>
-                <a href="signup.html">Sign Up</a>
-            </nav>
+            <div class="user-nav">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="user-name" id="userName">Loading...</span>
+                </div>
+                <button class="logout-button" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Mobile Menu -->
-    <nav class="mobile-menu">
-        <ul>
-            <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
-            <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
-            <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
-            <li><a href="categories.html"><span class="icon">📚</span>Categories</a></li>
-            <li><a href="top-creators.html"><span class="icon">🌟</span>Top Creators</a></li>
-            <li><a href="learnmore.html"><span class="icon">ℹ️</span>Learn More</a></li>
-            <li><a href="explore-more.html"><span class="icon">🔍</span>Explore More</a></li>
-            <li><a href="workspace-tools.html"><span class="icon">🛠️</span>Workspace Tools</a></li>
-            <li><a href="sell.html"><span class="icon">🛒</span>Sell Your Work</a></li>
-            <li><a href="our-story.html"><span class="icon">📖</span>Our Story</a></li>
-            <li><a href="pi-payments.html"><span class="icon">π</span>Pi Payments</a></li>
-            <li><a href="email-subscribers.html"><span class="icon">✉️</span>Email Subscribers</a></li>
-            <li><a href="new-releases.html"><span class="icon">🆕</span>New Releases</a></li>
-            <li><a href="team.html"><span class="icon">👥</span>Team</a></li>
-            <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
-            <li><a href="dashboard.html"><span class="icon">📊</span>Dashboard</a></li>
-            <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
-            <li><a href="whitepaper.html"><span class="icon">📄</span>Whitepaper</a></li>
-            <li><a href="security.html"><span class="icon">🔒</span>Security</a></li>
-            <li><a href="notice.html"><span class="icon">📢</span>Notices</a></li>
-            <li><a href="privacy.html"><span class="icon">🛡️</span>Privacy Policy</a></li>
-            <li><a href="terms.html"><span class="icon">📝</span>Terms of Service</a></li>
-            <li><a href="cookie-settings.html"><span class="icon">🍪</span>Cookie Settings</a></li>
-            <li><span class="user-info" id="user-name"><span class="icon">🙋</span>Welcome, [User]</span></li>
-            <li><a href="sign.html"><span class="icon">🚪</span>Sign Out</a></li>
-        </ul>
-    </nav>
-
-    <!-- Dashboard Content -->
-    <div class="dashboard">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <ul>
-                <li><a href="#overview" class="active"><span class="icon">📊</span>Overview</a></li>
-                <li><a href="#usage"><span class="icon">📈</span>Usage</a></li>
-                <li><a href="#cloudy-ai"><span class="icon">🤖</span>Cloudy AI</a></li>
-                <li><a href="#team"><span class="icon">👥</span>Team</a></li>
-                <li><a href="#settings"><span class="icon">⚙️</span>Settings</a></li>
-            </ul>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Overview Section -->
-            <section class="section" id="overview">
-                <h2>Welcome, [User]!</h2>
-                <div class="widget-grid">
-                    <div class="widget">
-                        <h3>Your Plan</h3>
-                        <p>Free Plan - 10 Guests, 5 AI Queries</p>
-                        <a href="pricing.html" class="button">Upgrade Plan</a>
-                    </div>
-                    <div class="widget">
-                        <h3>Pi Balance</h3>
-                        <p>50 Pi available</p>
-                        <button onclick="alert('Add Pi via Pi Network wallet.')">Add Pi</button>
-                    </div>
-                    <div class="widget">
-                        <h3>Quick Actions</h3>
-                        <p><a href="workspace-tools.html">Go to Workspace</a> | <a href="help-center.html">Get Help</a></p>
+    <div class="container">
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Welcome</h3>
+                    <div class="card-icon">
+                        <i class="fas fa-home"></i>
                     </div>
                 </div>
-            </section>
+                <div class="card-content">
+                    Welcome to your Cloudy dashboard. This is your personal space to manage your account and access our features.
+                </div>
+            </div>
 
-            <!-- Usage Stats Section -->
-            <section class="section" id="usage">
-                <h2>Usage Stats</h2>
-                <div class="widget-grid">
-                    <div class="widget">
-                        <h3>AI Queries</h3>
-                        <div class="progress-bar"><div class="progress" style="width: 60%;"></div></div>
-                        <p>3/5 queries used this month</p>
-                    </div>
-                    <div class="widget">
-                        <h3>Storage</h3>
-                        <div class="progress-bar"><div class="progress" style="width: 20%;"></div></div>
-                        <p>200 MB / 1 GB used</p>
-                    </div>
-                    <div class="widget">
-                        <h3>Collaborators</h3>
-                        <div class="progress-bar"><div class="progress" style="width: 30%;"></div></div>
-                        <p>3/10 guests invited</p>
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Quick Stats</h3>
+                    <div class="card-icon">
+                        <i class="fas fa-chart-bar"></i>
                     </div>
                 </div>
-            </section>
+                <div class="card-content">
+                    View your activity and statistics here. We're working on bringing you more insights soon!
+                </div>
+            </div>
 
-            <!-- Cloudy AI Section -->
-            <section class="section" id="cloudy-ai">
-                <h2>Cloudy AI</h2>
-                <div class="widget-grid">
-                    <div class="widget">
-                        <h3>Status</h3>
-                        <p>Not enabled - Add for 10 Pi/month</p>
-                        <a href="signup.html?add-on=ai" class="button">Enable Cloudy AI</a>
-                    </div>
-                    <div class="widget">
-                        <h3>Recent AI Activity</h3>
-                        <ul class="activity-list">
-                            <li>Generated summary - Apr 10, 2025</li>
-                            <li>Connected Slack - Apr 8, 2025</li>
-                            <li>Chat with GPT-4 - Apr 5, 2025</li>
-                        </ul>
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Activity</h3>
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
                     </div>
                 </div>
-            </section>
-
-            <!-- Team Section -->
-            <section class="section" id="team">
-                <h2>Team</h2>
-                <div class="widget">
-                    <h3>Invite Collaborators</h3>
-                    <div class="team-form">
-                        <input type="email" placeholder="Enter email" aria-label="Invite collaborator by email">
-                        <button onclick="alert('Invitation sent!')">Invite</button>
-                    </div>
-                    <p>3/10 guests invited. <a href="pricing.html">Upgrade</a> for more.</p>
+                <div class="card-content">
+                    Track your recent activities and interactions. Stay tuned for more updates!
                 </div>
-            </section>
-
-            <!-- Settings Section -->
-            <section class="section" id="settings">
-                <h2>Settings</h2>
-                <div class="widget">
-                    <h3>Account Settings</h3>
-                    <p>Manage your email, password, and preferences.</p>
-                    <button onclick="alert('Settings page coming soon!')">Edit Settings</button>
-                </div>
-            </section>
-        </main>
+            </div>
+        </div>
     </div>
 
-    <!-- Full Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Explore more ☁️</h4>
-                <ul>
-                    <li><a href="explore-more.html">Explore More</a></li>
-                    <li><a href="categories.html">Categories</a></li>
-                    <li><a href="top-creators.html">Top Creators</a></li>
-                    <li><a href="new-releases.html">New Releases</a></li>
-                    <li><a href="discover.html">Discover</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Create</h4>
-                <ul>
-                    <li><a href="workspace-tools.html">Workspace Tools</a></li>
-                    <li><a href="sell.html">Sell Your Work</a></li>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>About</h4>
-                <ul>
-                    <li><a href="our-story.html">Our Story</a></li>
-                    <li><a href="pi-payments.html">Pi Payments</a></li>
-                    <li><a href="team.html">Team</a></li>
-                    <li><a href="whitepaper.html">Whitepaper</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="help-center.html">Help Center</a></li>
-                    <li><a href="contact-us.html">Contact Us</a></li>
-                    <li><a href="email-subscribers.html">Email Subscribers</a></li>
-                    <li><a href="pricing.html">Pricing</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-mobile-nav">
-            <ul>
-                <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
-                <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
-                <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
-                <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
-                <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
-            </ul>
-        </div>
-        <div class="footer-subscription">
-            <h4>Subscribe to Our Newsletter ☁️</h4>
-            <form>
-                <input type="email" placeholder="Enter your email" required aria-label="Email for newsletter">
-                <button type="submit">Subscribe</button>
-            </form>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-bottom-left">
-                <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
-                <span>We do not sell or share your personal information.</span>
-                <div class="footer-bottom-links">
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms of Service</a>
-                    <a href="cookie-settings.html">Cookie Settings</a>
-                    <a href="whitepaper.html">Whitepaper</a>
-                    <a href="docs.html">Docs</a>
-                    <a href="security.html">Security</a>
-                    <a href="notice.html">Notices</a>
-                </div>
-            </div>
-            <div class="social-icons">
-                <a href="https://facebook.com/cloudy" target="_blank" aria-label="Follow Cloudy on Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://twitter.com/cloudy" target="_blank" aria-label="Follow Cloudy on Twitter"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://instagram.com/cloudy" target="_blank" aria-label="Follow Cloudy on Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://telegram.org/cloudy" target="_blank" aria-label="Follow Cloudy on Telegram"><i class="fab fa-telegram"></i></a>
-                <a href="https://discord.com/cloudy" target="_blank" aria-label="Join Cloudy on Discord"><i class="fab fa-discord"></i></a>
-            </div>
-            <span class="footer-powered">Powered by Pi Network</span>
-        </div>
-    </footer>
-
     <script>
-        // Header shadow on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            header.classList.toggle('scrolled', window.scrollY > 0);
-        });
-
-        // Mobile menu toggle with debounce
-        let isToggling = false;
-        const hamburger = document.querySelector('.hamburger');
-        const mobileMenu = document.querySelector('.mobile-menu');
-
-        hamburger.addEventListener('click', () => {
-            if (isToggling) return;
-            isToggling = true;
-            mobileMenu.classList.toggle('open');
-            const isOpen = mobileMenu.classList.contains('open');
-            hamburger.textContent = isOpen ? '✕' : '☰';
-            hamburger.setAttribute('aria-expanded', isOpen);
-            setTimeout(() => { isToggling = false; }, 300);
-        });
-
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                hamburger.textContent = '☰';
-                hamburger.setAttribute('aria-expanded', false);
-            });
-        });
-
-        // Close mobile menu on outside click
-        document.addEventListener('click', (e) => {
-            if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target) && mobileMenu.classList.contains('open')) {
-                mobileMenu.classList.remove('open');
-                hamburger.textContent = '☰';
-                hamburger.setAttribute('aria-expanded', false);
-            }
-        });
-
-        // Scroll reveal animations
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    obs.unobserve(entry.target);
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const token = window.api.getToken();
+                if (!token) {
+                    window.location.href = '/login.html';
+                    return;
                 }
-            });
-        }, { threshold: 0.05, rootMargin: '20px' });
 
-        document.querySelectorAll('.section, .footer-section').forEach(el => observer.observe(el));
-
-        // Sidebar navigation
-        const sidebarLinks = document.querySelectorAll('.sidebar a');
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                sidebarLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                const sectionId = link.getAttribute('href').substring(1);
-                document.querySelector(`#${sectionId}`).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-
-        // Highlight active nav link in header/mobile menu/footer
-        const currentPage = window.location.pathname.split('/').pop() || 'home.html';
-        document.querySelectorAll('header nav a, .mobile-menu a, .footer-mobile-nav a, .footer-section a').forEach(link => {
-            if (link.getAttribute('href') === currentPage) {
-                link.classList.add('active');
+                const user = await window.api.getCurrentUser();
+                if (user) {
+                    document.getElementById('userName').textContent = user.name;
+                }
+            } catch (error) {
+                console.error('Authentication error:', error);
+                window.location.href = '/login.html';
             }
         });
 
-        // Mobile nav active state
-        document.querySelectorAll('.footer-mobile-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.querySelectorAll('.footer-mobile-nav a').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-            });
-        });
-
-        // Subscription form validation
-        const subForm = document.querySelector('.footer-subscription form');
-        subForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = subForm.querySelector('input[type="email"]').value;
-            if (/^\S+@\S+\.\S+$/.test(email)) {
-                alert('Thank you for subscribing!');
-                subForm.reset();
-            } else {
-                alert('Please enter a valid email address.');
-            }
-        });
+        // Handle logout
+        async function handleLogout() {
+            window.api.removeToken();
+            window.location.href = '/login.html';
+        }
     </script>
 </body>
 </html>
