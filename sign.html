@@ -766,6 +766,7 @@
             align-items: center;
             gap: 8px;
             transition: all 0.2s ease;
+            position: relative;
         }
 
         .pi-button:hover {
@@ -773,9 +774,59 @@
             transform: translateY(-1px);
         }
 
+        .pi-button:disabled {
+            background: #9CA3AF;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .pi-button img {
             width: 20px;
             height: 20px;
+        }
+
+        .pi-button .loading {
+            position: absolute;
+            right: 10px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .pi-button.loading .loading {
+            display: block;
+        }
+
+        .pi-button.loading span {
+            visibility: hidden;
+        }
+
+        .auth-error {
+            color: #DC2626;
+            background: #FEE2E2;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .auth-success {
+            color: #059669;
+            background: #D1FAE5;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+            font-size: 14px;
+            display: none;
         }
     </style>
 </head>
@@ -848,7 +899,13 @@
         <div class="signup-container">
             <h3>Sign Up with Pi Network</h3>
             <p>Use your Pi Network account for a secure and seamless sign-up experience.</p>
-            <a href="#" class="pi-signup-button" id="pi-signup">Sign Up with Pi ☁️</a>
+            <button id="piSignIn" class="pi-button">
+                <img src="https://sdk.minepi.com/pi-logo.png" alt="Pi Network Logo">
+                <span>Sign Up with Pi</span>
+                <div class="loading"></div>
+            </button>
+            <div id="authError" class="auth-error"></div>
+            <div id="authSuccess" class="auth-success"></div>
         </div>
     </div>
 
@@ -988,16 +1045,76 @@
         });
 
         // Handle Pi Network Sign In
-        document.getElementById('piSignIn').addEventListener('click', async () => {
+        const piButton = document.getElementById('piSignIn');
+        const authError = document.getElementById('authError');
+        const authSuccess = document.getElementById('authSuccess');
+
+        piButton.addEventListener('click', async () => {
             try {
+                // Show loading state
+                piButton.classList.add('loading');
+                piButton.disabled = true;
+                authError.style.display = 'none';
+                authSuccess.style.display = 'none';
+
                 const authResult = await pi.authenticate(['username', 'payments', 'wallet_address'], function(auth) {
                     console.log(`Hi ${auth.user.username}! You've successfully signed in!`);
-                    // Here you can make an API call to your backend to create/update the user
-                    window.location.href = '/dashboard.html'; // Redirect to dashboard after successful sign in
+                    
+                    // Show success message
+                    authSuccess.textContent = `Welcome, ${auth.user.username}! Redirecting to dashboard...`;
+                    authSuccess.style.display = 'block';
+
+                    // Make API call to backend
+                    fetch('/api/auth/pi', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            uid: auth.user.uid,
+                            username: auth.user.username,
+                            accessToken: auth.accessToken,
+                            walletAddress: auth.user.walletAddress
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to authenticate with backend');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Store auth token
+                        localStorage.setItem('authToken', data.token);
+                        localStorage.setItem('user', JSON.stringify(auth.user));
+                        
+                        // Redirect after a short delay
+                        setTimeout(() => {
+                            window.location.href = '/dashboard.html';
+                        }, 1500);
+                    })
+                    .catch(error => {
+                        console.error('Backend authentication failed:', error);
+                        authError.textContent = 'Failed to complete sign in. Please try again.';
+                        authError.style.display = 'block';
+                        piButton.classList.remove('loading');
+                        piButton.disabled = false;
+                    });
                 });
             } catch (error) {
                 console.error('Pi Network authentication failed:', error);
-                alert('Failed to sign in with Pi Network. Please try again.');
+                authError.textContent = error.message || 'Failed to sign in with Pi Network. Please try again.';
+                authError.style.display = 'block';
+                piButton.classList.remove('loading');
+                piButton.disabled = false;
+            }
+        });
+
+        // Check if user is already authenticated
+        window.addEventListener('load', () => {
+            const user = localStorage.getItem('user');
+            if (user) {
+                window.location.href = '/dashboard.html';
             }
         });
 
