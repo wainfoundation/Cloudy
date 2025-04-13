@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticate } from '../middleware/auth';
+import { auth } from '../middleware/auth';
 import {
   getGames,
   getGameById,
@@ -17,8 +17,8 @@ router.get('/:id', getGameById);
 router.get('/:id/leaderboard', getGameLeaderboard);
 
 // Protected routes - require authentication
-router.post('/:id/progress', authenticate, saveGameProgress);
-router.get('/:id/progress', authenticate, getGameProgress);
-router.post('/:id/score', authenticate, submitGameScore);
+router.post('/:id/progress', auth, saveGameProgress);
+router.get('/:id/progress', auth, getGameProgress);
+router.post('/:id/score', auth, submitGameScore);
 
 export default router; 

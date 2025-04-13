@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticate } from '../middleware/auth';
+import { auth } from '../middleware/auth';
 import {
   createSubscription,
   getSubscriptionHistory,
@@ -11,10 +11,10 @@ import {
 const router = express.Router();
 
 // Protected routes - require authentication
-router.post('/', authenticate, createSubscription);
-router.get('/history', authenticate, getSubscriptionHistory);
-router.get('/active', authenticate, getActiveSubscription);
-router.put('/cancel', authenticate, cancelSubscription);
-router.put('/update', authenticate, updateSubscription);
+router.post('/', auth, createSubscription);
+router.get('/history', auth, getSubscriptionHistory);
+router.get('/active', auth, getActiveSubscription);
+router.put('/cancel', auth, cancelSubscription);
+router.put('/update', auth, updateSubscription);
 
 export default router; 

@@ -1,124 +1,89 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IStore extends Document {
+  ownerId: mongoose.Types.ObjectId;
   name: string;
   description: string;
-  domain: string;
-  ownerId: mongoose.Types.ObjectId;
-  piWalletAddress: string;
-  logo?: string;
-  banner?: string;
-  categories: string[];
+  logo: string;
+  banner: string;
   socialLinks: {
     website?: string;
     twitter?: string;
     instagram?: string;
     github?: string;
   };
-  isActive: boolean;
-  rating: number;
+  categories: string[];
   totalSales: number;
+  totalProducts: number;
+  rating: number;
+  status: 'active' | 'inactive' | 'suspended';
   createdAt: Date;
   updatedAt: Date;
 }
 
-const storeSchema = new Schema<IStore>(
+const StoreSchema: Schema = new Schema(
   {
-    name: {
-      type: String,
-      required: [true, 'Store name is required'],
-      trim: true,
-      maxlength: [100, 'Store name cannot exceed 100 characters'],
-    },
-    description: {
-      type: String,
-      required: [true, 'Store description is required'],
-      trim: true,
-      maxlength: [1000, 'Store description cannot exceed 1000 characters'],
-    },
-    domain: {
-      type: String,
-      required: [true, 'Store domain is required'],
-      trim: true,
-      unique: true,
-      lowercase: true,
-      match: [/^[a-z0-9-]+$/, 'Domain can only contain lowercase letters, numbers, and hyphens'],
-    },
     ownerId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'Store owner is required'],
+      required: true,
+      unique: true
     },
-    piWalletAddress: {
+    name: {
       type: String,
-      required: [true, 'Pi wallet address is required'],
-      trim: true,
+      required: true,
+      trim: true
+    },
+    description: {
+      type: String,
+      required: true
     },
     logo: {
       type: String,
-      trim: true,
+      required: true
     },
     banner: {
       type: String,
-      trim: true,
+      required: true
+    },
+    socialLinks: {
+      website: String,
+      twitter: String,
+      instagram: String,
+      github: String
     },
     categories: [{
       type: String,
-      required: [true, 'At least one category is required'],
+      trim: true
     }],
-    socialLinks: {
-      website: {
-        type: String,
-        trim: true,
-      },
-      twitter: {
-        type: String,
-        trim: true,
-      },
-      instagram: {
-        type: String,
-        trim: true,
-      },
-      github: {
-        type: String,
-        trim: true,
-      },
+    totalSales: {
+      type: Number,
+      default: 0
     },
-    isActive: {
-      type: Boolean,
-      default: true,
+    totalProducts: {
+      type: Number,
+      default: 0
     },
     rating: {
       type: Number,
       default: 0,
       min: 0,
-      max: 5,
+      max: 5
     },
-    totalSales: {
-      type: Number,
-      default: 0,
-      min: 0,
-    },
+    status: {
+      type: String,
+      enum: ['active', 'inactive', 'suspended'],
+      default: 'active'
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 
-// Indexes
-storeSchema.index({ domain: 1 }, { unique: true });
-storeSchema.index({ ownerId: 1 });
-storeSchema.index({ categories: 1 });
-storeSchema.index({ isActive: 1 });
-storeSchema.index({ rating: -1 });
-storeSchema.index({ totalSales: -1 });
+// Create indexes for efficient queries
+StoreSchema.index({ name: 'text', description: 'text' });
+StoreSchema.index({ categories: 1 });
+StoreSchema.index({ status: 1, totalSales: -1 });
 
-// Pre-save middleware to ensure domain is lowercase
-storeSchema.pre('save', function(next) {
-  if (this.domain) {
-    this.domain = this.domain.toLowerCase();
-  }
-  next();
-});
-
-export const Store = mongoose.model<IStore>('Store', storeSchema); 
+export default mongoose.model<IStore>('Store', StoreSchema); 

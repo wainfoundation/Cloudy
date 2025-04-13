@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticate } from '../middleware/auth';
+import { auth } from '../middleware/auth';
 import {
   getProfile,
   updateProfile,
@@ -11,10 +11,10 @@ import {
 const router = express.Router();
 
 // Protected routes - require authentication
-router.get('/profile', authenticate, getProfile);
-router.put('/profile', authenticate, updateProfile);
-router.get('/stats', authenticate, getGameStats);
-router.get('/achievements', authenticate, getAchievements);
+router.get('/profile', auth, getProfile);
+router.put('/profile', auth, updateProfile);
+router.get('/stats', auth, getGameStats);
+router.get('/achievements', auth, getAchievements);
 
 // Public route - no authentication required
 router.get('/leaderboard', getLeaderboard);

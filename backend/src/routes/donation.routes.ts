@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticate } from '../middleware/auth';
+import { auth } from '../middleware/auth';
 import {
   createDonation,
   getDonationHistory,
@@ -10,9 +10,9 @@ import {
 const router = express.Router();
 
 // Protected routes - require authentication
-router.post('/', authenticate, createDonation);
-router.get('/history', authenticate, getDonationHistory);
-router.get('/total', authenticate, getTotalDonations);
+router.post('/', auth, createDonation);
+router.get('/history', auth, getDonationHistory);
+router.get('/total', auth, getTotalDonations);
 
 // Public route - no authentication required
 router.get('/recent', getRecentDonations);

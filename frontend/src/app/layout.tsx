@@ -1,13 +1,13 @@
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
 import Script from 'next/script';
+import '../styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'CloudyPi - Web3 Gaming Platform',
-  description: 'CloudyPi - A Web3 Gaming Platform powered by Pi Network',
+  description: 'CloudyPi - A Web3 Gaming Platform powered by Pi Network'
 };
 
 export default function RootLayout({

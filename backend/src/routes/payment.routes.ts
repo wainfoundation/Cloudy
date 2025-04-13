@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticate } from '../middleware/auth';
+import { auth } from '../middleware/auth';
 import {
   createPayment,
   getPaymentHistory,
@@ -10,9 +10,9 @@ import {
 const router = express.Router();
 
 // Protected routes - require authentication
-router.post('/', authenticate, createPayment);
-router.get('/history', authenticate, getPaymentHistory);
-router.get('/:id', authenticate, getPaymentById);
-router.post('/verify', authenticate, verifyPayment);
+router.post('/', auth, createPayment);
+router.get('/history', auth, getPaymentHistory);
+router.get('/:id', auth, getPaymentById);
+router.post('/verify', auth, verifyPayment);
 
 export default router; 
