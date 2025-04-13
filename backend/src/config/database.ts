@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { gameManager } from '../utils/game-manager';
 
 dotenv.config();
 
@@ -33,4 +34,30 @@ process.on('SIGINT', async () => {
     console.error('Error closing MongoDB connection:', err);
     process.exit(1);
   }
+}); 
+
+private async showInterstitialAd(): Promise<void> {
+  try {
+    this.state.isAdPlaying = true;
+    const { Pi } = await import('@pinetwork-js/sdk');
+    await Pi.ads.showAd("interstitial");
+  } finally {
+    this.state.isAdPlaying = false;
+  }
+}
+
+private shouldShowAd(): boolean {
+  return (
+    isAdNetworkSupported() &&
+    (this.state.currentLevel % this.AD_FREQUENCY === 0)
+  );
+}
+
+async completeLevel(): Promise<void> {
+  await gameManager.completeLevel();
+}
+
+window.addEventListener('levelComplete', (event: CustomEvent) => {
+  const { level, score } = event.detail;
+  // Handle level completion
 }); 
