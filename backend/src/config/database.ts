@@ -8,10 +8,20 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/cloudy
 
 export const connectDB = async (): Promise<void> => {
   try {
-    const conn = await mongoose.connect(MONGODB_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    await mongoose.connect(MONGODB_URI);
+    console.log('Connected to MongoDB');
   } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
+    console.error('MongoDB connection error:', error);
+    process.exit(1);
+  }
+};
+
+export const disconnectDB = async () => {
+  try {
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB');
+  } catch (error) {
+    console.error('MongoDB disconnection error:', error);
     process.exit(1);
   }
 };
