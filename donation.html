@@ -3,974 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donate to Cloudy - Support Pi Apps</title>
+    <title>Support Cloudy with Pi Donations</title>
     <!-- Google Fonts: Inter -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-    <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Pi Network SDK -->
+    <script type="text/javascript" src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        /* Inherit all styles from the main template */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #6b7280;
+            --background: #f7f7f7;
+            --card-bg: #fff;
+            --gradient: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+
         body {
-            font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            font-weight: 400;
-            background: #f7f7f7;
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
             color: #2d2d2d;
             line-height: 1.5;
-            font-size: clamp(14px, 1.8vw, 15px);
-            overflow-x: hidden;
         }
 
-        /* Desktop Header */
-        header {
-            background: #fff;
-            padding: 16px 32px;
-            border-bottom: none;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .header-container {
-            max-width: 1280px;
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .logo {
-            font-size: 22px;
-            font-weight: 600;
-            color: #1f2937;
-            letter-spacing: -0.01em;
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s ease;
-        }
-        .logo::before {
-            content: "☁️";
-            margin-right: 8px;
-            font-size: 22px;
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-        .logo:hover {
-            transform: scale(1.05);
-        }
-        .logo:hover::before {
-            transform: translateY(-2px);
-        }
-        nav {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        nav a {
-            color: #4b5563;
-            text-decoration: none;
-            margin: 8px clamp(12px, 2vw, 16px) 8px 0;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: background 0.2s ease, color 0.2s ease;
-        }
-        nav a:hover {
-            background: #f5f6ff;
-            color: #6366f1;
-        }
-        nav a.active {
-            background: #f5f6ff;
-            color: #6366f1;
-            font-weight: 600;
+            padding: 2rem;
         }
 
-        /* Mobile Header */
-        .mobile-header {
-            display: none;
-            background: #fff;
-            padding: clamp(10px, 3vw, 12px) clamp(12px, 4vw, 16px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .mobile-header .logo {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1f2937;
-            letter-spacing: -0.01em;
-            display: flex;
-            align-items: center;
-        }
-        .mobile-header .logo::before {
-            content: "☁️";
-            margin-right: 6px;
-            font-size: 20px;
-        }
-        .hamburger {
-            font-size: 20px;
-            background: none;
-            border: none;
-            color: #6b7280;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            min-width: 44px;
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .hamburger:hover {
-            background: #f5f6ff;
-            color: #1f2937;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            max-height: 100vh;
-            background: #fff;
-            padding: 60px 16px;
-            z-index: 999;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0.3s, opacity 0.3s ease;
-            overflow-y: auto;
-            box-sizing: border-box;
-        }
-        .mobile-menu.open {
-            display: block;
-            visibility: visible;
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .mobile-menu ul {
-            list-style: none;
-        }
-        .mobile-menu li {
-            margin: 8px 0;
-        }
-        .mobile-menu a, .mobile-menu span {
-            color: #374151;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border-radius: 6px;
-            transition: background 0.2s ease;
-        }
-        .mobile-menu a:hover {
-            background: #f5f6ff;
-        }
-        .mobile-menu .icon {
-            margin-right: 12px;
-            font-size: 16px;
-            width: 16px;
+        .donation-header {
             text-align: center;
+            margin-bottom: 3rem;
         }
 
-        /* Donation Hero Section */
-        .donation-hero {
-            padding: clamp(40px, 10vw, 80px) clamp(16px, 5vw, 32px);
-            text-align: center;
-            background: linear-gradient(to bottom, #f5f6ff, #fff);
-            min-height: 60vh;
-            display: flex;
-            align-items: center;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards;
-        }
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        .donation-hero-content {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 32px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-        .donation-hero h1 {
-            font-size: clamp(32px, 6vw, 40px);
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #1f2937;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-        }
-        .donation-hero p {
-            font-size: clamp(16px, 2.5vw, 18px);
-            font-weight: 400;
-            color: #6b7280;
-            margin-bottom: 32px;
-            max-width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .donation-hero .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        .donation-hero button {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-            color: #fff;
-            border: none;
-            padding: clamp(10px, 2vw, 12px) clamp(20px, 5vw, 28px);
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 160px;
-            min-height: 44px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-        .donation-hero button:hover {
-            background: linear-gradient(135deg, #4f46e5, #4338ca);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-        .donation-hero button.secondary {
-            background: #fff;
-            color: #6366f1;
-            border: 1px solid #6366f1;
-        }
-        .donation-hero button.secondary:hover {
-            background: #f5f6ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        .donation-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
         }
 
-        /* Donation Form Section */
-        .donation-form {
-            max-width: 900px;
-            margin: 64px auto;
-            padding: 0 clamp(16px, 5vw, 32px);
-            text-align: center;
-        }
-        .section-title {
-            font-size: clamp(22px, 3.5vw, 26px);
-            font-weight: 600;
-            margin-bottom: 32px;
-            color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .section-title.visible {
-            opacity: 1;
-        }
-        .form-content {
-            background: #fff;
-            padding: clamp(24px, 5vw, 32px);
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .form-content.visible {
-            opacity: 1;
-        }
-        .form-content p {
-            font-size: clamp(16px, 2.5vw, 18px);
-            font-weight: 400;
-            color: #6b7280;
-            margin-bottom: 24px;
-            max-width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
+        .donation-header p {
+            font-size: 1.1rem;
+            color: var(--secondary);
             max-width: 600px;
             margin: 0 auto;
         }
-        .form-group {
+
+        .donation-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .donation-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease;
+        }
+
+        .donation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .donation-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
             display: flex;
-            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
-        .form-group label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #1f2937;
-            margin-bottom: 8px;
+
+        .pi-icon {
+            width: 24px;
+            height: 24px;
         }
-        .form-group input, .form-group select {
-            padding: 10px 16px;
-            font-size: 13px;
-            font-weight: 400;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            width: 100%;
-            max-width: 300px;
-            outline: none;
-            transition: border-color 0.3s ease;
-            box-sizing: border-box;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        .donation-description {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
         }
-        .form-group input:focus, .form-group select:focus {
-            border-color: #6366f1;
-            box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
-        }
-        .form-group button {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-            color: #fff;
+
+        .pi-payment-button {
+            background: #14F195;
+            color: #000;
             border: none;
             padding: 12px 24px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
+            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 160px;
-            min-height: 44px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-        .form-group button:hover {
-            background: linear-gradient(135deg, #4f46e5, #4338ca);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        /* Impact Section */
-        .impact {
-            background: #f7f7f7;
-            padding: 64px clamp(16px, 5vw, 32px);
-            text-align: center;
-        }
-        .impact-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .impact p {
-            font-size: clamp(16px, 2.5vw, 18px);
-            font-weight: 400;
-            color: #6b7280;
-            margin-bottom: 32px;
-            max-width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .impact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-            gap: 24px;
-        }
-        .impact-card {
-            background: #fff;
-            padding: clamp(16px, 3vw, 24px);
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .impact-card.visible {
-            opacity: 1;
-        }
-        .impact-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-        .impact-card h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-        }
-        .impact-card p {
-            font-size: 13px;
-            font-weight: 400;
-            color: #6b7280;
-        }
-
-        /* Footer */
-        footer {
-            background: #fff;
-            color: #6b7280;
-            padding: 48px clamp(16px, 5vw, 32px);
-            border-top: none;
-            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
-        }
-        .footer-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
-            gap: 32px;
-        }
-        .footer-section {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .footer-section.visible {
-            opacity: 1;
-        }
-        .footer-section h4 {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-        }
-        .footer-section ul {
-            list-style: none;
-        }
-        .footer-section ul li {
-            margin-bottom: 8px;
-        }
-        .footer-section a {
-            color: #6b7280;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 400;
-            transition: color 0.2s ease;
-            display: block;
-            padding: 6px 0;
-            border-radius: 4px;
-        }
-        .footer-section a:hover {
-            color: #6366f1;
-            background: #f5f6ff;
-        }
-
-        /* Mobile Bottom Navigation */
-        .footer-mobile-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #fff;
-            padding: 12px 16px;
-            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            text-align: center;
-        }
-        .footer-mobile-nav ul {
             display: flex;
-            justify-content: center;
-            gap: 24px;
-            list-style: none;
-        }
-        .footer-mobile-nav li {
-            flex: 1;
-        }
-        .footer-mobile-nav a {
-            color: #6b7280;
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: 500;
-            padding: 8px;
-            border-radius: 6px;
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            transition: all 0.2s ease;
-        }
-        .footer-mobile-nav a:hover, .footer-mobile-nav a.active {
-            color: #6366f1;
-            background: #f5f6ff;
-        }
-        .footer-mobile-nav .icon {
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-
-        /* Subscription Form */
-        .footer-subscription {
-            max-width: 1280px;
-            margin: 32px auto 0;
-            padding: 24px;
-            background: #f7f7f7;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-        .footer-subscription h4 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 16px;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-        }
-        .footer-subscription form {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            flex-direction: column;
-        }
-        @media (min-width: 480px) {
-            .footer-subscription form {
-                flex-direction: row;
-            }
-        }
-        .footer-subscription input[type="email"] {
-            padding: 10px 16px;
-            font-size: 13px;
-            font-weight: 400;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            width: min(100%, 280px);
-            outline: none;
-            transition: border-color 0.3s ease;
-            box-sizing: border-box;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .footer-subscription input[type="email"]:focus {
-            border-color: #6366f1;
-            box-shadow: 0 1px 3px rgba(99, 102, 241, 0.2);
-        }
-        .footer-subscription button {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-height: 44px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .footer-subscription button:hover {
-            background: linear-gradient(135deg, #4f46e5, #4338ca);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        /* Footer Bottom */
-        .footer-bottom {
-            max-width: 1280px;
-            margin: 32px auto 0;
-            font-size: 13px;
-            font-weight: 400;
-            color: #6b7280;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 24px;
-            text-align: center;
-        }
-        .footer-bottom-left {
-            display: flex;
-            flex-direction: column;
             gap: 8px;
-            flex: 1;
-        }
-        .footer-bottom-links {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
+            transition: all 0.2s ease;
+            width: 100%;
             justify-content: center;
+            margin-top: 16px;
+            position: relative;
         }
-        .footer-bottom-links a {
-            color: #6b7280;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 400;
-            transition: color 0.2s ease;
-            padding: 4px 8px;
-            border-radius: 4px;
+
+        .pi-payment-button:hover {
+            background: #0ED884;
+            transform: translateY(-1px);
         }
-        .footer-bottom-links a:hover {
-            color: #6366f1;
-            background: #f5f6ff;
+
+        .pi-payment-button:disabled {
+            background: #9CA3AF;
+            cursor: not-allowed;
+            transform: none;
         }
-        .footer-app-name {
-            font-weight: 600;
-            color: #6366f1;
+
+        .pi-payment-button .loading {
+            position: absolute;
+            right: 12px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            display: none;
         }
-        .social-icons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex: 1;
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-        .social-icons a {
-            color: #6b7280;
-            font-size: clamp(16px, 2.5vw, 18px);
-            transition: all 0.3s ease;
-            padding: 8px;
-            min-width: 44px;
-            min-height: 44px;
+
+        .pi-payment-button.loading .loading {
+            display: block;
+        }
+
+        .pi-payment-button.loading span {
+            visibility: hidden;
+        }
+
+        .payment-error {
+            color: #DC2626;
+            background: #FEE2E2;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .payment-success {
+            color: #059669;
+            background: #D1FAE5;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .custom-donation {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            margin-top: 2rem;
+        }
+
+        .custom-amount-input {
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 6px;
-        }
-        .social-icons a:hover {
-            color: #6366f1;
-            background: #f5f6ff;
-            transform: scale(1.1);
-        }
-        .footer-powered {
-            flex: 1;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 400;
+            gap: 0.5rem;
+            margin: 1rem 0;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .header-container, .donation-form, .impact {
-                padding: 0 clamp(16px, 4vw, 24px);
-            }
-            .donation-hero {
-                padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 24px);
-            }
-            .donation-hero-content {
-                padding: 24px;
-            }
-            .impact-grid {
-                grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
-            }
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .custom-amount-input input {
+            width: 120px;
+            padding: 8px 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            text-align: center;
         }
+
+        .custom-amount-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .donation-info {
+            background: #f5f6ff;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .donation-info h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .donation-info ul {
+            list-style: none;
+        }
+
+        .donation-info li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .donation-info li i {
+            color: var(--primary);
+        }
+
         @media (max-width: 768px) {
-            header {
-                display: none;
+            .container {
+                padding: 1rem;
             }
-            .mobile-header {
-                display: flex;
+
+            .donation-header h1 {
+                font-size: 2rem;
             }
-            .donation-hero {
-                padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 24px);
-                min-height: auto;
-            }
-            .donation-hero-content {
-                box-shadow: none;
-                padding: 16px;
-            }
-            .donation-form, .impact {
-                padding: 0 clamp(16px, 4vw, 24px);
-            }
-            .footer-content {
-                display: none;
-            }
-            .footer-mobile-nav {
-                display: block;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                gap: 16px;
-            }
-            .footer-bottom-left, .social-icons, .footer-powered {
-                flex: none;
-                width: 100%;
-            }
-        }
-        @media (max-width: 480px) {
-            .donation-hero {
-                padding: clamp(32px, 8vw, 40px) clamp(12px, 4vw, 16px);
-            }
-            .donation-form, .impact {
-                padding: 0 clamp(12px, 4vw, 16px);
-            }
-            .impact-grid {
+
+            .donation-options {
                 grid-template-columns: 1fr;
-            }
-            .footer-subscription form {
-                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Mobile Header -->
-    <header class="mobile-header">
-        <div class="logo">Cloudy</div>
-        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
-    </header>
-
-    <!-- Desktop Header -->
-    <header>
-        <div class="header-container">
-            <div class="logo">Cloudy</div>
-            <nav>
-                <a href="home.html">Home</a>
-                <a href="features.html">Features</a>
-                <a href="pricing.html">Pricing</a>
-                <a href="categories.html">Categories</a>
-                <a href="top-creators.html">Top Creators</a>
-                <a href="learnmore.html">Learn More</a>
-                <a href="signup.html">Sign Up</a>
-            </nav>
+    <div class="container">
+        <div class="donation-header">
+            <h1>Support Cloudy with Pi</h1>
+            <p>Help us continue building the future of creator platforms by making a donation in Pi cryptocurrency.</p>
         </div>
-    </header>
 
-    <!-- Mobile Menu -->
-    <nav class="mobile-menu">
-        <ul>
-            <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
-            <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
-            <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
-            <li><a href="categories.html"><span class="icon">📚</span>Categories</a></li>
-            <li><a href="top-creators.html"><span class="icon">🌟</span>Top Creators</a></li>
-            <li><a href="learnmore.html"><span class="icon">ℹ️</span>Learn More</a></li>
-            <li><a href="signup.html"><span class="icon">🚀</span>Sign Up</a></li>
-            <li><a href="explore-more.html"><span class="icon">🔍</span>Explore More</a></li>
-            <li><a href="workspace-tools.html"><span class="icon">🛠️</span>Workspace Tools</a></li>
-            <li><a href="sell.html"><span class="icon">🛒</span>Sell Your Work</a></li>
-            <li><a href="our-story.html"><span class="icon">📖</span>Our Story</a></li>
-            <li><a href="pi-payments.html"><span class="icon">π</span>Pi Payments</a></li>
-            <li><a href="email-subscribers.html"><span class="icon">✉️</span>Email Subscribers</a></li>
-            <li><a href="new-releases.html"><span class="icon">🆕</span>New Releases</a></li>
-            <li><a href="team.html"><span class="icon">👥</span>Team</a></li>
-            <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
-            <li><a href="dashboard.html"><span class="icon">📊</span>Dashboard</a></li>
-            <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
-            <li><a href="whitepaper.html"><span class="icon">📄</span>Whitepaper</a></li>
-            <li><a href="security.html"><span class="icon">🔒</span>Security</a></li>
-            <li><a href="notice.html"><span class="icon">📢</span>Notices</a></li>
-            <li><a href="privacy.html"><span class="icon">🛡️</span>Privacy Policy</a></li>
-            <li><a href="terms.html"><span class="icon">📝</span>Terms of Service</a></li>
-            <li><a href="cookie-settings.html"><span class="icon">🍪</span>Cookie Settings</a></li>
-            <li><span class="user-info" id="user-name"><span class="icon">🙋</span>Welcome, [User]</span></li>
-            <li><a href="sign.html"><span class="icon">🚪</span>Sign Out</a></li>
-        </ul>
-    </nav>
+        <div class="donation-options">
+            <div class="donation-card">
+                <h3>Small Donation</h3>
+                <div class="donation-amount">
+                    <img src="https://sdk.minepi.com/pi-logo.png" alt="Pi" class="pi-icon">
+                    <span>10 Pi</span>
+                </div>
+                <p class="donation-description">Support our basic operations and help us maintain the platform.</p>
+                <button class="pi-payment-button" onclick="handleDonation(10)">
+                    <img src="https://sdk.minepi.com/pi-logo.png" alt="Pi Network Logo">
+                    <span>Donate 10 Pi</span>
+                    <div class="loading"></div>
+                </button>
+                <div class="payment-error"></div>
+                <div class="payment-success"></div>
+            </div>
 
-    <!-- Donation Hero Section -->
-    <div class="donation-hero">
-        <div class="donation-hero-content">
-            <h1>Support Cloudy’s Mission</h1>
-            <p>Join us in building real-world Pi apps like Cloudy and TruthWeb. Your donation will help MrWayne’s team overcome funding challenges and create tools that empower Pioneers to create, trade, and thrive.</p>
-            <div class="buttons">
-                <button onclick="document.getElementById('donation-form').scrollIntoView({ behavior: 'smooth' })">Donate Now</button>
-                <button class="secondary" onclick="window.location.href='our-story.html'">Learn Our Story</button>
+            <div class="donation-card">
+                <h3>Medium Donation</h3>
+                <div class="donation-amount">
+                    <img src="https://sdk.minepi.com/pi-logo.png" alt="Pi" class="pi-icon">
+                    <span>25 Pi</span>
+                </div>
+                <p class="donation-description">Help us develop new features and improve existing ones.</p>
+                <button class="pi-payment-button" onclick="handleDonation(25)">
+                    <img src="https://sdk.minepi.com/pi-logo.png" alt="Pi Network Logo">
+                    <span>Donate 25 Pi</span>
+                    <div class="loading"></div>
+                </button>
+                <div class="payment-error"></div>
+                <div class="payment-success"></div>
+            </div>
+
+            <div class="donation-card">
+                <h3>Large Donation</h3>
+                <div class="donation-amount">
+                    <img src="https://sdk.minepi.com/pi-logo.png" alt="Pi" class="pi-icon">
+                    <span>50 Pi</span>
+                </div>
+                <p class="donation-description">Make a significant impact on our platform's growth and development.</p>
+                <button class="pi-payment-button" onclick="handleDonation(50)">
+                    <img src="https://sdk.minepi.com/pi-logo.png" alt="Pi Network Logo">
+                    <span>Donate 50 Pi</span>
+                    <div class="loading"></div>
+                </button>
+                <div class="payment-error"></div>
+                <div class="payment-success"></div>
             </div>
         </div>
-    </div>
 
-    <!-- Donation Form Section -->
-    <div class="donation-form" id="donation-form">
-        <h2 class="section-title">Make a Difference</h2>
-        <div class="form-content">
-            <p>Every contribution counts. Support Cloudy, TruthWeb, and future Pi apps by donating via Pi payments or other methods. Your generosity will fund our tech stack, servers, and resources to bring Pi’s potential to life.</p>
-            <form class="form-grid">
-                <div class="form-group">
-                    <label for="amount">Donation Amount</label>
-                    <input type="number" id="amount" placeholder="Enter amount (e.g., 10 Pi)" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="method">Payment Method</label>
-                    <select id="method" required>
-                        <option value="" disabled selected>Select method</option>
-                        <option value="pi">Pi Payment</option>
-                        <option value="crypto">Other Cryptocurrency</option>
-                        <option value="fiat">Fiat (via Partner)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button type="submit">Submit Donation</button>
-                </div>
-            </form>
+        <div class="custom-donation">
+            <h3>Custom Donation Amount</h3>
+            <p>Choose your own donation amount in Pi</p>
+            <div class="custom-amount-input">
+                <img src="https://sdk.minepi.com/pi-logo.png" alt="Pi" class="pi-icon">
+                <input type="number" id="customAmount" min="1" placeholder="Enter amount">
+            </div>
+            <button class="pi-payment-button" onclick="handleCustomDonation()">
+                <img src="https://sdk.minepi.com/pi-logo.png" alt="Pi Network Logo">
+                <span>Donate Custom Amount</span>
+                <div class="loading"></div>
+            </button>
+            <div class="payment-error"></div>
+            <div class="payment-success"></div>
         </div>
-    </div>
 
-    <!-- Impact Section -->
-    <div class="impact">
-        <h2 class="section-title">Your Impact</h2>
-        <div class="impact-content">
-            <p>Your donation directly supports the growth of Cloudy, TruthWeb, and new Pi apps, enabling us to provide Pioneers with innovative tools and real-world use cases. Here’s how you’ll make a difference:</p>
-            <div class="impact-grid">
-                <div class="impact-card">
-                    <h3>Empower Creators</h3>
-                    <p>Fund tools for Pioneers to create and monetize content on Cloudy, fostering a vibrant creative economy.</p>
-                </div>
-                <div class="impact-card">
-                    <h3>Scale TruthWeb</h3>
-                    <p>Support the development of TruthWeb, a platform for decentralized all-in-one platform designed for Pi Network Pioneers to seamlessly integrate Pi into their daily lives. It serves as a digital hub for products, goods, and services sharing within the Pi ecosystem.</p>
-                </div>
-                <div class="impact-card">
-                    <h3>Build More Apps</h3>
-                    <p>Enable our team to innovate with new Pi apps, expanding real-world applications for Pi Network users.</p>
-                </div>
-                <div class="impact-card">
-                    <h3>Sustain Development</h3>
-                    <p>Provide resources for servers, tech stacks, and team efforts to keep our projects thriving.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Explore more ☁️</h4>
-                <ul>
-                    <li><a href="explore-more.html">Explore More</a></li>
-                    <li><a href="categories.html">Categories</a></li>
-                    <li><a href="top-creators.html">Top Creators</a></li>
-                    <li><a href="new-releases.html">New Releases</a></li>
-                    <li><a href="discover.html">Discover</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Create</h4>
-                <ul>
-                    <li><a href="workspace-tools.html">Workspace Tools</a></li>
-                    <li><a href="sell.html">Sell Your Work</a></li>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>About</h4>
-                <ul>
-                    <li><a href="our-story.html">Our Story</a></li>
-                    <li><a href="pi-payments.html">Pi Payments</a></li>
-                    <li><a href="team.html">Team</a></li>
-                    <li><a href="whitepaper.html">Whitepaper</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="help-center.html">Help Center</a></li>
-                    <li><a href="contact-us.html">Contact Us</a></li>
-                    <li><a href="email-subscribers.html">Email Subscribers</a></li>
-                    <li><a href="pricing.html">Pricing</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-mobile-nav">
+        <div class="donation-info">
+            <h2>Why Donate?</h2>
             <ul>
-                <li><a href="home.html"><span class="icon">🏠</span>Home</a></li>
-                <li><a href="features.html"><span class="icon">✨</span>Features</a></li>
-                <li><a href="pricing.html"><span class="icon">💰</span>Pricing</a></li>
-                <li><a href="discover.html"><span class="icon">🔍</span>Discover</a></li>
-                <li><a href="profile.html"><span class="icon">👤</span>Profile</a></li>
+                <li><i class="fas fa-check-circle"></i> Support the development of new features</li>
+                <li><i class="fas fa-check-circle"></i> Help maintain and improve the platform</li>
+                <li><i class="fas fa-check-circle"></i> Contribute to the Pi Network ecosystem</li>
+                <li><i class="fas fa-check-circle"></i> Get early access to new features</li>
+                <li><i class="fas fa-check-circle"></i> Join our community of supporters</li>
             </ul>
         </div>
-        <div class="footer-subscription">
-            <h4>Subscribe to Our Newsletter ☁️</h4>
-            <form>
-                <input type="email" placeholder="Enter your email" required>
-                <button type="submit">Subscribe</button>
-            </form>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-bottom-left">
-                <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
-                <span>We do not sell or share your personal information.</span>
-                <div class="footer-bottom-links">
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="terms.html">Terms of Service</a></li>
-                    <li><a href="cookie-settings.html">Cookie Settings</a></li>
-                    <li><a href="whitepaper.html">Whitepaper</a></li>
-                    <li><a href="docs.html">Docs</a></li>
-                    <li><a href="security.html">Security</a></li>
-                    <li><a href="notice.html">Notices</a></li>
-                </div>
-            </div>
-            <div class="social-icons">
-                <a href="https://facebook.com/cloudy" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://twitter.com/cloudy" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
-                <a href="https://instagram.com/cloudy" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://telegram.org/cloudy" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-                <a href="https://discord.com/cloudy" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
-            </div>
-            <span class="footer-powered">Powered by Pi Network</span>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // Header shadow on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            header.classList.toggle('scrolled', window.scrollY > 0);
+        // Initialize Pi Network
+        const pi = new Pi({
+            version: "2.0",
+            sandbox: true // Set to false for production
         });
 
-        // Mobile menu toggle with debounce
-        let isToggling = false;
-        const hamburger = document.querySelector('.hamburger');
-        const mobileMenu = document.querySelector('.mobile-menu');
+        // Handle predefined donation amounts
+        async function handleDonation(amount) {
+            const button = event.target.closest('.pi-payment-button');
+            const errorDiv = button.nextElementSibling;
+            const successDiv = errorDiv.nextElementSibling;
 
-        hamburger.addEventListener('click', () => {
-            if (isToggling) return;
-            isToggling = true;
-            mobileMenu.classList.toggle('open');
-            const isOpen = mobileMenu.classList.contains('open');
-            hamburger.textContent = isOpen ? '✕' : '☰';
-            hamburger.setAttribute('aria-expanded', isOpen);
-            setTimeout(() => { isToggling = false; }, 300);
-        });
+            try {
+                // Show loading state
+                button.classList.add('loading');
+                button.disabled = true;
+                errorDiv.style.display = 'none';
+                successDiv.style.display = 'none';
 
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                hamburger.textContent = '☰';
-                hamburger.setAttribute('aria-expanded', false);
-            });
-        });
+                // Create payment
+                const payment = await pi.createPayment({
+                    amount: amount,
+                    memo: `Cloudy Donation - ${amount} Pi`,
+                    metadata: {
+                        type: 'donation',
+                        amount: amount
+                    }
+                });
 
-        // Scroll reveal animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.05, rootMargin: '20px' });
+                // Show success message
+                successDiv.textContent = `Thank you for your donation of ${amount} Pi!`;
+                successDiv.style.display = 'block';
 
-        document.querySelectorAll('.section-title, .form-content, .impact-card, .footer-section').forEach(el => observer.observe(el));
+                // Update donation record in backend
+                await fetch('/api/donations/record', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify({
+                        amount: amount,
+                        paymentId: payment.identifier
+                    })
+                });
 
-        // Highlight active nav link
-        const currentPage = window.location.pathname.split('/').pop() || 'home.html';
-        document.querySelectorAll('header nav a, .footer-mobile-nav a').forEach(link => {
-            if (link.getAttribute('href') === currentPage) {
-                link.classList.add('active');
+                // Reset button state after delay
+                setTimeout(() => {
+                    button.classList.remove('loading');
+                    button.disabled = false;
+                }, 2000);
+
+            } catch (error) {
+                console.error('Donation failed:', error);
+                errorDiv.textContent = error.message || 'Donation failed. Please try again.';
+                errorDiv.style.display = 'block';
+                button.classList.remove('loading');
+                button.disabled = false;
             }
-        });
+        }
 
-        // Mobile nav active state
-        document.querySelectorAll('.footer-mobile-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.querySelectorAll('.footer-mobile-nav a').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-            });
-        });
+        // Handle custom donation amount
+        async function handleCustomDonation() {
+            const amount = parseInt(document.getElementById('customAmount').value);
+            if (!amount || amount < 1) {
+                alert('Please enter a valid donation amount (minimum 1 Pi)');
+                return;
+            }
+            await handleDonation(amount);
+        }
 
-        // Placeholder form submission handler
-        document.querySelector('.form-grid').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Thank you for your donation! Our team will process your contribution soon.');
+        // Check if user is authenticated
+        window.addEventListener('load', () => {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                window.location.href = '/sign.html';
+            }
         });
     </script>
 </body>
