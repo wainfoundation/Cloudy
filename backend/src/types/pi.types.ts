@@ -4,23 +4,70 @@ export type PiScope = "username" | "payments" | "wallet_address";
 export interface PiUser {
     uid: string;
     username: string;
-    accessToken: string;
-    walletAddress?: string;
+    walletAddress: string;
 }
 
-export interface PiAuthResponse {
-    user: PiUser;
+export interface PiAuthResult {
     accessToken: string;
+    user: PiUser;
+}
+
+export interface PiPaymentData {
+    amount: number;
+    memo: string;
+    metadata: {
+        orderId?: string;
+        productId?: string;
+        userId?: string;
+        [key: string]: any;
+    };
+}
+
+export interface PiPaymentCallbacks {
+    onReadyForServerApproval: (paymentId: string) => Promise<void>;
+    onReadyForServerCompletion: (paymentId: string, txid: string) => Promise<void>;
+    onCancel: (paymentId: string) => void;
+    onError: (error: Error, payment?: PiPayment) => void;
 }
 
 export interface PiPayment {
+    identifier: string;
+    user_uid: string;
     amount: number;
     memo: string;
     metadata: Record<string, any>;
-    status: "completed" | "pending" | "cancelled" | "error";
+    status: {
+        developer_approved: boolean;
+        transaction_verified: boolean;
+        developer_completed: boolean;
+        cancelled: boolean;
+        user_cancelled: boolean;
+    };
+    transaction: {
+        txid: string;
+        verified: boolean;
+        _link: string;
+    };
+}
+
+export interface PiPaymentResponse {
     identifier: string;
     user_uid: string;
-    created_at: string;
+    amount: number;
+    memo: string;
+    metadata: Record<string, any>;
+    status: {
+        developer_approved: boolean;
+        transaction_verified: boolean;
+        developer_completed: boolean;
+        cancelled: boolean;
+        user_cancelled: boolean;
+    };
+    transaction: {
+        txid: string;
+        verified: boolean;
+        _link: string;
+    };
 }
 
 export type NativeFeature = "inline_media" | "request_permission" | "ad_network";

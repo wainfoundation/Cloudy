@@ -3,7 +3,11 @@ const API_URL = 'http://localhost:5001/api';
 // Pi SDK initialization
 const Pi = window.Pi ? window.Pi : null;
 if (Pi) {
-    Pi.init({ version: "2.0", sandbox: true });
+    Pi.init({ 
+        version: "2.0", 
+        sandbox: true,
+        apiKey: "oosvdfsis9dh2clk6cmka8bfg8jg3gfmwncl9xcukoek7ky2mh7z8xymohvbfiff"
+    });
 }
 
 /**
@@ -145,18 +149,24 @@ function removeToken() {
  */
 async function loginWithPi() {
     try {
+        if (!Pi) {
+            throw new Error('Pi SDK not loaded');
+        }
+
         /** @type {AuthResult} */
-        const auth = await Pi.authenticate(['payments', 'username'], onIncompletePaymentFound);
+        const auth = await Pi.authenticate(['payments', 'username', 'wallet_address'], onIncompletePaymentFound);
         
         // Send the Pi authentication data to your backend
         const response = await apiCall('/auth/pi-login', 'POST', {
             accessToken: auth.accessToken,
             uid: auth.user.uid,
-            username: auth.user.username
+            username: auth.user.username,
+            walletAddress: auth.user.walletAddress
         });
 
         if (response.token) {
             setToken(response.token);
+            localStorage.setItem('user_data', JSON.stringify(auth.user));
         }
 
         return response;
@@ -214,6 +224,10 @@ function onIncompletePaymentFound(payment) {
  */
 async function createPiPayment(paymentData) {
     try {
+        if (!Pi) {
+            throw new Error('Pi SDK not loaded');
+        }
+
         /** @type {PaymentCallbacks} */
         const callbacks = {
             onReadyForServerApproval: async (paymentId) => {
