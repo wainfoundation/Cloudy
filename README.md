@@ -1,116 +1,108 @@
-# CloudyPi - Web3 Gaming Platform
+# CloudyPi
 
-A decentralized gaming platform powered by Pi Network, built with Next.js and Node.js.
+A cloud storage platform integrated with Pi Network, allowing users to store and manage their files securely using Pi cryptocurrency.
 
 ## Features
 
 - Pi Network Authentication
-- Web3 Gaming Integration
-- Digital Product Marketplace
-- Creator Payouts
-- User Rewards System
-- Real-time Gaming Stats
-- Achievement System
+- Secure File Storage
+- File Sharing
+- Project Management
+- Real-time Collaboration
+- Template System
 
 ## Tech Stack
 
-- Frontend: Next.js, TypeScript, TailwindCSS
-- Backend: Node.js, Express, TypeScript
-- Database: MongoDB
-- Authentication: Pi Network SDK
-- Payment Processing: Pi Network
+- **Frontend**: HTML, CSS (Bootstrap), JavaScript
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Authentication**: Pi Network SDK
+- **File Storage**: Local storage (configurable for cloud storage)
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
-
-- Node.js (v18 or higher)
+- Node.js (v14 or higher)
 - MongoDB
-- Pi Network Account
+- Pi Network Developer Account
 
-### Installation
+## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/cloudypi.xyz.git
-cd cloudypi.xyz
+git clone https://github.com/yourusername/cloudypi.git
+cd cloudypi
 ```
 
 2. Install dependencies:
 ```bash
-# Install backend dependencies
-cd backend
-npm install
-
-# Install frontend dependencies
-cd ../frontend
 npm install
 ```
 
-3. Set up environment variables:
-```bash
-# Backend (.env)
-PORT=5000
-MONGODB_URI=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
-PI_NETWORK_API_KEY=your_pi_network_api_key
-
-# Frontend (.env.local)
-NEXT_PUBLIC_API_URL=http://localhost:5000
-NEXT_PUBLIC_PI_NETWORK_API_URL=https://api.minepi.com
+3. Create a `.env` file in the root directory:
+```env
+MONGO_URI=mongodb://localhost:27017/cloudy
+PORT=3000
 ```
 
-4. Start the development servers:
+4. Start the development server:
 ```bash
-# Start backend
-cd backend
-npm run dev
-
-# Start frontend
-cd ../frontend
 npm run dev
 ```
 
-## Deployment
+5. Open your browser and navigate to `http://localhost:3000`
 
-1. Build the application:
-```bash
-# Build backend
-cd backend
-npm run build
+## Project Structure
 
-# Build frontend
-cd ../frontend
-npm run build
+```
+cloudypi/
+├── public/
+│   ├── images/
+│   │   └── logo.svg
+│   │   └── login.html
+│   └── signup.html
+├── server/
+│   ├── models/
+│   │   ├── User.js
+│   │   └── Project.js
+│   ├── routes/
+│   │   ├── auth.js
+│   │   └── projects.js
+│   └── index.js
+├── .env
+├── .gitignore
+├── package.json
+└── README.md
 ```
 
-2. Start production servers:
-```bash
-# Start backend
-cd backend
-npm start
+## API Endpoints
 
-# Start frontend
-cd ../frontend
-npm start
-```
+### Authentication
+- `POST /api/auth/authenticate` - Authenticate with Pi Network
+- `GET /api/auth/profile` - Get user profile
+
+### Projects
+- `POST /api/projects` - Create new project
+- `GET /api/projects/:id` - Get project by ID
+- `PUT /api/projects/:id` - Update project
+- `DELETE /api/projects/:id` - Delete project
+- `POST /api/projects/:id/collaborators` - Add collaborator
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Contact
+## Acknowledgments
 
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
-Project Link: [https://github.com/yourusername/cloudypi.xyz](https://github.com/yourusername/cloudypi.xyz)
+- Pi Network for their SDK and documentation
+- The open-source community for inspiration and tools
 
 ---
 
