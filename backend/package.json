@@ -1,46 +1,27 @@
 {
   "name": "cloudy-backend",
   "version": "1.0.0",
-  "description": "Backend for Cloudy - A Notion-like application",
-  "main": "src/index.ts",
+  "description": "Backend for CloudyPi - Pi Network Cloud Storage",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts",
-    "build": "tsc",
-    "test": "jest"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@pi-apps/sdk": "^2.1.1",
     "express": "^4.18.2",
-    "mongoose": "^7.6.3",
+    "mongoose": "^6.10.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.0.3",
     "jsonwebtoken": "^9.0.2",
     "bcryptjs": "^2.4.3",
-    "socket.io": "^4.7.2",
-    "stripe": "^13.10.0",
     "multer": "^1.4.5-lts.1",
-    "aws-sdk": "^2.1483.0",
     "helmet": "^7.0.0",
-    "morgan": "^1.10.0",
-    "winston": "^3.11.0",
-    "rate-limiter-flexible": "^3.0.0",
-    "@types/node": "^20.8.6",
-    "typescript": "^5.2.2"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.19",
-    "@types/cors": "^2.8.14",
-    "@types/jsonwebtoken": "^9.0.3",
-    "@types/bcryptjs": "^2.4.4",
-    "@types/multer": "^1.4.8",
-    "@types/jest": "^29.5.5",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.1",
-    "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1"
+    "nodemon": "^2.0.22"
   }
 }
