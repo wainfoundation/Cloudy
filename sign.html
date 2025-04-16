@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloudy - Sign Up</title>
+    <title>Sign Up - CloudyPi.xyz</title>
     <!-- Google Fonts: Inter -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <!-- Font Awesome CDN for social icons -->
@@ -268,58 +268,124 @@
 
         /* Sign-Up Section */
         .signup-section {
-            max-width: 1280px;
+            max-width: 400px;
             margin: 64px auto;
             padding: 0 clamp(16px, 5vw, 32px);
             text-align: center;
-            min-height: 50vh;
-            display: flex;
-            align-items: center;
         }
         .signup-section h2 {
-            font-size: clamp(22px, 3.5vw, 26px);
-            font-weight: 600;
-            margin-bottom: 32px;
+            font-size: clamp(24px, 3.5vw, 28px);
+            font-weight: 700;
+            margin-bottom: 16px;
             color: #1f2937;
             line-height: 1.3;
             letter-spacing: -0.01em;
-            opacity: 0;
-            transition: opacity 0.5s ease;
         }
-        .signup-section h2.visible {
-            opacity: 1;
+        .signup-section p {
+            font-size: clamp(14px, 2.5vw, 16px);
+            font-weight: 400;
+            color: #6b7280;
+            margin-bottom: 24px;
+            line-height: 1.6;
         }
         .signup-container {
-            max-width: 500px;
-            margin: 0 auto;
             background: #fff;
             padding: clamp(24px, 4vw, 32px);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .signup-container.visible {
-            opacity: 1;
         }
         .signup-container:hover {
             transform: translateY(-4px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         }
-        .signup-container h3 {
-            font-size: 16px;
+
+        /* Pi Network Button Styles */
+        .pi-button {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            border: none;
+            padding: clamp(12px, 2.5vw, 14px) clamp(24px, 5vw, 28px);
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 12px;
-            color: #1f2937;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            width: 100%;
+            min-height: 48px;
+            box-shadow: 0 3px 8px rgba(99, 102, 241, 0.2);
+            position: relative;
+            overflow: hidden;
         }
-        .signup-container p {
+        .pi-button:hover {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(99, 102, 241, 0.4);
+        }
+        .pi-button:focus {
+            outline: 2px solid #6366f1;
+            outline-offset: 2px;
+        }
+        .pi-button:disabled {
+            background: #9CA3AF;
+            color: #fff;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .pi-button img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #fff;
+            padding: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .pi-button:hover img {
+            transform: scale(1.1);
+        }
+        .pi-button .loading {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+            display: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        @keyframes spin {
+            to { transform: translateX(-50%) rotate(360deg); }
+        }
+        .pi-button.loading .loading {
+            display: inline-block;
+        }
+        .pi-button.loading span, .pi-button.loading img {
+            visibility: hidden;
+        }
+        .auth-error, .auth-success {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 16px;
             font-size: 13px;
-            font-weight: 400;
-            color: #6b7280;
-            margin-bottom: 24px;
+            text-align: center;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+        .auth-error {
+            color: #DC2626;
+            background: #FEE2E2;
+        }
+        .auth-success {
+            color: #059669;
+            background: #D1FAE5;
         }
 
         /* Instructions Section */
@@ -734,91 +800,19 @@
                 flex-direction: column;
             }
         }
-
-        /* Pi Network Button Styles */
-        .pi-button {
-            background: #14F195;
-            color: #000;
-            border: none;
-            padding: clamp(10px, 2vw, 12px) clamp(20px, 5vw, 24px);
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            width: 100%;
-            min-height: 44px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-        .pi-button:hover {
-            background: #0ED884;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(20, 241, 149, 0.3);
-        }
-        .pi-button:disabled {
-            background: #9CA3AF;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .pi-button img {
-            width: 20px;
-            height: 20px;
-        }
-        .pi-button .loading {
-            width: 16px;
-            height: 16px;
-            border: 2px solid #000;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 1s linear infinite;
-            display: none;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .pi-button.loading .loading {
-            display: inline-block;
-        }
-        .pi-button.loading span {
-            visibility: hidden;
-        }
-        .auth-error {
-            color: #DC2626;
-            background: #FEE2E2;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 16px;
-            font-size: 13px;
-            display: none;
-            text-align: center;
-        }
-        .auth-success {
-            color: #059669;
-            background: #D1FAE5;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 16px;
-            font-size: 13px;
-            display: none;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
     <!-- Mobile Header -->
     <header class="mobile-header">
-        <div class="logo">Cloudy</div>
+        <div class="logo">CloudyPi</div>
         <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
     </header>
 
     <!-- Desktop Header -->
     <header>
         <div class="header-container">
-            <div class="logo">Cloudy</div>
+            <div class="logo">CloudyPi</div>
             <nav>
                 <a href="index.html">Home</a>
                 <a href="features.html">Features</a>
@@ -864,7 +858,7 @@
     <!-- Hero Section -->
     <div class="hero">
         <div class="hero-content">
-            <h1>Join Cloudy with Pi Network ☁️</h1>
+            <h1>Join CloudyPi with Pi Network ☁️</h1>
             <p>Sign up using your Pi Network account to unlock a world of productivity and collaboration tools.</p>
             <div class="cta-buttons">
                 <button onclick="window.location.href='#signup'">Sign Up Now</button>
@@ -876,17 +870,20 @@
 
     <!-- Sign-Up Section -->
     <div class="signup-section" id="signup">
-        <h2 class="section-title">Create Your Cloudy Account</h2>
+        <h2>Welcome to CloudyPi</h2>
+        <p>Sign up to create your account</p>
         <div class="signup-container">
-            <h3>Sign Up with Pi Network</h3>
-            <p>Use your Pi Network account for a secure and seamless sign-up experience.</p>
-            <button id="piSignIn" class="pi-button" aria-label="Sign up with Pi Network">
-                <img src="https://sdk.minepi.com/pi-logo.png" alt="Pi Network Logo">
-                <span>Sign Up with Pi</span>
-                <div class="loading"></div>
+            <button id="piSignIn" class="pi-button" aria-label="Sign up with Pi Network" role="button">
+                <img src="https://minepi.com/favicon.ico" alt="Pi Network Logo" aria-hidden="true">
+                <span>Sign Up with Pi Network</span>
+                <div class="loading" aria-hidden="true"></div>
             </button>
-            <div id="authError" class="auth-error"></div>
-            <div id="authSuccess" class="auth-success"></div>
+            <div id="authError" class="auth-error" role="alert"></div>
+            <div id="authSuccess" class="auth-success" role="alert"></div>
+            <p class="mt-4 text-center text-sm text-gray-600">
+                Already have an account? 
+                <a href="login.html" class="font-medium text-purple-600 hover:text-purple-500">Sign in</a>
+            </p>
         </div>
     </div>
 
@@ -903,12 +900,12 @@
                 <p>Open the Pi Browser and sign in with your Pi Network account credentials.</p>
             </div>
             <div class="instruction-card">
-                <h4>Step 3: Authorize Cloudy</h4>
-                <p>Click "Sign Up with Pi" to authorize Cloudy to access your Pi account details securely.</p>
+                <h4>Step 3: Authorize CloudyPi</h4>
+                <p>Click "Sign Up with Pi" to authorize CloudyPi to access your Pi account details securely.</p>
             </div>
             <div class="instruction-card">
                 <h4>Step 4: Start Creating</h4>
-                <p>Once signed up, set up your workspace and begin using Cloudy's tools!</p>
+                <p>Once signed up, set up your workspace and begin using CloudyPi's tools!</p>
             </div>
         </div>
     </div>
@@ -919,10 +916,10 @@
         <div class="faq-list">
             <div class="faq-card">
                 <h4>Do I need a Pi Network account?</h4>
-                <p>Yes, Cloudy uses Pi Network for secure authentication. Download the Pi Network app to create an account if you don't have one.</p>
+                <p>Yes, CloudyPi uses Pi Network for secure authentication. Download the Pi Network app to create an account if you don't have one.</p>
             </div>
             <div class="faq-card">
-                <h4>Is my data safe with Cloudy?</h4>
+                <h4>Is my data safe with CloudyPi?</h4>
                 <p>Absolutely. We use Pi Network's secure authentication and prioritize your privacy with robust data protection.</p>
             </div>
             <div class="faq-card">
@@ -995,16 +992,16 @@
         </div>
         <div class="footer-bottom">
             <div class="footer-bottom-left">
-                <span>© 2025 <span class="footer-app-name">Cloudy</span>. All rights reserved.</span>
+                <span>© 2025 <span class="footer-app-name">CloudyPi</span>. All rights reserved.</span>
                 <span>We do not sell or share your personal information.</span>
                 <div class="footer-bottom-links">
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms of Service</a>
-                    <a href="cookie-settings.html">Cookie Settings</a>
-                    <a href="whitepaper.html">Whitepaper</a>
-                    <a href="docs.html">Docs</a>
-                    <a href="security.html">Security</a>
-                    <a href="notice.html">Notices</a>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="cookie-settings.html">Cookie Settings</a></li>
+                    <li><a href="whitepaper.html">Whitepaper</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="security.html">Security</a></li>
+                    <li><a href="notice.html">Notices</a></li>
                 </div>
             </div>
             <div class="social-icons">
@@ -1022,7 +1019,17 @@
         // Initialize Pi Network SDK
         Pi.init({ version: "2.0", sandbox: true }); // Set sandbox: false for production
 
-        // Handle Pi Network Sign In
+        // Generate CSRF token (client-side simulation; ideally server-generated)
+        const generateCsrfToken = () => {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+                const r = Math.random() * 16 | 0;
+                return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+        };
+        const csrfToken = generateCsrfToken();
+        localStorage.setItem('csrfToken', csrfToken);
+
+        // Handle Pi Network Sign Up
         const piButton = document.getElementById('piSignIn');
         const authError = document.getElementById('authError');
         const authSuccess = document.getElementById('authSuccess');
@@ -1036,73 +1043,140 @@
                 // Show loading state
                 piButton.classList.add('loading');
                 piButton.disabled = true;
+                piButton.setAttribute('aria-busy', 'true');
                 authError.style.display = 'none';
                 authSuccess.style.display = 'none';
 
+                // Authenticate with Pi Network
                 const authResult = await Pi.authenticate(
                     ['username', 'payments', 'wallet_address'],
-                    (auth) => {
-                        // Show success message
-                        authSuccess.textContent = `Welcome, ${auth.user.username}! Redirecting to dashboard...`;
-                        authSuccess.style.display = 'block';
+                    async (auth) => {
+                        try {
+                            // Validate auth response
+                            if (!auth.user || !auth.user.uid || !auth.accessToken) {
+                                throw new Error('Invalid authentication response from Pi Network.');
+                            }
 
-                        // Simulate backend API call (replace with actual endpoint)
-                        fetch('/api/auth/pi', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                uid: auth.user.uid,
-                                username: auth.user.username,
-                                accessToken: auth.accessToken,
-                                walletAddress: auth.user.wallet_address
-                            })
-                        })
-                        .then(response => {
-                            if (!response.ok) throw new Error('Backend authentication failed');
-                            return response.json();
-                        })
-                        .then(data => {
+                            // Show success message with countdown
+                            let countdown = 3;
+                            authSuccess.textContent = `Welcome, ${auth.user.username}! Redirecting in ${countdown} seconds...`;
+                            authSuccess.style.display = 'block';
+
+                            const countdownInterval = setInterval(() => {
+                                countdown -= 1;
+                                authSuccess.textContent = `Welcome, ${auth.user.username}! Redirecting in ${countdown} seconds...`;
+                                if (countdown <= 0) clearInterval(countdownInterval);
+                            }, 1000);
+
+                            // Simulate backend API call (replace with actual endpoint)
+                            const response = await fetch('/api/auth/signup', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-Token': localStorage.getItem('csrfToken')
+                                },
+                                body: JSON.stringify({
+                                    uid: auth.user.uid,
+                                    username: auth.user.username,
+                                    accessToken: auth.accessToken,
+                                    walletAddress: auth.user.wallet_address
+                                })
+                            });
+
+                            if (!response.ok) {
+                                const errorData = await response.json();
+                                throw new Error(errorData.message || 'Backend authentication failed.');
+                            }
+
+                            const data = await response.json();
                             localStorage.setItem('authToken', data.token);
                             localStorage.setItem('user', JSON.stringify(auth.user));
+
+                            // Redirect after countdown
                             setTimeout(() => {
                                 window.location.href = 'dashboard.html';
-                            }, 1500);
-                        })
-                        .catch(error => {
+                            }, 3000);
+                        } catch (error) {
                             console.error('Backend error:', error);
-                            authError.textContent = 'Failed to complete sign-in. Please try again.';
+                            authError.textContent = error.message || 'Failed to complete sign-up. Please try again.';
                             authError.style.display = 'block';
                             piButton.classList.remove('loading');
                             piButton.disabled = false;
+                            piButton.setAttribute('aria-busy', 'false');
                             isAuthenticating = false;
-                        });
+                        }
                     }
                 );
             } catch (error) {
                 console.error('Pi authentication failed:', error);
-                authError.textContent = error.message || 'Failed to sign in with Pi Network. Please try again.';
+                let errorMessage = 'Failed to sign up with Pi Network. Please try again.';
+                if (error.message.includes('User cancelled')) {
+                    errorMessage = 'Sign-up was cancelled. Please try again when ready.';
+                } else if (error.message.includes('Network')) {
+                    errorMessage = 'Network issue. Please check your connection and try again.';
+                } else if (error.message.includes('Pi Browser')) {
+                    errorMessage = 'Pi Browser is required. Please open this page in Pi Browser.';
+                }
+                authError.textContent = errorMessage;
                 authError.style.display = 'block';
                 piButton.classList.remove('loading');
                 piButton.disabled = false;
+                piButton.setAttribute('aria-busy', 'false');
                 isAuthenticating = false;
             }
         });
 
         // Check if user is already authenticated
-        window.addEventListener('load', () => {
+        window.addEventListener('load', async () => {
+            const token = localStorage.getItem('authToken');
             const user = localStorage.getItem('user');
-            if (user) {
-                const userData = JSON.parse(user);
-                document.getElementById('user-name').textContent = `Welcome, ${userData.username}`;
-                document.getElementById('user-info').style.display = 'block';
-                document.getElementById('sign-out').style.display = 'block';
+
+            if (token && user) {
+                try {
+                    // Verify token with backend (replace with actual endpoint)
+                    const response = await fetch('/api/auth/verify', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'X-CSRF-Token': localStorage.getItem('csrfToken')
+                        }
+                    });
+
+                    if (response.ok) {
+                        const userData = JSON.parse(user);
+                        document.getElementById('user-name').textContent = `Welcome, ${userData.username}`;
+                        document.getElementById('user-info').style.display = 'block';
+                        document.getElementById('sign-out').style.display = 'block';
+                    } else {
+                        // Token expired or invalid
+                        localStorage.removeItem('authToken');
+                        localStorage.removeItem('user');
+                    }
+                } catch (error) {
+                    console.error('Token verification failed:', error);
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                }
             }
         });
 
         // Sign Out
-        document.getElementById('sign-out-link')?.addEventListener('click', () => {
+        document.getElementById('sign-out-link')?.addEventListener('click', async () => {
+            try {
+                // Notify backend of sign-out (optional, replace with actual endpoint)
+                await fetch('/api/auth/signout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                        'X-CSRF-Token': localStorage.getItem('csrfToken')
+                    }
+                });
+            } catch (error) {
+                console.error('Sign-out error:', error);
+            }
             localStorage.removeItem('authToken');
             localStorage.removeItem('user');
+            localStorage.removeItem('csrfToken');
             window.location.href = 'sign.html';
         });
 
@@ -1152,6 +1226,14 @@
                 document.querySelectorAll('.footer-mobile-nav a').forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
             });
+        });
+
+        // Keyboard accessibility for Pi button
+        piButton.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                piButton.click();
+            }
         });
     </script>
 </body>
