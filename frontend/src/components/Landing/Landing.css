@@ -1,0 +1,123 @@
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    background: #f7f7f7;
+    color: #2d2d2d;
+    line-height: 1.5;
+    font-size: clamp(14px, 1.8vw, 15px);
+    overflow-x: hidden;
+}
+
+/* Desktop Header */
+header {
+    background: #fff;
+    padding: 16px 32px;
+    border-bottom: none;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1f2937;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.logo::before {
+    content: "☁️";
+    margin-right: 8px;
+    font-size: 22px;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo:hover::before {
+    transform: translateY(-2px);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+nav a {
+    color: #4b5563;
+    text-decoration: none;
+    margin: 8px clamp(12px, 2vw, 16px) 8px 0;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+nav a:hover {
+    background: #f5f6ff;
+    color: #6366f1;
+}
+
+/* Mobile Header */
+.mobile-header {
+    display: none;
+    background: #fff;
+    padding: clamp(10px, 3vw, 12px) clamp(12px, 4vw, 16px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Rest of your CSS styles from the template... */
+/* Add all the remaining styles from your HTML template here */
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .header-container, .features, .pricing {
+        padding: 0 clamp(16px, 4vw, 24px);
+    }
+    /* Add other responsive styles... */
+}
+
+@media (max-width: 768px) {
+    header {
+        display: none;
+    }
+    .mobile-header {
+        display: flex;
+    }
+    /* Add other mobile styles... */
+}
+
+@media (max-width: 480px) {
+    /* Add mobile-specific styles... */
+} 

@@ -1,45 +1,48 @@
 # Dependencies
 node_modules/
-.pnp/
+/.pnp
 .pnp.js
 
-# Build
-dist/
-build/
-.next/
-out/
+# Testing
+/coverage
 
-# Environment
+# Production
+/build
+/dist
+
+# Environment files
 .env
 .env.local
-.env.*.local
 .env.development.local
 .env.test.local
 .env.production.local
 
 # Logs
-logs/
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# IDE
+# Editor directories and files
 .idea/
 .vscode/
-*.swp
-*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# OS
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
 # Cache
 .cache/
 .eslintcache
-
-# Testing
-coverage/
 
 # Misc
 .vercel
@@ -66,14 +69,6 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
-
-# Cache
-.cache/
-.eslintcache
-
-# Logs
-logs/
-*.log
 
 # Runtime data
 pids/
